@@ -8,7 +8,8 @@ This application is in development and can not be used yet.
 
 # TODO
 
-Almost everything.
+* Connect HTML5 Widgets with simple playlist feature.
+* Improve UI (Design, Styles, Twitter Bootstrap)
 
 # Implementation
 

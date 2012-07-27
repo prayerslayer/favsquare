@@ -1,4 +1,8 @@
-.main {
-  margin: 20px;
+#main {
+  padding: 20px;
+}
+div#playlist iframe {
+  max-width: 600px;
+  width: 50%;
 }
 

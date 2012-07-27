@@ -10,8 +10,8 @@ class Favsquare
 
 			def tracks
 				# if the favorites haven't been fetched yet, do so
+				client = Soundcloud.new( :access_token => @session[ :token ] )
 				if @session[ :favs_page ] == nil
-					client = Soundcloud.new( :access_token => @session[ :token ] )
 					# get own favs
 					favs = client.get( "/me/favorites" )
 					# get other favs
@@ -24,7 +24,16 @@ class Favsquare
 					end
 
 					@session[ :favs ] = favs.shuffle.each_slice(10).to_a
-					@session[ :favs_page] = 1
+					@session[ :favs_page] = 0
+				end
+
+				# get embed code for tracks
+				@session[ :favs ].at( @session[ :favs_page] ).each do |track|
+					if track.embed_code == nil
+						url = track.permalink_url
+						embed_info = client.get( "/oembed", :format => "json", :url => url)
+						track.embed_code = embed_info.html
+					end
 				end
 				@session[ :favs ].at( @session[ :favs_page] )
 			end
