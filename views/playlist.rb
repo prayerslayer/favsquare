@@ -10,13 +10,22 @@ class Favsquare
 
 			def tracks
 				client = Soundcloud.new( :access_token => @session[ :token ] )
-				# get followings
+				# get own favs
+				favs = client.get( "/me/favorites" )
+				# get other favs
 				followings = client.get( "/me/followings" )
-				favs = []
-				# get favorites
-				for follower in followings
-					favs.join( client.get( "/user/"+follower.id+"/favorites" ) )
+				followings.each do |following|
+					favs << client.get( "/users/"+following.id.to_s+"/tracks" )
 				end
+
+				favs
+				
+			end
+
+			def followings
+				client = Soundcloud.new( :access_token => @session[ :token ] )
+				client.get( "/me/followings" )
+
 			end
 
 		end
