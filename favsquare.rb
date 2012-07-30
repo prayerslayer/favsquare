@@ -123,9 +123,13 @@ class Favsquare < Sinatra::Base
 		end
 
 		# remove old
+		$LOG.debug("user tracks: "+user.tracks.inspect)
 		if !user.tracks.empty?
-			user.tracks.filter( :track_id => tracks_to_remove ).delete
-			user.tracks.save
+			user.tracks.each do |track|
+				if tracks_to_remove.include?( track[ :sc_track_id ] )
+					user.remove_track( track )
+				end
+			end
 		end
 
 		# redirect to playlist
