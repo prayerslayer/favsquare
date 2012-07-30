@@ -57,9 +57,9 @@ class Favsquare < Sinatra::Base
 	end
 
 	get "/load" do
-		mustache :load
+		# how to inform the client that everything is ready?
 		SoundcloudHelper.fetch_favs( @session[ :token ] )
-		mustache :playlist
+		redirect_to ( "/playlist" )
 	end
 
 	# führt die soundcloud connection durch
@@ -74,7 +74,7 @@ class Favsquare < Sinatra::Base
 
 		session_start!
 		session[ :token ] = access_token[ :access_token ]
-		#session[ :client ] = client
+
 		redirect to( "/load" )
 	end
 
