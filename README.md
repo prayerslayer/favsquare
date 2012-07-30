@@ -13,7 +13,7 @@ This application is in development and can not be used yet.
 	* Workaround 2: Use offsets and limits in querys to Soundcloud. Disadvantage: Sorting (shuffle) of array gets lost, duplicate tracks would be common.
 	* Workaround 3: Global variable with tracks from all users.
 * Implement database support
-	* Feature: Remember when user listened to track the last time.
+* First time loading is rather slow due to the amount of API requests. Implement a spinner or some other loading message
 * Connect HTML5 Widgets with simple playlist feature.
 * Improve UI (Design, Styles, Twitter Bootstrap)
 
@@ -24,3 +24,4 @@ Favsquare is built with the help of
 * Ruby on Rails
 * Sinatra
 * Mustache
+* Sequel

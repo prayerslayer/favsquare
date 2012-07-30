@@ -3,7 +3,7 @@ require "sinatra/base"
 require "sinatra/session"
 require "mustache/sinatra"
 require "soundcloud"
-
+require "./soundcloudhelper"
 
 
 class Favsquare < Sinatra::Base
@@ -56,6 +56,11 @@ class Favsquare < Sinatra::Base
 		redirect to( "/" )
 	end
 
+	get "/load" do
+		mustache :load
+		SoundcloudHelper.fetch_favs( @session[ :token ] )
+		mustache :playlist
+	end
 
 	# führt die soundcloud connection durch
 	get "/connect" do
@@ -70,7 +75,7 @@ class Favsquare < Sinatra::Base
 		session_start!
 		session[ :token ] = access_token[ :access_token ]
 		#session[ :client ] = client
-		redirect to( "/playlist" )
+		redirect to( "/load" )
 	end
 
 	# playlist anzeige
