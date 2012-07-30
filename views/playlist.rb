@@ -10,11 +10,15 @@ class Favsquare
 		class Playlist < Layout
 
 			def user
-				User.filter( :user_id => @session[ :user_id ])
+				User.filter( :sc_user_id => @session[ :user_id ]).first.user_id
 			end
 
 			def tracks
 
+			end
+
+			def title
+				"Your playlist"
 			end
 
 			def followings

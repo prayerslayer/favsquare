@@ -30,4 +30,13 @@ class SoundcloudHelper
 		me = client.get( "/me" )
 		return me[:id]
 	end
+
+	def self.get_own_name( token )
+		raise ArgumentError, "Token cannot be null." if token == nil
+
+		client = Soundcloud.new( :access_token => token )
+		me = client.get( "/me" )
+		return me[:username].to_s
+	end
+
 end
