@@ -68,28 +68,14 @@ class Favsquare < Sinatra::Base
 		redirect to( "/" )
 	end
 
-	get "/load" do
+	get "/update" do
 		# how to inform the client that everything is ready?
 		
 		# fetch favs from user
 		favs = SoundcloudHelper.fetch_favs( @session[ :token ] )
 
-		
-		# hash user id because we don't need it in plaintext
-		user_id = Digest::SHA512.new << SoundcloudHelper.get_own_id( @session[ :token ] ).to_s
-		user_id = user_id.to_s
-		@session[ :user_id ] = user_id
-		# check if user exists
-		new_user = User.filter( :sc_user_id => user_id ).empty?
-
-		# if user is new, add her to database
-		user = nil
-		if new_user
-			user = User.create( :sc_user_id => user_id )
-			user.save
-		else
-			user = User.filter( :sc_user_id => user_id ).first
-		end
+		# get user
+		user = User.filter( :sc_user_id => user_id ).first
 
 		# update tracks
 		sc_track_ids = favs.map( &:id ) 
@@ -149,12 +135,27 @@ class Favsquare < Sinatra::Base
 		session_start!
 		session[ :token ] = access_token[ :access_token ]
 		session[ :user_name ] = SoundcloudHelper.get_own_name( session[ :token] )
-		redirect to( "/load" )
+
+		# hash user id because we don't need it in plaintext
+		user_id = Digest::SHA512.new << SoundcloudHelper.get_own_id( @session[ :token ] ).to_s
+		user_id = user_id.to_s
+		@session[ :user_id ] = user_id
+		# check if user exists
+		new_user = User.filter( :sc_user_id => user_id ).empty?
+		# add if necessary
+		if new_user
+			user = User.create( :sc_user_id => user_id )
+			user.save
+			redirect to( "/update" )
+		else
+			redirect to( "/playlist" )
+		end
 	end
 
 	# playlist anzeige
 	get "/playlist" do
 		session!
+
 		mustache :playlist
 	end
 end
