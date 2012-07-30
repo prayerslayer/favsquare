@@ -21,4 +21,13 @@ class SoundcloudHelper
 		# return favs
 		favs
 	end
+
+	# get own user id
+	def self.get_own_id( token )
+		raise ArgumentError, "Token cannot be null." if token == nil
+
+		client = Soundcloud.new( :access_token => token )
+		me = client.get( "/me" )
+		return me[:id]
+	end
 end

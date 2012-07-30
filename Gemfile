@@ -7,3 +7,7 @@ gem "shotgun"
 
 # soundcloud stuff
 gem "soundcloud"
+
+# database
+gem "sqlite3"
+gem "sequel"
