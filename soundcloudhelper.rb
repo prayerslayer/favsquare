@@ -15,7 +15,9 @@ class SoundcloudHelper
 		followings.each do |following|
 			followfavs = client.get( "/users/"+following.id.to_s+"/tracks" )
 			followfavs.each do |fav|
-				favs << fav
+				if fav[ "embeddable_by" ] == "all"
+					favs << fav
+				end
 			end
 		end
 		# return favs
@@ -27,7 +29,8 @@ class SoundcloudHelper
 		raise ArgumentError, "Track ID is null." if track_id == nil
 
 		client = Soundcloud.new( :access_token => token )
-		return client.get("/tracks/"+track_id.to_s)
+		track = client.get("/tracks/"+track_id.to_s)
+		return track[ "embeddable_by" ] == "all" ? track : nil
 	end
 
 
@@ -37,8 +40,11 @@ class SoundcloudHelper
 
 		client = Soundcloud.new( :access_token => token )
 		track = self.fetch_track( token, track_id )
-		oembed = client.get( "/oembed", :format => "json", :url => track[ :permalink_url ] )
-		return oembed.html
+		if track != nil
+			oembed = client.get( "/oembed", :url => track[ "permalink_url" ] )
+			return oembed.html
+		end
+		return nil
 	end
 
 	# get own user id

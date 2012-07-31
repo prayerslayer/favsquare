@@ -70,10 +70,11 @@ class Favsquare < Sinatra::Base
 		redirect to( "/" )
 	end
 
-	get "tracks/:amount" do
+	get "/tracks/:amount" do
 		session!
-
 		tracks = FavsquareLogic.get_tracks( @session[ :token ], @session[ :user_id ], Integer( params[ :amount ] ) )
+		
+		content_type 'application/json', :charset => 'utf-8'
 		return tracks.to_json
 	end
 
@@ -105,7 +106,7 @@ class Favsquare < Sinatra::Base
 		sc_user_id = SoundcloudHelper.fetch_own_id( @session[ :token ] ).to_s
 		
 		# check if user exists
-		new_user = FavsquareLogic.user_exists?( sc_user_id )
+		new_user = !FavsquareLogic.user_exists?( sc_user_id )
 		# add if necessary
 		if new_user
 			@session[ :user_id ] = FavsquareLogic.create_user( sc_user_id )
@@ -120,7 +121,7 @@ class Favsquare < Sinatra::Base
 	# playlist
 	get "/playlist" do
 		session!
-
+		content_type "text/html", :charset => "utf-8"
 		mustache :playlist
 	end
 end

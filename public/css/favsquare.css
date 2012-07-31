@@ -1,8 +1,11 @@
 #main {
   padding: 20px;
 }
-div#playlist iframe {
+div#playlist {
   max-width: 600px;
   width: 50%;
+}
+div#playlist .track {
+  width: 100%;
 }
 

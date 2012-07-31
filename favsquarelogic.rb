@@ -53,7 +53,7 @@ class FavsquareLogic
 		tracks_to_add.each do |track|
 			# check if track exists
 			if Track.filter( :sc_track_id => track ).empty?
-				new_track = Track.create( :sc_track_id=> track, :embed_code => nil )	# track embed code is loaded as needed
+				new_track = Track.create( :sc_track_id => track, :embed_code => nil )	# track embed code is loaded as needed
 				new_track.add_user( user )
 				new_track.save
 			else
@@ -77,33 +77,36 @@ class FavsquareLogic
 		raise ArgumentError, "Token cannot be null." if token == nil
 		raise ArgumentError, "User ID is nil!" if sc_user_id == nil
 		raise ArgumentError, "Amount is nil" if amount == nil
-		raise ArgumentError, "Amount must be greater than zero." if amount <= 0
+		raise ArgumentError, "Amount " + amount.to_s + "must be greater than zero." if amount <= 0
 
 		# get user
 		user = User.filter( :sc_user_id => sc_user_id ).first
-		raise ArgumentError, "User does not exist!" if user == nil
+		raise ArgumentError, "User " + sc_user_id + " does not exist!" if user == nil
 
 		# sort tracks ascending 
-		tracks = user.tracks.sort{ |a,b| a[ :times_served ] <= b[ :times_served ] }
+		tracks = user.tracks.sort{ |a,b| a[ :times_served ] <=> b[ :times_served ] }
 		# take the first amount much
-		tracks = tracks[0..amount]
+		tracks = tracks[0..amount].shuffle
 
+		coder = HTMLEntities.new
 		# check if tracks have embed codes
 		tracks.each do |track|
 			if track[ :embed_code ] == nil
 				# if not fetch embed code
 				embed_code = SoundcloudHelper.fetch_embed_code( token, track[ :sc_track_id ])
-				encoded_embed_code = HTMLEntities.new.encode( embedcode )
-				track.embed_code = encoded_embed_code
-				$LOG.debug( encoded_embed_code )
-				track.save
+				if embed_code != nil
+					encoded_embed_code = coder.encode( embed_code )
+					track.embed_code = encoded_embed_code
+					track.times_served += 1
+					$LOG.debug( embed_code )
+					track.save
+				else
+					# delete track
+				end
 			end
 		end
 		embed_codes = tracks.collect{ |t| t[ :embed_code ] }
-		embed_codes.each do |code|
-			# decode embed codes
-			code = HTMLEntities.new.decode( code )
-		end
+		embed_codes.map!{ |t| coder.decode( t ).gsub( /[\"]/, '"' => "\'" ) }
 		return embed_codes
 	end
 end
