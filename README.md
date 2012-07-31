@@ -4,23 +4,34 @@ Favsquare lets you listen to the favorite tracks of the people you follow on Sou
 
 # Usage
 
-This application is in development and can not be used yet.
+Check out the repository.
+
+    git clone https://github.com/prayerslayer/favsquare.git
+
+Bundle the gems.
+
+    gem install bundle
+    bundle install
+
+Run it!
+
+    bundle exec shotgun -O config.ru
 
 # TODO
 
 * Functionality
 	* User-defined update
-* Database
-	* Existing user is redirected to /update every time?
-* Improve UI (Design, Styles, Twitter Bootstrap)
+* Improve UI
 
 # Implementation
 
 Favsquare is built with the help of
 
-* Ruby on Rails
-* Sinatra
-* Mustache
-* Sequel
-* Twitter Bootstrap
-* jQuery
+* Server
+	* Ruby on Rails
+	* Sinatra
+	* Mustache
+	* Sequel
+* Client
+	* Twitter Bootstrap
+	* jQuery

@@ -12,11 +12,11 @@ class Favsquare
 				end
 			end
 
-			def profile_url
-				if @session[ :user_name ] != nil
-					"http://soundcloud.com/" + @session[ :user_name ]
+			def playlist_message
+				if @session[:user_name] != nil
+					"Playlist"
 				else
-					"http://soundcloud.com"
+					""
 				end
 			end
 
