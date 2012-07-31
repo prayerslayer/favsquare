@@ -8,6 +8,8 @@ This application is in development and can not be used yet.
 
 # TODO
 
+* Functionality
+	* User-defined update
 * Database
 	* Existing user is redirected to /update every time?
 * Improve UI (Design, Styles, Twitter Bootstrap)
@@ -20,3 +22,5 @@ Favsquare is built with the help of
 * Sinatra
 * Mustache
 * Sequel
+* Twitter Bootstrap
+* jQuery

@@ -26,6 +26,9 @@ class FavsquareLogic
 	def self.user_exists?( sc_user_id )
 		raise ArgumentError, "User ID is nil!" if sc_user_id == nil
 
+		# hash user id
+		sc_user_id = self.get_id_for( sc_user_id )
+
 		return User.filter( :sc_user_id => sc_user_id ).first != nil
 	end
 
