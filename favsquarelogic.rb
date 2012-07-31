@@ -26,14 +26,14 @@ class FavsquareLogic
 	def self.user_exists?( sc_user_id )
 		raise ArgumentError, "User ID is nil!" if sc_user_id == nil
 
-		return User.filter( :sc_user_id => user_id ).empty?
+		return User.filter( :sc_user_id => sc_user_id ).first != nil
 	end
 
 	def self.update_tracks( token )
 		raise ArgumentError, "Token is nil!" if token == nil
 
 		favs = SoundcloudHelper.fetch_favs( token )
-
+		user_id = self.get_id_for( SoundcloudHelper.fetch_own_id( token ) )
 		# get user
 		user = User.filter( :sc_user_id => user_id ).first
 

@@ -105,10 +105,11 @@ class Favsquare < Sinatra::Base
 		sc_user_id = SoundcloudHelper.fetch_own_id( @session[ :token ] ).to_s
 		
 		# check if user exists
-		new_user = FavsquareLogic.user_exists( sc_user_id )
+		new_user = FavsquareLogic.user_exists?( sc_user_id )
 		# add if necessary
 		if new_user
 			@session[ :user_id ] = FavsquareLogic.create_user( sc_user_id )
+			$LOG.debug( "redirect to update" )
 			redirect to( "/update" )
 		else
 			@session[ :user_id ] = FavsquareLogic.get_id_for( sc_user_id )
