@@ -8,7 +8,7 @@ require "sequel"
 require "json"
 require "logger"
 require "./soundcloudhelper"
-require "./favsquare_logic"
+require "./favsquarelogic"
 
 class Favsquare < Sinatra::Base
 
@@ -19,6 +19,7 @@ class Favsquare < Sinatra::Base
 
 	require "./views/layout"
 	# models
+	Sequel::Model.plugin :force_encoding, 'UTF-8'
 	require "./db/models/user"
 	require "./db/models/track"
 	require "./db/models/user_track"
@@ -73,7 +74,7 @@ class Favsquare < Sinatra::Base
 		session!
 
 		tracks = FavsquareLogic.get_tracks( @session[ :token ], @session[ :user_id ], Integer( params[ :amount ] ) )
-		return tracks.collect{ |t| t[ :embed_code ] }.to_json
+		return tracks.to_json
 	end
 
 	# update saved tracks

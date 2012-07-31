@@ -5,6 +5,8 @@ gem "sinatra"
 gem "sinatra-session"
 gem "shotgun"
 
+gem "htmlentities"
+
 # soundcloud stuff
 gem "soundcloud"
 

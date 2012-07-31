@@ -2,6 +2,7 @@ GEM
   remote: http://rubygems.org/
   specs:
     hashie (1.2.0)
+    htmlentities (4.3.1)
     httmultiparty (0.3.8)
       httparty (>= 0.7.3)
       multipart-post
@@ -35,6 +36,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  htmlentities
   mustache
   sequel
   shotgun
