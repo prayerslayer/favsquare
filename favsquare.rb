@@ -5,9 +5,10 @@ require "mustache/sinatra"
 require "soundcloud"
 require "sqlite3"
 require "sequel"
+require "json"
 require "logger"
 require "./soundcloudhelper"
-
+require "./favsquare_logic"
 
 class Favsquare < Sinatra::Base
 
@@ -68,61 +69,24 @@ class Favsquare < Sinatra::Base
 		redirect to( "/" )
 	end
 
+	get "tracks/:amount" do
+		session!
+
+		tracks = FavsquareLogic.get_tracks( @session[ :token ], @session[ :user_id ], Integer( params[ :amount ] ) )
+		return tracks.collect{ |t| t[ :embed_code ] }.to_json
+	end
+
+	# update saved tracks
 	get "/update" do
 		# how to inform the client that everything is ready?
-		
-		# fetch favs from user
-		favs = SoundcloudHelper.fetch_favs( @session[ :token ] )
-
-		# get user
-		user = User.filter( :sc_user_id => user_id ).first
-
-		# update tracks
-		sc_track_ids = favs.map( &:id ) 
-		track_ids = user.tracks.collect{ |t| t[ :sc_track_id] }
-
-		# remove duplicates in arrays
-		sc_track_ids = sc_track_ids.uniq
-		track_ids = track_ids.uniq
-		
-		$LOG.debug( "own tracks: "+track_ids.inspect )
-		$LOG.debug( "sc tracks: "+sc_track_ids.inspect )
-
-		same_tracks = sc_track_ids & track_ids 	# array intersection - these tracks will be kept
-		tracks_to_add = sc_track_ids - same_tracks # array difference - these tracks need to be added
-		tracks_to_remove = track_ids - sc_track_ids # array difference - these tracks will get deleted
-		
-		# add new
-		tracks_to_add.each do |track|
-			$LOG.debug("adding new track "+track.to_s)
-			# check if track exists
-			if Track.filter( :sc_track_id => track ).empty?
-				$LOG.debug("created track with id " + track.to_s)
-				new_track = Track.create( :sc_track_id=> track, :embed_code => nil )	# track embed code is loaded as needed
-				$LOG.debug("adding to user "+user_id)
-				new_track.add_user( user )
-				new_track.save
-			else
-				$LOG.debug("user "+user.to_s)
-				Track.filter( :sc_track_id => track ).first.add_user( user )
-			end
-		end
-
-		# remove old
-		$LOG.debug("user tracks: "+user.tracks.inspect)
-		if !user.tracks.empty?
-			user.tracks.each do |track|
-				if tracks_to_remove.include?( track[ :sc_track_id ] )
-					user.remove_track( track )
-				end
-			end
-		end
+		session!
+		FavsquareLogic.update_tracks( @session[ :token ] )
 
 		# redirect to playlist
 		redirect to( "/playlist" )
 	end
 
-	# führt die soundcloud connection durch
+	# executes the soundcloud connection
 	get "/connect" do
 		code = params[ :code ]
 
@@ -134,25 +98,24 @@ class Favsquare < Sinatra::Base
 
 		session_start!
 		session[ :token ] = access_token[ :access_token ]
-		session[ :user_name ] = SoundcloudHelper.get_own_name( session[ :token] )
+		session[ :user_name ] = SoundcloudHelper.fetch_own_name( session[ :token] )
 
 		# hash user id because we don't need it in plaintext
-		user_id = Digest::SHA512.new << SoundcloudHelper.get_own_id( @session[ :token ] ).to_s
-		user_id = user_id.to_s
-		@session[ :user_id ] = user_id
+		sc_user_id = SoundcloudHelper.fetch_own_id( @session[ :token ] ).to_s
+		
 		# check if user exists
-		new_user = User.filter( :sc_user_id => user_id ).empty?
+		new_user = FavsquareLogic.user_exists( sc_user_id )
 		# add if necessary
 		if new_user
-			user = User.create( :sc_user_id => user_id )
-			user.save
+			@session[ :user_id ] = FavsquareLogic.create_user( sc_user_id )
 			redirect to( "/update" )
 		else
+			@session[ :user_id ] = FavsquareLogic.get_id_for( sc_user_id )
 			redirect to( "/playlist" )
 		end
 	end
 
-	# playlist anzeige
+	# playlist
 	get "/playlist" do
 		session!
 

@@ -22,8 +22,27 @@ class SoundcloudHelper
 		favs
 	end
 
+	def self.fetch_track( token, track_id )
+		raise ArgumentError, "Token cannot be null." if token == nil
+		raise ArgumentError, "Track ID is null." if track_id == nil
+
+		client = Soundcloud.new( :access_token => token )
+		return client.get("/tracks/"+track_id.to_s)
+	end
+
+
+	def self.fetch_embed_code( token, track_id )
+		raise ArgumentError, "Token cannot be null." if token == nil
+		raise ArgumentError, "Track ID is null." if track_id == nil
+
+		client = Soundcloud.new( :access_token => token )
+		track = self.fetch_track( token, track_id )
+		oembed = client.get( "/oembed", :format => "json", :url => track[ :permalink_url ] )
+		return oembed.html
+	end
+
 	# get own user id
-	def self.get_own_id( token )
+	def self.fetch_own_id( token )
 		raise ArgumentError, "Token cannot be null." if token == nil
 
 		client = Soundcloud.new( :access_token => token )
@@ -31,7 +50,7 @@ class SoundcloudHelper
 		return me[:id]
 	end
 
-	def self.get_own_name( token )
+	def self.fetch_own_name( token )
 		raise ArgumentError, "Token cannot be null." if token == nil
 
 		client = Soundcloud.new( :access_token => token )
