@@ -84,22 +84,28 @@ class FavsquareLogic
 		raise ArgumentError, "User " + sc_user_id + " does not exist!" if user == nil
 
 		# sort tracks ascending 
-		tracks = user.tracks.sort{ |a,b| a[ :times_served ] <=> b[ :times_served ] }
+		tracks = user.tracks.shuffle.sort{ |a,b| UserTrack.filter( :track_id => a.track_id, :user_id => user.user_id).first.times_served <=> UserTrack.filter( :track_id => b.track_id, :user_id => user.user_id).first.times_served }
 		# take the first amount much
-		tracks = tracks[0..amount].shuffle
-
+		tracks = tracks.take( amount ).shuffle
+		$LOG.debug( tracks.collect{|t| t[:track_id]}.to_s )
 		coder = HTMLEntities.new
 		# check if tracks have embed codes
 		tracks.each do |track|
+			# times served ++
+			
+			usr_track = UserTrack.filter( :track_id => track.track_id, :user_id => user.user_id ).first
+			$LOG.debug( usr_track.times_served.to_s )
+			usr_track.times_served += 1
+			usr_track.save
+
 			if track[ :embed_code ] == nil
 				# if not fetch embed code
 				embed_code = SoundcloudHelper.fetch_embed_code( token, track[ :sc_track_id ])
 				if embed_code != nil
 					encoded_embed_code = coder.encode( embed_code )
 					track.embed_code = encoded_embed_code
-					track.times_served += 1
-					$LOG.debug( embed_code )
 					track.save
+					$LOG.debug( embed_code )
 				else
 					# delete track
 				end
