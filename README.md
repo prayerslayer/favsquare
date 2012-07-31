@@ -8,9 +8,9 @@ This application is in development and can not be used yet.
 
 # TODO
 
-* Refactor database stuff in own module
+* Refactor infinite scrolling in jQuery Plugin, together with playlist feature
+	* Solution for first load needed
 * First time loading is rather slow due to the amount of API requests. Implement a spinner or some other loading message
-* Connect HTML5 Widgets with simple playlist feature.
 * Improve UI (Design, Styles, Twitter Bootstrap)
 
 # Implementation

@@ -108,6 +108,9 @@ class FavsquareLogic
 					$LOG.debug( embed_code )
 				else
 					# delete track
+					user.remove_track( track )
+					UserTrack.filter( :track_id => track.track_id ).all.delete
+					Track.filter( :track_id => track.track_id ).all.delete
 				end
 			end
 		end
