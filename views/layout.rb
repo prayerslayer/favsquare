@@ -8,7 +8,15 @@ class Favsquare
 				if @session[:user_name] != nil
 					"Hello, " + @session[:user_name] + "!"
 				else
-					""
+					"Hello, stranger!"
+				end
+			end
+
+			def profile_url
+				if @session[ :user_name ] != nil
+					"http://soundcloud.com/" + @session[ :user_name ]
+				else
+					"http://soundcloud.com"
 				end
 			end
 
@@ -22,7 +30,7 @@ class Favsquare
 
 			def logout_message
 				if @session[:user_name] != nil
-					"Log you out?"
+					"Logout"
 				else
 					""
 				end

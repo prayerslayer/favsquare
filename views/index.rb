@@ -8,6 +8,10 @@ class Favsquare
 				"Welcome to Favsquare"
 			end
 
+			def slogan
+				"Listen to the favorite tracks of the people you follow on Soundcloud."
+			end
+
 		end
 
 	end

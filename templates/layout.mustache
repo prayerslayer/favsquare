@@ -1,9 +1,12 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
+		<link rel="stylesheet" href="css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="css/bootstrap-responsive.min.css"/>
 		<link rel="stylesheet" href="css/favsquare.css" />
 		
 		<script style="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+		<script style="text/javascript" src="js/bootstrap.min.js"></script>
 		<script style="text/javascript" src="js/favsquare.js"></script>
 
 		<title>
@@ -12,14 +15,20 @@
 	</head>
 
 	<body>
-		<header>
-			<a href="login">{{login_message}}</a> {{hello_message}} <a href="logout">{{logout_message}}</a>
-		</header>
-
-		<div id="main">
-			<h1>{{title}}</h1>
-			
-			{{{ yield }}}
+		<!-- header -->
+		<div class="navbar">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="brand" href="/">FAVSQUARE</a>
+					<ul class="nav">
+						<li><a href="{{profile_url}}">{{hello_message}}</a></li>
+						<li><a href="login">{{login_message}}</a></li>
+						<li><a href="logout">{{logout_message}}</a></li>
+					</ul>
+				</div>
+			</div>
 		</div>
+
+		{{{ yield }}}
 	</body>
 </html>

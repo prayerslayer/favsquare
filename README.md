@@ -10,7 +10,8 @@ This application is in development and can not be used yet.
 
 * Javascript
 	* Solve problem with index when user selects a track
-* First time loading is rather slow due to the amount of API requests. Implement a spinner or some other loading message
+* Database
+	* Existing user is redirected to /update every time?
 * Improve UI (Design, Styles, Twitter Bootstrap)
 
 # Implementation
