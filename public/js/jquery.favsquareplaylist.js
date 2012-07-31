@@ -17,7 +17,7 @@
 		var current_index = 0;
 
 		var methods = {
-			
+
 			scroll: function() {
 				if ( $( window ).scrollTop() === $( document ).height() - $( window ).height() ) {
 					if ( react_to_scroll ) {
@@ -29,6 +29,7 @@
 
 			fetch: function() {
 				react_to_scroll = false;
+				settings.that.spin();
 				$.when(
 					$.get( settings.server_url + settings.server_resource + "/" + settings.amount, function( tracks ) {
 						$.each( tracks, function( index, value ) {
@@ -40,6 +41,7 @@
 					}))
 				.done(function() {
 					react_to_scroll = true;
+					settings.that.spin(false);
 				});
 			},
 

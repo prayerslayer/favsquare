@@ -8,8 +8,6 @@ This application is in development and can not be used yet.
 
 # TODO
 
-* Javascript
-	* Solve problem with index when user selects a track
 * Database
 	* Existing user is redirected to /update every time?
 * Improve UI (Design, Styles, Twitter Bootstrap)
