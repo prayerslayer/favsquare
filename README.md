@@ -21,6 +21,7 @@ Run it!
 
 * Functionality
 	* User-defined update
+	* First-time load takes too long. Some sort of pipelining?
 * Improve UI
 
 # Implementation
