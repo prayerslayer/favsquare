@@ -23,6 +23,8 @@ Run it!
 	* User-defined update
 	* First-time load takes too long. Some sort of pipelining?
 * Improve UI
+	* Fix enumeration, highlight active track
+	* Find proper design
 
 # Implementation
 

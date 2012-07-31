@@ -1,2 +1,6 @@
 body
 	margin 20px
+
+.enumeration
+	font-size: 48pt
+	float: left

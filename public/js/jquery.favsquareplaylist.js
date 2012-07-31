@@ -33,7 +33,7 @@
 				$.when(
 					$.get( settings.server_url + settings.server_resource + "/" + settings.amount, function( tracks ) {
 						$.each( tracks, function( index, value ) {
-							var track = $( "<div class='" + settings.css_class + "'>" + value + "</div>" );
+							var track = $( "<div class='" + settings.css_class + "'><h1 class='enumeration'></h1>" + value + "</div>" );
 							settings.that.append( track );
 							var dom_tracks = document.querySelectorAll("."+settings.css_class+" iframe");
 							methods.add_to_playlist( track, dom_tracks[ dom_tracks.length -1 ] );  
@@ -53,6 +53,7 @@
 				} );
 
 				var index = playlist.length - 1;
+				track.children(".enumeration").text( ( index + 1 ) + "." );
 				widget.bind( SC.Widget.Events.PLAY, function() {
 					current_index = index;
 				});
