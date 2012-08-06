@@ -16,7 +16,7 @@ class Favsquare
 				if @session[:user_name] != nil
 					"Playlist"
 				else
-					""
+					nil
 				end
 			end
 
@@ -24,7 +24,7 @@ class Favsquare
 				if @session[:user_name] == nil
 					"Login"
 				else
-					""
+					nil
 				end
 			end
 
@@ -32,7 +32,7 @@ class Favsquare
 				if @session[:user_name] != nil
 					"Logout"
 				else
-					""
+					nil
 				end
 			end
 		end

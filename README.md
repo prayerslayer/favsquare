@@ -20,10 +20,11 @@ Run it!
 # TODO
 
 * Functionality
+	* Token erneuern, wenn Startseite angesurft wird
 	* User-defined update
 	* First-time load takes too long. Some sort of pipelining?
 * Improve UI
-	* Fix enumeration, highlight active track
+	* Fix spinner
 	* Find proper design
 
 # Implementation

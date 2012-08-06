@@ -1,8 +1,9 @@
-body {
-  margin: 20px;
-}
 .enumeration {
-  font-size: 48pt;
-  float: left;
+  font-size: 3em;
+  position: relative;
+  left: -4.5em;
+  text-align: right;
+  width: 3em;
+  cursor: pointer;
 }
 
