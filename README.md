@@ -24,8 +24,9 @@ Run it!
 	* User-defined update
 	* First-time load takes too long. Some sort of pipelining?
 * Improve UI
-	* Fix spinner
-	* Find proper design
+	* "back to top" feature oder Navbar immer on top sein lassen
+	* Fix spinner --> unten hin
+	* Find proper design for index page --> picture only?
 
 # Implementation
 
