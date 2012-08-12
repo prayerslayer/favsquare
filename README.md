@@ -19,7 +19,12 @@ Run it!
 
 # TODO
 
+* TESTS
+* Code Style
+	* jQuery Plugin auseinandernehmen
 * Functionality
+	* Kein infinite Scrolling mehr
+	* Tracks sequentiell laden und einblenden
 	* Token erneuern, wenn Startseite angesurft wird
 	* User-defined update
 	* First-time load takes too long. Some sort of pipelining?
