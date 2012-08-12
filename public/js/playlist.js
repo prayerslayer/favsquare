@@ -13,6 +13,7 @@ var Favsquare = ( function() {
 		alert( "implement pauseAll" );
 	}
 
+	// show track, load sc widget
 	var show = function( track ) {
 		var dfd = jQuery.Deferred();
 		that.append( track.track );
@@ -34,17 +35,19 @@ var Favsquare = ( function() {
 		return dfd.promise();
 	};
 
+	// show track and bind events
 	var dequeue = function() {
 		if ( queue.length === 0 )
 			return;
 
-		var track = queue.pop();
+		var track = queue.shift();
 		$.when(
 			show( track )
 		).then( function() {
 			// auto-play first track
+			// TODO gets called multiple times, probably
 			if ( cur_index === 0 )
-				playlist[ cur_index ].widget.play();
+				playlist[ 0 ].widget.play();
 
 			// bind on PLAY event
 			track.widget.bind( SC.Widget.Events.PLAY, function() {
@@ -75,7 +78,7 @@ var Favsquare = ( function() {
 		fetch: function() {
 			$.get( server_url + server_res + "/" + amount, function( tracks ) {
 				$.each( tracks, function( index, value ) {
-					var track = $( "<div class='" + css_class + "'>" + value + "</div>" );
+					var track = $( "<div class='" + css_class + "'><div class='enumeration'>" + (playlist.length + index + 1) + "</div>' "+ value + "</div>" );
 					queue.push({
 						"track": track, 
 						"widget": value
@@ -90,4 +93,7 @@ var Favsquare = ( function() {
 
 $( document ).ready( function() {
 	Favsquare.setPlaylistElement( "#playlist" ).fetch();
+	$( "#arrow" ).click( function() {
+		Favsquare.fetch();
+	});
 });

@@ -23,8 +23,7 @@ Run it!
 * Code Style
 	* jQuery Plugin auseinandernehmen
 * Functionality
-	* Kein infinite Scrolling mehr
-	* Tracks sequentiell laden und einblenden
+	* Sound hakt immer noch beim laden --> 30 % der Rechenzeit = Garbage Collection
 	* Token erneuern, wenn Startseite angesurft wird
 	* User-defined update
 	* First-time load takes too long. Some sort of pipelining?

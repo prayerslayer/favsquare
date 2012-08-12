@@ -6,4 +6,18 @@
   width: 3em;
   cursor: pointer;
 }
+#more {
+  margin: 1.5em;
+  border-top: 1px dashed #000;
+}
+#arrow {
+  position: relative;
+  left: 50%;
+  font-size: 3em;
+  border: 1px solid #808080;
+  border-radius: 10em;
+  background-color: #808080;
+  color: #fff;
+  cursor: pointer;
+}
 

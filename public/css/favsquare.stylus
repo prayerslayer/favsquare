@@ -5,3 +5,17 @@
 	text-align: right
 	width: 3em
 	cursor: pointer
+
+#more
+	margin: 1.5em
+	border-top: 1px dashed black
+
+#arrow
+	position: relative
+	left: 50%
+	font-size: 3em
+	border: 1px solid gray
+	border-radius: 10em
+	background-color: gray
+	color: white
+	cursor: pointer
