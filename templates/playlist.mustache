@@ -1,5 +1,20 @@
-<script type="text/javascript" src="js/sc-api.js"></script>
-<script type="text/javascript" src="js/playlist.js"></script>
+<script src="//connect.soundcloud.com/sdk.js"></script>
+<script type="text/javascript" src="js/underscore.js"></script>
+<script type="text/javascript" src="js/backbone.js"></script>
+<script type="text/javascript" src="js/Track.js"></script>
+
+<script type="text/template" id="track_template">
+	<div class="track">
+		<h3><%= title %></h3>
+	    <div class="play_button">Play me</div>
+    </track>
+</script>
+
+<script type="text/javascript" src="js/TrackView.js"></script>
+<script type="text/javascript" src="js/BBPlaylist.js"></script>
+<script type="text/javascript" src="js/PlaylistView.js"></script>
+<script type="text/javascript" src="js/streaming.js"></script>
+
 
 <div class="page-header">
 	<h1>Your playlist</h1>

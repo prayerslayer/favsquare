@@ -92,7 +92,7 @@ class FavsquareLogic
 		tracks = tracks.take( amount ).shuffle
 		$LOG.debug( tracks.collect{|t| t[:track_id]}.to_s )
 		coder = HTMLEntities.new
-		# check if tracks have embed codes
+		# update times served variable
 		tracks.each do |track|
 			# times served ++
 			
@@ -101,24 +101,25 @@ class FavsquareLogic
 			usr_track.times_served += 1
 			usr_track.save
 
-			if track[ :embed_code ] == nil
-				# if not fetch embed code
-				embed_code = SoundcloudHelper.fetch_embed_code( token, track[ :sc_track_id ])
-				if embed_code != nil
-					encoded_embed_code = coder.encode( embed_code )
-					track.embed_code = encoded_embed_code
-					track.save
-					$LOG.debug( embed_code )
-				else
-					# delete track
-					user.remove_track( track )
-					UserTrack.filter( :track_id => track.track_id ).all.delete
-					Track.filter( :track_id => track.track_id ).all.delete
-				end
-			end
+			# embed codes are no longer used since this is really fucking slow
+
+			# if track[ :embed_code ] == nil
+			# 	# if not fetch embed code
+			# 	embed_code = SoundcloudHelper.fetch_embed_code( token, track[ :sc_track_id ])
+			# 	if embed_code != nil
+			# 		encoded_embed_code = coder.encode( embed_code )
+			# 		track.embed_code = encoded_embed_code
+			# 		track.save
+			# 		$LOG.debug( embed_code )
+			# 	else
+			# 		# delete track
+			# 		user.remove_track( track )
+			# 		UserTrack.filter( :track_id => track.track_id ).all.delete
+			# 		Track.filter( :track_id => track.track_id ).all.delete
+			# 	end
+			# end
 		end
-		embed_codes = tracks.collect{ |t| t[ :embed_code ] }
-		embed_codes.map!{ |t| coder.decode( t ).gsub( /[\"]/, '"' => "\'" ) }
-		return embed_codes
+		track_ids = tracks.collect{ |t| t[ :track_id ] }
+		return track_ids
 	end
 end

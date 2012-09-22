@@ -77,11 +77,9 @@ var Favsquare = ( function() {
 
 		fetch: function() {
 			$.get( server_url + server_res + "/" + amount, function( tracks ) {
-				$.each( tracks, function( index, value ) {
-					var track = $( "<div class='" + css_class + "'><div class='enumeration'>" + (playlist.length + index + 1) + "</div>' "+ value + "</div>" );
+				$.each( tracks, function( index, track_id ) {
 					queue.push({
-						"track": track, 
-						"widget": value
+						"track_id": track_id
 					});	
 				});
 				dequeue();
@@ -92,6 +90,9 @@ var Favsquare = ( function() {
 }());
 
 $( document ).ready( function() {
+	SC.initialize({
+		client_id: "fcdca5600531b2292ddc9bfe7008cac6"
+	});
 	Favsquare.setPlaylistElement( "#playlist" ).fetch();
 	$( "#arrow" ).click( function() {
 		Favsquare.fetch();
