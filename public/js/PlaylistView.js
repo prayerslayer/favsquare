@@ -3,6 +3,8 @@ PlaylistView = Backbone.View.extend({
 	initialize: function() {
 		this.el = this.$el.selector;	//don't know why I have to do this, should be done automatically, right?
 
+		this.model.bind( "add", this.addTrack, this );
+
 		this.render();
 	},
 
@@ -30,5 +32,12 @@ PlaylistView = Backbone.View.extend({
 
 	events: {
 		
+	},
+
+	addTrack: function( track ) {
+		var trackview = new TrackView({
+			model: track
+		});
+		$( this.el ).append( trackview.el );
 	}
 });

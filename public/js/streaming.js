@@ -21,10 +21,6 @@ var Favsquare = (function() {
 					var bbtracks = [];
 					_.each( tracks, function( track ) {
 						var bbtrack = new Track( track );
-						var trackview = new TrackView({
-							model: bbtrack,
-							el: $( "#playlist" )
-						});
 						bbtracks.push( bbtrack );	//hopefully they won't get inserted one at a time
 					});
 					playlist.add( bbtracks );
