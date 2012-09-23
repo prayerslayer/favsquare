@@ -5,10 +5,16 @@
 
 <script type="text/template" id="track_template">
 	<li id="track-<%= id %>" class="track">
-		<a href="<%= user.permalink_url || localhost %>">
-			<h3><%= user.username || horst %> - <%= title %></h3>
+		<a href="<%= user.permalink_url %>">
+			<img src="<%= user.avatar_url %>" class="avatar" alt="avatar" />
 		</a>
-	    <div class="play_button" data-role="play_track">Play me</div>
+		<a href="<%= user.permalink_url %>/<%= permalink %>">
+			<span class="track-title"><%= user.username || horst %> - <%= title %></span>
+		</a>
+		<div class="track-row">
+			
+		    <div class="play-button" data-role="play-track">Play me</div>
+	    </div>
     </li>
 </script>
 

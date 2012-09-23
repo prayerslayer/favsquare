@@ -13,8 +13,8 @@ TrackView = Backbone.View.extend( {
 		return this;
 	},
 	events: {
-		"click [data-role = play_track]": "play",
-		"click [data-role = pause_track]", "pause"
+		"click [data-role = play-track]": "play",
+		"click [data-role = pause-track]": "pause"
 	},
 	play: function( evt ) {
 		var $me = $( evt.target );
