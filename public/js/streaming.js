@@ -18,14 +18,16 @@ var Favsquare = (function() {
 		fetch: function( amount ) {
 			$.get( host + "/" + resource + "/" + amount, function( tracks ) {
 				if ( tracks.length > 0 ) {
+					var bbtracks = [];
 					_.each( tracks, function( track ) {
 						var bbtrack = new Track( track );
 						var trackview = new TrackView({
 							model: bbtrack,
 							el: $( "#playlist" )
 						});
-						playlist.add( bbtrack );
+						bbtracks.push( bbtrack );	//hopefully they won't get inserted one at a time
 					});
+					playlist.add( bbtracks );
 				}
 			});
 		}
