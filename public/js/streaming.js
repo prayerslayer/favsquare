@@ -5,7 +5,7 @@ var Favsquare = (function() {
 		playlist = new Playlist(),
 		playlistView = new PlaylistView({
 			model: playlist,
-			el: "#playlist"
+			el: $( "#playlist" )
 		});
 		
 
@@ -17,15 +17,16 @@ var Favsquare = (function() {
 		//fetch tracks, add to playlist
 		fetch: function( amount ) {
 			$.get( host + "/" + resource + "/" + amount, function( tracks ) {
-				_.each( tracks, function( track ) {
-					var bbtrack = new Track( track );
-					var trackview = new TrackView({
-						model: bbtrack
+				if ( tracks.length > 0 ) {
+					_.each( tracks, function( track ) {
+						var bbtrack = new Track( track );
+						var trackview = new TrackView({
+							model: bbtrack,
+							el: $( "#playlist" )
+						});
+						playlist.add( bbtrack );
 					});
-					bbtrack.set( "view" , trackview );
-					playlist.add( bbtrack );
-				});
-				playlistView.render();
+				}
 			});
 		}
 	};

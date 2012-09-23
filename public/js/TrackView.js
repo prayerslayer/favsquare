@@ -1,6 +1,7 @@
 TrackView = Backbone.View.extend( {
 	
 	initialize: function() {
+		this.render();
 	},
 
 	template: _.template( $( "#track_template" ).html() ),
@@ -12,9 +13,22 @@ TrackView = Backbone.View.extend( {
 		return this;
 	},
 	events: {
-		"click .play_button": "play"
+		"click [data-role = play_track]": "play",
+		"click [data-role = pause_track]", "pause"
 	},
 	play: function( evt ) {
-		alert( "play track" );
+		var $me = $( evt.target );
+		//transform to pause button
+		$me.attr("data-role", "pause");
+		//TODO omre
+
+		//start playing and stuff
+
+		//trigger/delegate event for playlist
+	},
+	pause: function( evt ) {
+		var $me = $( evt.target );
+		//transform to play button
+		$me.attr("data-role", "play");
 	}
 });

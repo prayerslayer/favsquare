@@ -1,7 +1,7 @@
 //Vars
 font_family = "Source Sans Pro", "HelveticaNeue", sans-serif
 
-//Styles
+//General Styles
 
 body
 	font-family: font_family !important
@@ -27,3 +27,11 @@ body
 	background-color: gray
 	color: white
 	cursor: pointer	
+
+//Track Styles
+
+.play_button
+	cursor: pointer
+	border-radius: 1em
+	background-color: gray
+	color: white

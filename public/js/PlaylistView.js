@@ -2,24 +2,33 @@ PlaylistView = Backbone.View.extend({
 
 	initialize: function() {
 		this.el = this.$el.selector;	//don't know why I have to do this, should be done automatically, right?
+
+		this.render();
 	},
 
 	render: function( ) {
-		var that = this,
-			buffer = [];
+		// var that = this,
+		// 	buffer = [];
 
-		_.each( this.model.models, function( track ) {
-			if ( !track.get( "view" ).isRendered ) {
-				var view = track.get( "view" ).render();
-				view.isRendered = true;
-				buffer.push( view.$el.html() );
-			}
-		});
+		// // if there are any tracks in the collection
+		// if ( _.size( this.model.models ) > 0 ) {
+		// 		// check if they are already rendered and render if not
+		// 		_.each( this.model.models, function( track ) {
+		// 			if ( !track.view.isRendered ) {
+		// 				var view = track.view.render();
+		// 				view.isRendered = true;
+		// 				buffer.push( view.$el.html() );
+		// 			}
+		// 		});
+		
+		// 		//insert all new tracks at once
+		// 		$( this.el ).append( buffer.join("") );
+		// 	}
 
-		//insert all new tracks at once
-		$( this.el ).append( buffer.join("") );
+		return this;
 	},
+
 	events: {
 		
-	},
+	}
 });

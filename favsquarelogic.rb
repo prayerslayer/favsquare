@@ -91,7 +91,7 @@ class FavsquareLogic
 		# take the first amount much
 		tracks = tracks.take( amount ).shuffle
 
-		$LOG.debug( tracks.collect{|t| t[:track_id]}.to_s )
+		$LOG.debug( tracks.collect{|t| t[:sc_track_id]}.to_s )
 		coder = HTMLEntities.new
 		# update times served variable
 		tracks.each do |track|
@@ -104,10 +104,9 @@ class FavsquareLogic
 		end
 		full_tracks = []
 		tracks.each do |track|
-			begin
-				full_tracks.push( SoundcloudHelper.fetch_track( token, track[ :sc_track_id ] ) );
-			rescue Soundcloud::ResponseError => e
-				puts e
+			full_track = SoundcloudHelper.fetch_track( token, track[ :sc_track_id ] )
+			if full_track != nil
+				full_tracks.push( full_track );
 			end
 		end
 		return full_tracks

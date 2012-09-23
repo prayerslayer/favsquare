@@ -4,12 +4,12 @@
 <script type="text/javascript" src="js/Track.js"></script>
 
 <script type="text/template" id="track_template">
-	<div class="track">
-		<a href="<%= user.permalink_url %>">
-			<h3><%= user.username %> - <%= title %></h3>
+	<li id="track-<%= id %>" class="track">
+		<a href="<%= user.permalink_url || localhost %>">
+			<h3><%= user.username || horst %> - <%= title %></h3>
 		</a>
-	    <div class="play_button">Play me</div>
-    </track>
+	    <div class="play_button" data-role="play_track">Play me</div>
+    </li>
 </script>
 
 <script type="text/javascript" src="js/TrackView.js"></script>
@@ -22,8 +22,8 @@
 	<h1>Your playlist</h1>
 </div>
 
-<div id="playlist">
-</div>
+<ol id="playlist">
+</ol>
 <div id="more">
 	<span id="arrow">
 		↓
