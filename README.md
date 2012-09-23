@@ -22,7 +22,10 @@ Run it!
 * TESTS
 * Functionality
 	* Von HTML5 Widgets auf eigene UI umsteigen
-	* Informationen für Track am Server fetchen, nicht am Client --> Round Trips vermeiden
+		* Event delegation von TrackView nach Playlist?
+		* Track Template schön bekommen
+		* Play/Pause, Next, Prev Buttons in Playlist statt an Tracks
+		* Navbar permanent machen, dort auch Controls rein (zumindest Anzeige)
 	* "Create playlist on SC" Feature
 	* Token erneuern, wenn Startseite angesurft wird
 	* User-defined update
@@ -43,8 +46,7 @@ Run it!
 * Frontend
 	* Browsing
 		* Treemap (# Tracks pro Artists, denen User nicht folgt) + Follow-Buttons?
-		* Alphabetische Liste
-		* Seiten für Artists (/artist/rem)
+		* Alphabetische Liste (Artists)
+			* Seiten für Artists (/artist/rem)
 	* Listening
-		* Playlist 
-		* Playlist pro Artist (/artist/rem/playlist)
+		Playlist
