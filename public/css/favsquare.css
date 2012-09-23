@@ -30,7 +30,6 @@ body {
   left: 80px;
 }
 .track-title {
-  font-weight: bold;
   font-size: 1.5em;
 }
 .play-button {
@@ -40,10 +39,14 @@ body {
   height: 30px;
   background-color: #808080;
   color: #fff;
+  float: left;
 }
 .avatar {
   width: 70px;
   height: 70px;
   margin: 5px;
+}
+.waveform {
+  height: 50px;
 }
 
