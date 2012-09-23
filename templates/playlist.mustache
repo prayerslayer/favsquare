@@ -8,11 +8,10 @@
 		<a href="<%= user.permalink_url %>">
 			<img src="<%= user.avatar_url %>" class="avatar" alt="avatar" />
 		</a>
-		<a href="<%= user.permalink_url %>/<%= permalink %>">
-			<span class="track-title"><%= user.username || horst %> - <%= title %></span>
-		</a>
 		<div class="track-row">
-			
+			<a href="<%= user.permalink_url %>/<%= permalink %>">
+				<span class="track-title"><%= user.username || horst %> - <%= title %></span>
+			</a>
 		    <div class="play-button" data-role="play-track">Play me</div>
 	    </div>
     </li>

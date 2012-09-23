@@ -23,8 +23,11 @@ body {
   color: #fff;
   cursor: pointer;
 }
-.track {
-  padding-bottom: 1.5em;
+.track-row {
+  margin: 5px;
+  position: relative;
+  top: -70px;
+  left: 80px;
 }
 .track-title {
   font-weight: bold;
@@ -39,8 +42,8 @@ body {
   color: #fff;
 }
 .avatar {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   margin: 5px;
 }
 
