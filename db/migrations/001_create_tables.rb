@@ -10,7 +10,6 @@ Sequel.migration do
 		create_table(:tracks) do
 			primary_key :track_id
 			Integer :sc_track_id, :null => false
-			String :embed_code
 		end
 
 		# table user_tracks

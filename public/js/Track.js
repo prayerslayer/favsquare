@@ -13,12 +13,5 @@ Track = Backbone.Model.extend({
 		this.bind( "error", function( model, error ) {
 			console.log( "ERROR: " + error );
 		});
-		
-		//fetch other attributes
-		SC.get( "/tracks/" + this.id, function( info ){
-			that.set( info );
-		});
-
-		//TODO what to do when track doesn't exist?
 	}
 });

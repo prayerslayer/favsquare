@@ -16,14 +16,14 @@ var Favsquare = (function() {
 		},
 		//fetch tracks, add to playlist
 		fetch: function( amount ) {
-			$.get( host + "/" + resource + "/" + amount, function( track_ids ) {
-				_.each( track_ids, function( track_id ) {
-					var track = new Track({ id: track_id });
+			$.get( host + "/" + resource + "/" + amount, function( tracks ) {
+				_.each( tracks, function( track ) {
+					var bbtrack = new Track( track );
 					var trackview = new TrackView({
-						model: track
+						model: bbtrack
 					});
-					track.set( "view" , trackview );
-					playlist.add( track );
+					bbtrack.set( "view" , trackview );
+					playlist.add( bbtrack );
 				});
 				playlistView.render();
 			});
@@ -34,6 +34,9 @@ var Favsquare = (function() {
 $( document ).ready( function() {
 	SC.initialize({
 		client_id: "fcdca5600531b2292ddc9bfe7008cac6"
+	});
+	$( "#arrow" ).click(function() {
+		Favsquare.fetch( 10 );
 	});
 	Favsquare.rocks();
 });

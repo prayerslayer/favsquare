@@ -5,7 +5,9 @@
 
 <script type="text/template" id="track_template">
 	<div class="track">
-		<h3><%= title %></h3>
+		<a href="<%= user.permalink_url %>">
+			<h3><%= user.username %> - <%= title %></h3>
+		</a>
 	    <div class="play_button">Play me</div>
     </track>
 </script>
