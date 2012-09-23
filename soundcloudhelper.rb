@@ -8,8 +8,7 @@ class SoundcloudHelper
 
 		client = Soundcloud.new( :access_token => token )
 
-		# get own favs
-		favs = client.get( "/me/favorites" )
+		favs = []
 		# get other favs
 		followings = client.get( "/me/followings" )
 		followings.each do |following|
@@ -32,7 +31,7 @@ class SoundcloudHelper
 		begin
 			track = client.get( "/tracks/"+track_id.to_s )
 		rescue Soundcloud::ResponseError => error
-			puts error
+			puts error.response
 			return nil
 		end
 		return track[ "streamable" ] ? track : nil
