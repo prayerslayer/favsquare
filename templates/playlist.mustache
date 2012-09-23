@@ -1,20 +1,26 @@
 <script src="//connect.soundcloud.com/sdk.js"></script>
 <script type="text/javascript" src="js/underscore.js"></script>
 <script type="text/javascript" src="js/backbone.js"></script>
+<script type="text/javascript" src="js/waveform.js"></script>
 <script type="text/javascript" src="js/Track.js"></script>
 
 <script type="text/template" id="track_template">
-	<li id="track-<%= id %>" class="track">
+	<div id="track-<%= id %>" class="track">
 		<a href="<%= user.permalink_url %>">
 			<img src="<%= user.avatar_url %>" class="avatar" alt="avatar" />
 		</a>
 		<div class="track-row">
-			<a href="<%= user.permalink_url %>/<%= permalink %>">
-				<span class="track-title"><%= user.username || horst %> - <%= title %></span>
-			</a>
-		    <div class="play-button" data-role="play-track">Play me</div>
-	    </div>
-    </li>
+			<div class="track-title-row">
+				<a href="<%= permalink_url %>">
+					<span class="track-title"><%= user.username %> - <%= title %></span>
+				</a>
+			</div>
+			<div class="track-stream-row">
+			    <img class="play-button" data-role="play-track" src="img/play.png" />
+			    <div class="waveform"></div>
+		    </div>
+		</div>
+    </div>
 </script>
 
 <script type="text/javascript" src="js/TrackView.js"></script>
