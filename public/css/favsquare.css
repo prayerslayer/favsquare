@@ -23,7 +23,7 @@ body {
   color: #fff;
   cursor: pointer;
 }
-.track-row {
+.track-stream-row {
   margin: 5px;
   position: relative;
   top: -70px;
@@ -32,7 +32,9 @@ body {
 .track-title {
   font-size: 1.5em;
 }
-.play-button {
+.play-button,
+.prev-button,
+.next-button {
   cursor: pointer;
   border-radius: 100%;
   width: 30px;

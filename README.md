@@ -23,7 +23,7 @@ Run it!
 * Functionality
 	* Von HTML5 Widgets auf eigene UI umsteigen
 		* Event delegation von TrackView nach Playlist?
-		* Track Template schön bekommen
+		* Track Template schön bekommen, mit Kommentaren
 		* Play/Pause, Next, Prev Buttons in Playlist statt an Tracks
 		* Navbar permanent machen, dort auch Controls rein (zumindest Anzeige)
 	* "Create playlist on SC" Feature

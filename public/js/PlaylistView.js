@@ -1,43 +1,61 @@
 PlaylistView = Backbone.View.extend({
 
 	initialize: function() {
-		this.el = this.$el.selector;	//don't know why I have to do this, should be done automatically, right?
-
 		this.model.bind( "add", this.addTrack, this );
 
 		this.render();
 	},
 
 	render: function( ) {
-		// var that = this,
-		// 	buffer = [];
-
-		// // if there are any tracks in the collection
-		// if ( _.size( this.model.models ) > 0 ) {
-		// 		// check if they are already rendered and render if not
-		// 		_.each( this.model.models, function( track ) {
-		// 			if ( !track.view.isRendered ) {
-		// 				var view = track.view.render();
-		// 				view.isRendered = true;
-		// 				buffer.push( view.$el.html() );
-		// 			}
-		// 		});
-		
-		// 		//insert all new tracks at once
-		// 		$( this.el ).append( buffer.join("") );
-		// 	}
-
+		$( this.el ).append("<ol id='playlist-list'></ol>");
 		return this;
 	},
 
 	events: {
-		
+		"click [data-role = prev]": "previousTrack",
+		"click [data-role = play]": "playTrack",
+		"click [data-role = next]": "nextTrack"
 	},
+
+	currentTrack: 0,
 
 	addTrack: function( track ) {
 		var trackview = new TrackView({
 			model: track
 		});
-		$( this.el ).append( trackview.el );
+		$( this.el ).find("#playlist-list").append( trackview.el );
+	},
+
+	previousTrack: function(  ) {
+		if ( this.currentTrack - 1 >= 0 ) {
+			var track = this.model.at( this.currentTrack );
+			track.set( "playing", false );
+			track.trigger( "pause" );
+
+			this.currentTrack = this.currentTrack - 1;
+
+			this.playTrack();
+		}
+	},
+	playTrack: function( ) {
+		var track = this.model.at( this.currentTrack );
+		if ( !track.get( "playing" ) ) {
+			track.set( "playing", true );
+			track.trigger( "play" );	
+		}
+		else {
+			track.set( "playing", false );
+			track.trigger( "pause" );
+		}
+
+	},
+	nextTrack: function(  ) {
+		var track = this.model.at( this.currentTrack );
+		track.set( "playing", false );
+		track.trigger( "pause" );
+
+		this.currentTrack = this.currentTrack + 1;
+
+		this.playTrack();
 	}
 });

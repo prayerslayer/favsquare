@@ -1,6 +1,8 @@
 TrackView = Backbone.View.extend( {
 	
 	initialize: function() {
+		this.model.bind( "play", this.play, this );
+		this.model.bind( "pause", this.pause, this );
 		this.render();
 	},
 
@@ -15,21 +17,13 @@ TrackView = Backbone.View.extend( {
 		return this;
 	},
 	events: function() {
-		return {
-			"click [data-role = play-track]": "play",
-			"click [data-role = pause-track]": "pause"
-		};
+
 	},
-	play: function( evt ) {
-		var $me = $( evt.target );
-		var that = this;
+	play: function( ) {
+		var that = this,
+			$me = $( this.el );
 
 		console.log( "play at ", that);
-
-		//transform to pause button
-		$me.attr("data-role", "pause-track");
-		$me.attr("src", "img/pause.png");
-		//TODO bild austauschen etc
 
 		//start playing and stuff
 		if ( !that.waveform ) {
@@ -51,17 +45,15 @@ TrackView = Backbone.View.extend( {
 
 		//trigger/delegate event for playlist
 	},
-	pause: function( evt ) {
-		var $me = $( evt.target );
-		var that = this;
+	pause: function( ) {
+		var that = this,
+			$me = $( this.el );
 
 		console.log( "pause at ", that);
 
-		//transform to play button
-		$me.attr("data-role", "play-track");
-		$me.attr("src", "img/play.png");
 		//pause playing
-		that.sound.pause();
+		if ( that.sound )
+			that.sound.pause();
 
 		//trigger/delegate event for playlist
 	}

@@ -40,7 +40,7 @@ body
 .track-title
 	font-size: 1.5em
 
-.play-button
+.play-button, .prev-button, .next-button
 	cursor: pointer
 	border-radius: 100%
 	width: 30px
