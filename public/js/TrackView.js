@@ -16,9 +16,18 @@ TrackView = Backbone.View.extend( {
 		$( this.el ).append( html );
 		return this;
 	},
-	events: function() {
-
+	events: {
+		"click canvas": "seek"
 	},
+
+	seek: function( evt ) {
+		var x = evt.offsetX;
+		var total = $( evt.target ).width();
+		var rel_pos = x / total;
+		var abs_pos = Math.floor( this.model.get( "duration" ) * rel_pos );
+		this.sound.setPosition( abs_pos );
+	},
+
 	play: function( ) {
 		var that = this,
 			$me = $( this.el );
@@ -34,27 +43,26 @@ TrackView = Backbone.View.extend( {
 			waveform.dataFromSoundCloudTrack( that.model.attributes );
 			that.waveform = waveform;
 		}
-		var streamOptions = that.waveform.optionsForSyncedStream();
-		SC.stream( "/tracks/" + this.model.id, streamOptions, function( sound ){
-			if ( that.sound == null ) {
-			  	that.sound = sound;
-			}
-			that.sound.play();	
-			window.exampleStream = that.sound;
-		});
+		if ( !that.sound )
+		{
+			var streamOptions = that.waveform.optionsForSyncedStream();
+				SC.stream( "/tracks/" + this.model.id, streamOptions, function( sound ){
+					if ( that.sound == null ) {
+					  	that.sound = sound;
+					}
+					that.sound.play();	
+					window.exampleStream = that.sound;
+				});
+		}
+		else
+			that.sound.play();
 
 		//trigger/delegate event for playlist
 	},
-	pause: function( ) {
-		var that = this,
-			$me = $( this.el );
+	pause: function() {
+		var that = this;
 
-		console.log( "pause at ", that);
-
-		//pause playing
 		if ( that.sound )
 			that.sound.pause();
-
-		//trigger/delegate event for playlist
 	}
 });
