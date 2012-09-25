@@ -28,17 +28,24 @@ body
 	color: white
 	cursor: pointer	
 
+
+//playlist
+
 //Track Styles
 
+.track
+	height: 100px
 
 .track-stream-row
 	margin: 5px
-	position: relative
-	top: -70px
-	left: 80px
 
 .track-title
 	font-size: 1.5em
+
+.track-row
+	position: relative
+	left: 90px
+	top: -90px
 
 .play-button, .prev-button, .next-button
 	cursor: pointer
@@ -52,7 +59,7 @@ body
 .avatar
 	width: 70px
 	height: 70px
-	margin: 5px
+	margin: 10px
 
 .waveform
 	height: 50px

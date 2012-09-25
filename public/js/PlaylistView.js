@@ -2,7 +2,8 @@ PlaylistView = Backbone.View.extend({
 
 	initialize: function() {
 		this.model.bind( "add", this.addTrack, this );
-
+		this.mediator = new Mediator();
+		this.mediator.Subscribe( "trackview:next", this.nextTrack, {}, this );
 		this.render();
 	},
 
@@ -21,9 +22,10 @@ PlaylistView = Backbone.View.extend({
 
 	addTrack: function( track ) {
 		var trackview = new TrackView({
-			model: track
+			model: track,
+			mediator: this.mediator
 		});
-		$( this.el ).find("#playlist-list").append( trackview.el );
+		$( this.el ).find( "#playlist-list" ).append( trackview.el );
 	},
 
 	previousTrack: function(  ) {
@@ -49,13 +51,43 @@ PlaylistView = Backbone.View.extend({
 		}
 
 	},
-	nextTrack: function(  ) {
-		var track = this.model.at( this.currentTrack );
-		track.set( "playing", false );
-		track.trigger( "pause" );
 
+	fetchThenPlay: function( ) {
+		this.model.fetch({
+			add: true,
+			success: function( ) {
+				alert("weee");
+			},
+			error: function( resp ) {
+				alert("nooo");
+				//TODO fetch error?
+			}
+		});
+	},
+
+	playNext: function( ) {
 		this.currentTrack = this.currentTrack + 1;
 
 		this.playTrack();
+	},
+
+	nextTrack: function(  ) {
+		var track = this.model.at( this.currentTrack );
+		if ( track == null ) {
+			this.fetchThenPlay();
+			return;
+		}
+
+		track.set( "playing", false );
+		track.trigger( "pause" );
+
+		if ( this.currentTrack + 1 >= this.model.length ) {
+			this.fetchThenPlay();
+		}
+		else
+			this.playNext();
+
+		
+		
 	}
 });

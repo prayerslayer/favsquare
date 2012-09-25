@@ -1,8 +1,9 @@
 TrackView = Backbone.View.extend( {
 	
-	initialize: function() {
+	initialize: function( opts ) {
 		this.model.bind( "play", this.play, this );
 		this.model.bind( "pause", this.pause, this );
+		this.mediator = opts.mediator;
 		this.render();
 	},
 
@@ -50,7 +51,11 @@ TrackView = Backbone.View.extend( {
 					if ( that.sound == null ) {
 					  	that.sound = sound;
 					}
-					that.sound.play();	
+					that.sound.play({
+						onfinish: function() {
+							that.mediator.Publish( "trackview:next" );
+						}
+					});	
 					window.exampleStream = that.sound;
 				});
 		}
