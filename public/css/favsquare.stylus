@@ -10,6 +10,9 @@ highlight_color = orange
 body
 	font-family: font_family !important
 
+#wrapper
+	margin-top: track_height
+
 .enumeration
 	font-size: 3em
 	position: relative
@@ -35,7 +38,7 @@ body
 //Track Styles
 .track
 	height: track_height
-	margin-bottom: 1.5*track_height
+	margin-bottom: track_height
 
 .track .title
 	height: 0.33*track_height
@@ -43,6 +46,7 @@ body
 	font-size: font_size_big
 	line-height: 1.5em
 	max-width: 80%
+	overflow: hidden
 
 .track .title:hover
 	color: highlight_color
@@ -52,7 +56,7 @@ body
 	position: relative
 	height: track_height
 	min-width: 15%
-	left: track_height
+	margin-left: track_height
 
 
 .track .waveform canvas
@@ -74,6 +78,10 @@ body
 
 #playlist-controls
 	padding-bottom: 6em
+	display: none
+
+#palylist li
+	font-size: font_size_big
 
 .play-button, .prev-button, .next-button
 	cursor: pointer

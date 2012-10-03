@@ -13,7 +13,9 @@
 			
 		</div>
 		<div class="avatar">
-			<img src="<%= user.avatar_url %>" alt="Avatar">
+			<a href="<%= user.permalink_url%>" target="_blank">
+				<img src="<%= user.avatar_url %>" alt="Avatar">
+			</a>
 		</div>
 	</div>
 </script>
@@ -28,10 +30,11 @@
 	<h1>Your playlist</h1>
 </div>
 <div id="playlist">
+	<!-- invisible control buttons -->
 	<div id="playlist-controls">
-		<img class="prev-button" data-role="prev" src="img/previous.png" />
-		<img class="play-button" data-role="play" src="img/pause.png" />
-		<img class="next-button" data-role="next" src="img/next.png" />
+		<div data-role="prev"></div>
+		<div data-role="play"></div>
+		<div data-role="next"></div>
 	</div>
 </div>
 <div id="more">

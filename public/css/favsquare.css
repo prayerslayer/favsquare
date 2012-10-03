@@ -1,6 +1,9 @@
 body {
   font-family: "Source Sans Pro", "HelveticaNeue", sans-serif !important;
 }
+#wrapper {
+  margin-top: 100px;
+}
 .enumeration {
   font-size: 3em;
   position: relative;
@@ -25,7 +28,7 @@ body {
 }
 .track {
   height: 100px;
-  margin-bottom: 150px;
+  margin-bottom: 100px;
 }
 .track .title {
   height: 33px;
@@ -33,6 +36,7 @@ body {
   font-size: 24px;
   line-height: 1.5em;
   max-width: 80%;
+  overflow: hidden;
 }
 .track .title:hover {
   color: #ffa500;
@@ -42,7 +46,7 @@ body {
   position: relative;
   height: 100px;
   min-width: 15%;
-  left: 100px;
+  margin-left: 100px;
 }
 .track .waveform canvas {
   width: inherit;
@@ -61,6 +65,10 @@ body {
 }
 #playlist-controls {
   padding-bottom: 6em;
+  display: none;
+}
+#palylist li {
+  font-size: 24px;
 }
 .play-button,
 .prev-button,
