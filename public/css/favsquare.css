@@ -19,12 +19,16 @@ body {
 #arrow {
   position: relative;
   left: 50%;
-  font-size: 24px;
-  border: 1px solid #808080;
+  font-size: 48px;
+  border: 1px solid #fff;
   border-radius: 100%;
   background-color: #808080;
   color: #fff;
   cursor: pointer;
+  width: 30px;
+  height: 30px;
+  top: -15px;
+  text-align: center;
 }
 .track {
   height: 100px;
@@ -67,8 +71,15 @@ body {
   padding-bottom: 6em;
   display: none;
 }
-#palylist li {
+#playlist ol {
+  list-style-position: inside;
+}
+#playlist li {
   font-size: 24px;
+}
+#current-track {
+  font-size: 12px;
+  margin-left: 1.5em;
 }
 .play-button,
 .prev-button,

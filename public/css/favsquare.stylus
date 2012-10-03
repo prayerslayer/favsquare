@@ -28,12 +28,16 @@ body
 #arrow
 	position: relative
 	left: 50%
-	font-size: font_size_big
-	border: 1px solid gray
+	font-size: 2*font_size_big
+	border: 1px solid white
 	border-radius: 100%
 	background-color: gray
 	color: white
 	cursor: pointer	
+	width: 30px
+	height: 30px
+	top: -15px
+	text-align: center	
 
 //Track Styles
 .track
@@ -80,8 +84,15 @@ body
 	padding-bottom: 6em
 	display: none
 
-#palylist li
+#playlist ol
+	list-style-position: inside
+
+#playlist li
 	font-size: font_size_big
+
+#current-track
+	font-size: font_size_sml
+	margin-left: 1.5em
 
 .play-button, .prev-button, .next-button
 	cursor: pointer
