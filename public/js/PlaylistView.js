@@ -28,10 +28,7 @@ PlaylistView = Backbone.View.extend({
 
 	previousTrack: function(  ) {
 		if ( this.currentTrack - 1 >= 0 ) {
-			var track = this.model.at( this.currentTrack );
-			track.set( "playing", false );
-			track.trigger( "pause" );
-
+			this.pauseCurrent();
 			this.currentTrack = this.currentTrack - 1;
 
 			this.playTrack();
@@ -48,6 +45,11 @@ PlaylistView = Backbone.View.extend({
 			track.trigger( "pause" );
 		}
 
+	},
+
+	setPlayingTrack: function( track ) {
+		var index = _.indexOf( this.model.pluck( "id" ), track.id );
+		this.currentTrack = index;
 	},
 
 	fetchThenPlay: function( ) {
@@ -83,16 +85,12 @@ PlaylistView = Backbone.View.extend({
 			return;
 		}
 
-		track.set( "playing", false );
-		track.trigger( "pause" );
+		this.pauseCurrent();
 
 		if ( this.currentTrack + 1 >= this.model.length ) {
 			this.fetchThenPlay();
 		}
 		else
 			this.playNext();
-
-		
-		
 	}
 });

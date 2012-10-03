@@ -19,7 +19,7 @@ TrackView = Backbone.View.extend( {
 	},
 	events: {
 		"click canvas": "seek",
-		"click .title": "play"
+		"click .title": "directPlay"
 	},
 
 	seek: function( evt ) {
@@ -30,15 +30,19 @@ TrackView = Backbone.View.extend( {
 		this.sound.setPosition( abs_pos );
 	},
 
+	directPlay: function() {
+
+		var that = this;
+		that.parent.pauseCurrent();
+		that.parent.setPlayingTrack( this.model );	
+		that.play();
+	},
+
 	play: function( ) {
 		var that = this,
 			$me = $( this.el );
 
 		console.log( "play at ", that);
-
-		//stop other sounds
-
-		that.parent.pauseCurrent();
 
 		//start playing and stuff
 		if ( !that.waveform ) {

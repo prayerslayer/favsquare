@@ -38,5 +38,15 @@ $( document ).ready( function() {
 	$( "#arrow" ).click(function() {
 		Favsquare.fetch( 10 );
 	});
+	//simulate clicks in real playlist controls
+	$( ".play-button" ).click( function() {
+		$( "div[data-role=play]" ).trigger( "click" );
+	});
+	$( ".prev-button" ).click( function() {
+		$( "div[data-role=prev]" ).trigger( "click" );
+	});
+	$( ".next-button" ).click( function() {
+		$( "div[data-role=next]" ).trigger( "click" );
+	});
 	Favsquare.rocks();
 });
