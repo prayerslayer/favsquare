@@ -5,6 +5,7 @@ font_size_big = 24px
 font_size_med = 20px
 font_size_sml = 12px
 track_height = 100px
+line_height = 1.5em
 highlight_color = orange
 //General Styles
 
@@ -13,7 +14,10 @@ body
 
 p 
 	font-size: font_size_med
-	line-height: 1.5em
+	line-height: line_height
+
+p + p
+	margin-top: line_height
 
 #wrapper
 	margin-top: track_height
