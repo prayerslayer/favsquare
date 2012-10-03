@@ -81,7 +81,6 @@ body
 //palylist
 
 #playlist-controls
-	padding-bottom: 6em
 	display: none
 
 #playlist ol
@@ -96,9 +95,5 @@ body
 
 .play-button, .prev-button, .next-button
 	cursor: pointer
-	border-radius: 100%
 	width: 30px
 	height: 30px
-	background-color: gray
-	color: white
-	float: left

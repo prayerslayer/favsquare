@@ -68,7 +68,6 @@ body {
   max-width: 100%;
 }
 #playlist-controls {
-  padding-bottom: 6em;
   display: none;
 }
 #playlist ol {
@@ -85,11 +84,7 @@ body {
 .prev-button,
 .next-button {
   cursor: pointer;
-  border-radius: 100%;
   width: 30px;
   height: 30px;
-  background-color: #808080;
-  color: #fff;
-  float: left;
 }
 
