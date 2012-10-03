@@ -75,6 +75,35 @@ class FavsquareLogic
 
 	end
 
+	def self.get_missing_followings( token )
+		raise ArgumentError, "Token cannot be null." if token == nil
+
+		# get favs of followings
+		followings = SoundcloudHelper.fetch_followings( token )
+		favs = SoundcloudHelper.fetch_favs( token )
+		
+		# get artists of those favs
+		artists = []
+		favs.each do |fav|
+			artists << fav.user
+		end
+		
+		# count each artist
+		artist_count = {}
+		artists.each do |artist|
+			if !followings.include?( artist.id )
+				artist_count[ artist.permalink ] = artist_count[ artist.permalink ] == nil ? 1 : artist_count[ artist.permalink ] + 1
+			end
+		end
+
+		# transform in regular json object
+		json = []
+		artist_count.each do |artist, count|
+			json << { :artist => artist, :count => count }
+		end
+		return json
+	end
+
 
 	def self.get_tracks( token, sc_user_id, amount )
 		raise ArgumentError, "Token cannot be null." if token == nil

@@ -2,14 +2,13 @@ class Favsquare
 
 	module Views
 
-		class Playlist < Layout
+		class Overview < Layout
 
 			def title
-				"Your playlist"
+				"Overview"
 			end
 
 		end
-
 	end
 
 end

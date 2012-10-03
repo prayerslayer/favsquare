@@ -35,6 +35,14 @@ class Favsquare
 					nil
 				end
 			end
+
+			def overview_message
+				if @session[:user_name] != nil
+					"Who to follow"
+				else
+					nil
+				end
+			end
 		end
 	end
 

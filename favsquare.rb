@@ -1,5 +1,5 @@
 require "rubygems"
-require "sinatra/base"
+require "sinatra"
 require "sinatra/session"
 require "mustache/sinatra"
 require "soundcloud"
@@ -11,8 +11,6 @@ require "./soundcloudhelper"
 require "./favsquarelogic"
 
 class Favsquare < Sinatra::Base
-
-	enable :sessions
 
 	register Sinatra::Session
 	register Mustache::Sinatra
@@ -30,7 +28,7 @@ class Favsquare < Sinatra::Base
 	# logger
 	$LOG = Logger.new(STDOUT)
 	
-	configure do
+	configure(:development) do
 		#soundcloud
 		set :sc_clientid, "fcdca5600531b2292ddc9bfe7008cac6"
 		set :sc_clientsecret, "bf31fae3e89dc0f2ecda2a82b30b5ad0"
@@ -47,7 +45,7 @@ class Favsquare < Sinatra::Base
 	}
 
 	# nötig damit session in view verfügbar ist
-	before do
+	before "/*" do
 		@session = session
 	end
 
@@ -76,6 +74,22 @@ class Favsquare < Sinatra::Base
 		
 		content_type 'application/json', :charset => 'utf-8'
 		return tracks.to_json
+	end
+
+
+	# get missing artists
+	get "/missing" do
+		session!
+		artists = FavsquareLogic.get_missing_followings( @session[ :token ] )
+		content_type 'application/json', :charset => 'utf-8'
+		puts artists.to_json
+		return artists.to_json
+	end
+
+	get "/overview" do
+		session!
+		content_type "text/html", :charset => "utf-8"
+		mustache :overview
 	end
 
 	# update saved tracks

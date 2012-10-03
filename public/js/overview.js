@@ -11,7 +11,7 @@ $( document ).ready( function() {
 					.size( [ width, height ] )
 					.start();
 
-		var svg = d3.select( "#treemap" )
+		var svg = d3.select( "#graph" )
 					.append( "svg" )
 					.style( "position", "relative" )
 					.style( "width", width+"px" )
@@ -43,8 +43,13 @@ $( document ).ready( function() {
 
 		nodes.on( "mouseover", function( d, index ) {
 			text.text( d.artist );
+			d3.select( this ).attr( "cursor", "pointer" );
 			d.oldcolor = d3.select( this ).attr( "fill" );
 			d3.select( this ).attr( "fill", "orange" );
+		});
+
+		nodes.on( "click", function( d ) {
+			window.open( "http://soundcloud.com/"+d.artist, "_blank" );
 		});
 
 		nodes.on( "mouseout", function( d ) {

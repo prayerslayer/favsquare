@@ -12,7 +12,7 @@ class SoundcloudHelper
 		# get other favs
 		followings = client.get( "/me/followings" )
 		followings.each do |following|
-			followfavs = client.get( "/users/" + following.id.to_s + "/tracks" )
+			followfavs = client.get( "/users/" + following.id.to_s + "/favorites" )
 			followfavs.each do |fav|
 				if fav[ "streamable" ] == true
 					favs << fav
@@ -21,6 +21,19 @@ class SoundcloudHelper
 		end
 		# return favs
 		favs
+	end
+
+	def self.fetch_followings( token )
+		raise ArgumentError, "Token cannot be null." if token == nil
+
+		client = Soundcloud.new( :access_token => token )
+		begin
+			followings = client.get("/me/followings").collect {|following| following[ :id ]}
+		rescue Soundcloud::ResponseError => error
+			puts error.response
+			return nil
+		end
+		return followings
 	end
 
 	def self.fetch_track( token, track_id )
