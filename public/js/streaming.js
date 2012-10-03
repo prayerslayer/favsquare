@@ -13,20 +13,17 @@ $( document ).ready( function() {
 
 		return {
 			//start everythings
-			rocks: function() {
-				this.fetch( 10 );
-			},
-			//fetch tracks, add to playlist
-			fetch: function( amount ) {
-				$.get( host + "/" + resource + "/" + amount, function( tracks ) {
-					if ( tracks.length > 0 ) {
-						var bbtracks = [];
-						_.each( tracks, function( track ) {
-							var bbtrack = new Track( track );
-							bbtracks.push( bbtrack );	//hopefully they won't get inserted one at a time
-						});
-						playlist.add( bbtracks );
+			init: function() {
+				playlist.fetch({
+					add: true,
+					success: function( ) {
+						playlistView.playTrack();
 					}
+				});
+			},
+			fetch: function() {
+				playlist.fetch({
+					add: true
 				});
 			}
 		};
@@ -36,7 +33,7 @@ $( document ).ready( function() {
 		client_id: "fcdca5600531b2292ddc9bfe7008cac6"
 	});
 	$( "#arrow" ).click(function() {
-		Favsquare.fetch( 10 );
+		Favsquare.fetch();
 	});
 	//simulate clicks in real playlist controls
 	$( ".play-button" ).click( function() {
@@ -48,5 +45,5 @@ $( document ).ready( function() {
 	$( ".next-button" ).click( function() {
 		$( "div[data-role=next]" ).trigger( "click" );
 	});
-	Favsquare.rocks();
+	Favsquare.init();
 });

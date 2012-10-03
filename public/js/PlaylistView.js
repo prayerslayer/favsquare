@@ -38,7 +38,9 @@ PlaylistView = Backbone.View.extend({
 		var track = this.model.at( this.currentTrack );
 		if ( !track.get( "playing" ) ) {
 			track.set( "playing", true );
-			track.trigger( "play" );	
+			track.trigger( "play" );
+			$( "#current-track" ).attr( "href", "#track-"+track.id );
+			$( "#current-track" ).text( (this.currentTrack+1) + ": "+ track.get( "user" ).username + " - " + track.get( "title" ) );	
 		}
 		else {
 			track.set( "playing", false );
@@ -53,15 +55,15 @@ PlaylistView = Backbone.View.extend({
 	},
 
 	fetchThenPlay: function( ) {
+		var that = this;
 		this.model.fetch({
 			add: true,
 			success: function( ) {
-				alert("weee");
+				that.playNext();
 			},
 			error: function( resp ) {
 				console.log( resp );
 				alert("nooo");
-				//TODO fetch error?
 			}
 		});
 	},
