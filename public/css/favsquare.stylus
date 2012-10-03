@@ -1,6 +1,10 @@
 //Vars
 font_family = "Source Sans Pro", "HelveticaNeue", sans-serif
-
+mono_family = "Source Code Pro", monospace
+font_size_big = 24px
+font_size_sml = 12px
+track_height = 100px
+highlight_color = orange
 //General Styles
 
 body
@@ -21,31 +25,55 @@ body
 #arrow
 	position: relative
 	left: 50%
-	font-size: 3em
+	font-size: font_size_big
 	border: 1px solid gray
 	border-radius: 100%
 	background-color: gray
 	color: white
 	cursor: pointer	
 
-
-//playlist
-
 //Track Styles
-
 .track
-	height: 100px
+	height: track_height
+	margin-bottom: 1.5*track_height
 
-.track-stream-row
-	margin: 5px
+.track .title
+	height: 0.33*track_height
+	font-family: font_family
+	font-size: font_size_big
+	line-height: 1.5em
+	max-width: 80%
 
-.track-title
-	font-size: 1.5em
+.track .title:hover
+	color: highlight_color
+	cursor: pointer
 
-.track-row
+.track .waveform
 	position: relative
-	left: 90px
-	top: -90px
+	height: track_height
+	min-width: 15%
+	left: track_height
+
+
+.track .waveform canvas
+	width: inherit
+	height: inherit
+
+.track .avatar
+	position: relative
+	width: track_height
+	height: track_height
+	top: -(track_height)
+
+.track .avatar img
+	width: inherit
+	height: inherit
+	max-width: 100%
+
+//palylist
+
+#playlist-controls
+	padding-bottom: 6em
 
 .play-button, .prev-button, .next-button
 	cursor: pointer
@@ -55,11 +83,3 @@ body
 	background-color: gray
 	color: white
 	float: left
-
-.avatar
-	width: 70px
-	height: 70px
-	margin: 10px
-
-.waveform
-	height: 50px

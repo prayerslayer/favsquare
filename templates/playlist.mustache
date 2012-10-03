@@ -6,26 +6,21 @@
 
 <script type="text/template" id="track_template">
 	<div id="track-<%= id %>" class="track">
-		<a href="<%= user.permalink_url %>">
-			<img src="<%= user.avatar_url %>" class="avatar" alt="avatar" />
-		</a>
-		<div class="track-row">
-			<div class="track-title-row">
-				<a href="<%= permalink_url %>">
-					<span class="track-title"><%= user.username %> - <%= title %></span>
-				</a>
-			</div>
-			<div class="track-stream-row">
-			    <div class="waveform"></div>
-		    </div>
+		<div class="title">
+			<span><%= user.username %> - <%= title %></span>
 		</div>
-    </div>
+		<div class="waveform">
+			
+		</div>
+		<div class="avatar">
+			<img src="<%= user.avatar_url %>" alt="Avatar">
+		</div>
+	</div>
 </script>
 
 <script type="text/javascript" src="js/TrackView.js"></script>
 <script type="text/javascript" src="js/BBPlaylist.js"></script>
 <script type="text/javascript" src="js/PlaylistView.js"></script>
-<script type="text/javascript" src="js/mediator.js"></script>
 <script type="text/javascript" src="js/streaming.js"></script>
 
 

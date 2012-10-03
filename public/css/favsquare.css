@@ -16,7 +16,7 @@ body {
 #arrow {
   position: relative;
   left: 50%;
-  font-size: 3em;
+  font-size: 24px;
   border: 1px solid #808080;
   border-radius: 100%;
   background-color: #808080;
@@ -25,17 +25,42 @@ body {
 }
 .track {
   height: 100px;
+  margin-bottom: 150px;
 }
-.track-stream-row {
-  margin: 5px;
+.track .title {
+  height: 33px;
+  font-family: "Source Sans Pro", "HelveticaNeue", sans-serif;
+  font-size: 24px;
+  line-height: 1.5em;
+  max-width: 80%;
 }
-.track-title {
-  font-size: 1.5em;
+.track .title:hover {
+  color: #ffa500;
+  cursor: pointer;
 }
-.track-row {
+.track .waveform {
   position: relative;
-  left: 90px;
-  top: -90px;
+  height: 100px;
+  min-width: 15%;
+  left: 100px;
+}
+.track .waveform canvas {
+  width: inherit;
+  height: inherit;
+}
+.track .avatar {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  top: -100px;
+}
+.track .avatar img {
+  width: inherit;
+  height: inherit;
+  max-width: 100%;
+}
+#playlist-controls {
+  padding-bottom: 6em;
 }
 .play-button,
 .prev-button,
@@ -47,13 +72,5 @@ body {
   background-color: #808080;
   color: #fff;
   float: left;
-}
-.avatar {
-  width: 70px;
-  height: 70px;
-  margin: 10px;
-}
-.waveform {
-  height: 50px;
 }
 
