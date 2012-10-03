@@ -3,7 +3,7 @@ TrackView = Backbone.View.extend( {
 	initialize: function( opts ) {
 		this.model.bind( "play", this.play, this );
 		this.model.bind( "pause", this.pause, this );
-		this.mediator = opts.mediator;
+		this.parent = opts.parent;
 		this.render();
 	},
 
@@ -18,7 +18,8 @@ TrackView = Backbone.View.extend( {
 		return this;
 	},
 	events: {
-		"click canvas": "seek"
+		"click canvas": "seek",
+		"click .title": "play"
 	},
 
 	seek: function( evt ) {
@@ -34,6 +35,10 @@ TrackView = Backbone.View.extend( {
 			$me = $( this.el );
 
 		console.log( "play at ", that);
+
+		//stop other sounds
+
+		that.parent.pauseCurrent();
 
 		//start playing and stuff
 		if ( !that.waveform ) {
@@ -53,7 +58,7 @@ TrackView = Backbone.View.extend( {
 					}
 					that.sound.play({
 						onfinish: function() {
-							that.mediator.Publish( "trackview:next" );
+							that.parent.nextTrack();
 						}
 					});	
 					window.exampleStream = that.sound;

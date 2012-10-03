@@ -2,8 +2,6 @@ PlaylistView = Backbone.View.extend({
 
 	initialize: function() {
 		this.model.bind( "add", this.addTrack, this );
-		this.mediator = new Mediator();
-		this.mediator.Subscribe( "trackview:next", this.nextTrack, {}, this );
 		this.render();
 	},
 
@@ -23,7 +21,7 @@ PlaylistView = Backbone.View.extend({
 	addTrack: function( track ) {
 		var trackview = new TrackView({
 			model: track,
-			mediator: this.mediator
+			parent: this
 		});
 		$( this.el ).find( "#playlist-list" ).append( trackview.el );
 	},
@@ -59,6 +57,7 @@ PlaylistView = Backbone.View.extend({
 				alert("weee");
 			},
 			error: function( resp ) {
+				console.log( resp );
 				alert("nooo");
 				//TODO fetch error?
 			}
@@ -71,6 +70,12 @@ PlaylistView = Backbone.View.extend({
 		this.playTrack();
 	},
 
+	pauseCurrent: function( ) {
+		var track = this.model.at( this.currentTrack );
+		track.trigger( "pause" );
+		track.set( "playing", false);
+	},
+	
 	nextTrack: function(  ) {
 		var track = this.model.at( this.currentTrack );
 		if ( track == null ) {
