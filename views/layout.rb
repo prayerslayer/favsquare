@@ -4,11 +4,11 @@ class Favsquare
 
 		class Layout < Mustache
 
-			def hello_message
+			def overview_message
 				if @session[:user_name] != nil
-					"Hello, " + @session[:user_name] + "!"
+					"Who to follow on SC"
 				else
-					"Hello, stranger!"
+					nil
 				end
 			end
 
@@ -20,27 +20,27 @@ class Favsquare
 				end
 			end
 
+			def create_message
+				if @session[:user_name] != nil
+					"Create set on SC"
+				else
+					nil
+				end
+			end
+
 			def login_message
 				if @session[:user_name] == nil
 					"Login"
 				else
-					nil
-				end
-			end
-
-			def logout_message
-				if @session[:user_name] != nil
 					"Logout"
-				else
-					nil
 				end
 			end
 
-			def overview_message
-				if @session[:user_name] != nil
-					"Who to follow"
+			def login_url
+				if @session[:user_name] == nil
+					"/login"
 				else
-					nil
+					"/logout"
 				end
 			end
 		end

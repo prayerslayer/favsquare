@@ -104,6 +104,22 @@ class FavsquareLogic
 		return json
 	end
 
+	def self.get_playlist_size( user_id )
+		raise ArgumentError, "User ID is nil!" if user_id == nil
+		size = User.filter( :sc_user_id => user_id ).first.tracks.count
+		split = size/500 + ( size % 500 > 0 ? 1 : 0 )
+		return { :size => size, :split => split}
+	end
+
+	def self.create_set( token, user_id, set_name )
+		raise ArgumentError, "Token cannot be null." if token == nil
+		raise ArgumentError, "User ID is nil!" if user_id == nil
+		# collect tracks
+		tracks = User.filter( :sc_user_id => user_id ).first.tracks.collect {|track| { :id => track[:sc_track_id] } }
+		# create set
+		return SoundcloudHelper.create_set( token, set_name, tracks )
+	end
+
 
 	def self.get_tracks( token, sc_user_id, amount )
 		raise ArgumentError, "Token cannot be null." if token == nil

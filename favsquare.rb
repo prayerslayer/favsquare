@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "rubygems"
 require "sinatra"
 require "sinatra/session"
@@ -51,6 +53,7 @@ class Favsquare < Sinatra::Base
 
 	#startseite
 	get "/" do
+		content_type "text/html", :charset => "utf-8"
 		mustache :index
 	end
 
@@ -68,6 +71,7 @@ class Favsquare < Sinatra::Base
 		redirect to( "/" )
 	end
 
+	# fetches tracks for playlist
 	get "/tracks/:amount" do
 		session!
 		tracks = FavsquareLogic.get_tracks( @session[ :token ], @session[ :user_id ], Integer( params[ :amount ] ) )
@@ -76,16 +80,29 @@ class Favsquare < Sinatra::Base
 		return tracks.to_json
 	end
 
+	# displays create site
+	get "/create" do
+		session!
+		content_type "text/html", :charset => "utf-8"
+		mustache :create
+	end
+
+	post "/create" do
+		session!
+		okay = FavsquareLogic.create_set( @session[ :token ], @session[:user_id], params[ :set_name ])
+		content_type "text/html", :charset => "utf-8"
+		return okay ? 200 : 400
+	end
 
 	# get missing artists
 	get "/missing" do
 		session!
 		artists = FavsquareLogic.get_missing_followings( @session[ :token ] )
 		content_type 'application/json', :charset => 'utf-8'
-		puts artists.to_json
 		return artists.to_json
 	end
 
+	# displays missing artists
 	get "/overview" do
 		session!
 		content_type "text/html", :charset => "utf-8"
