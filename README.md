@@ -15,7 +15,7 @@ Bundle the gems.
 
 Run it!
 
-    bundle exec shotgun -O config.ru
+    bundle exec shotgun -O config.ru -E development
 
 # TODO
 
