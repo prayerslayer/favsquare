@@ -1,7 +1,11 @@
+html {
+  height: 100%;
+}
 body {
   font-family: "Source Sans Pro", "HelveticaNeue", sans-serif !important;
   color: #000;
   background-color: #fff;
+  height: 100%;
 }
 a {
   color: #312783;
@@ -12,12 +16,34 @@ a:visited {
 p {
   font-size: 20px;
   line-height: 1.5em;
+  color: inherit;
 }
 p + p {
   margin-top: 1.5em;
 }
-#wrapper {
+.footer {
+  height: 100px;
+  color: #fff;
+  background-color: #333;
+  font-size: 12px;
+  position: relative;
+  margin-top: -100px;
+  clear: both;
+}
+.footer p {
+  margin-top: 1.5em;
+  font-size: 12px;
+}
+.footer a {
+  color: #aaa;
+}
+.footer a:visited {
+  color: #aaa;
+}
+.wrapper {
   margin-top: 100px;
+  margin-bottom: 100px;
+  min-height: 100%;
 }
 .enumeration {
   font-size: 3em;

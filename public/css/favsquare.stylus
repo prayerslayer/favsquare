@@ -11,12 +11,18 @@ delight_color = #333
 font_color = #000
 bg_color = #fff
 
+footer_link = #aaa
+
 //General Styles
+
+html
+	height: 100%
 
 body
 	font-family: font_family !important
 	color: font_color
 	background-color: bg_color
+	height: 100%
 
 a
 	color: highlight_color
@@ -27,12 +33,32 @@ a:visited
 p 
 	font-size: font_size_med
 	line-height: line_height
+	color: inherit
+
 
 p + p
 	margin-top: line_height
 
-#wrapper
+.footer
+	height: track_height
+	color: bg_color
+	background-color: delight_color
+	font-size: font_size_sml
+	position: relative
+	margin-top: -(track_height)
+	clear: both
+	p
+		margin-top: 1.5em
+		font-size: font_size_sml
+	a
+		color: footer_link
+	a:visited
+		color: footer_link
+
+.wrapper
 	margin-top: track_height
+	margin-bottom: track_height
+	min-height: 100%
 
 .enumeration
 	font-size: 3em

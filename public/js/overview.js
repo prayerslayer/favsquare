@@ -72,8 +72,8 @@ $( document ).ready( function() {
 		nodes.on( "mouseover", function( d, index ) {
 			text.text( d.artist );
 			d3.select( this ).attr( "cursor", "pointer" );
-			d.oldcolor = d3.select( this ).attr( "fill" );
-			d3.select( this ).attr( "fill", "#312783" );
+			d.oldcolor = d3.select( this ).select( "circle" ).attr( "fill" );
+			d3.select( this ).select( "circle" ).attr( "fill", "#312783" );
 		});
 
 		nodes.on( "click", function( d ) {
@@ -81,7 +81,7 @@ $( document ).ready( function() {
 		});
 
 		nodes.on( "mouseout", function( d ) {
-			d3.select( this ).attr( "fill", d.oldcolor );
+			d3.select( this ).select( "circle" ).attr( "fill", d.oldcolor );
 		});
 
 	});
