@@ -24,7 +24,7 @@ body
 	background-color: bg_color
 	height: 100%
 
-a
+a, a:hover
 	color: highlight_color
 
 a:visited
@@ -57,6 +57,7 @@ p + p
 
 .wrapper
 	margin-top: track_height
+	padding-bottom: track_height
 	margin-bottom: track_height
 	min-height: 100%
 
