@@ -1,5 +1,6 @@
 source :rubygems
 
+gem "rake"
 gem "mustache"
 gem "sinatra"
 gem "sinatra-session"
