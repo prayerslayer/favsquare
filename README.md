@@ -13,6 +13,11 @@ Bundle the gems.
     gem install bundle
     bundle install
 
+Enter your preferred development database credentials in favsquare.rb. Then do
+
+	cd favsquare # if you're not already there
+	sequel -m db/migrations <your-database-url> # set up tables
+
 Run it!
 
     bundle exec shotgun -O config.ru -E development
