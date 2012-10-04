@@ -1,15 +1,30 @@
+function count_favs( data ) {
+	var sum = 0;
+	$.each( data, function( artistcount, index ) {
+		sum += artistcount.count;
+	});
+	return sum;
+}
+
 $( document ).ready( function() {
 	$.get( "missing", function( data ) {
+		$( "#spinner" ).hide( 200 );
+		$( "#message" ).show( 200 );
+
+		var json = {
+			"children": data
+		};
 
 		var width = 1000,
 			height = 800,
 			color = d3.scale.category10();
 
-		var force = d3.layout.force()
-					.nodes( data )
-					.links( [] )
+		var bubble = d3.layout.pack()
 					.size( [ width, height ] )
-					.start();
+					.value( function( d ) {
+						return d.count
+					})
+					.sort( null);
 
 		var svg = d3.select( "#graph" )
 					.append( "svg" )
@@ -27,25 +42,38 @@ $( document ).ready( function() {
 
 
 		svg
-			.selectAll( "circle" )
-			.data( data )
+			.selectAll( "g" )
+			.data( bubble.nodes( json ) )
 			.enter()
-				.append( "circle")
-				.attr( "r", function( d ) {
-					return d.count * 5;
-				} )
-				.attr( "fill", function( d ) {
-					return color( d.count ) ;
+				.append( "g")
+				.attr( "transform", function( d ) {
+					return "translate("+d.x+","+d.y+")";
 				})
-				.call( force.drag );
+				.append( "circle" )
+					.attr( "r", function( d ) {
+						console.log(d);
+						return d.count * 5;
+					} )
+					.attr( "fill", function( d ) {
+						return color( d.count ) ;
+					});
 
-		var nodes = svg.selectAll( "circle" );
+		var nodes = svg.selectAll( "g" );
+
+		nodes.append( "text" )
+			.attr( "text-anchor", "middle")
+			.attr( "dy", "-.5em")
+			.text( function( d) {
+				if ( d.artist )
+					return d.artist.substring( 0, d.r/3);
+				return "";
+			});
 
 		nodes.on( "mouseover", function( d, index ) {
 			text.text( d.artist );
 			d3.select( this ).attr( "cursor", "pointer" );
 			d.oldcolor = d3.select( this ).attr( "fill" );
-			d3.select( this ).attr( "fill", "orange" );
+			d3.select( this ).attr( "fill", "#312783" );
 		});
 
 		nodes.on( "click", function( d ) {
@@ -54,16 +82,6 @@ $( document ).ready( function() {
 
 		nodes.on( "mouseout", function( d ) {
 			d3.select( this ).attr( "fill", d.oldcolor );
-		});
-
-		force.on( "tick", function( ) {
-			nodes
-				.attr( "cx", function( d ) {
-					return d.x;
-				})
-				.attr( "cy", function( d ) {
-					return d.y;
-				});
 		});
 
 	});

@@ -1,18 +1,25 @@
 <script type="text/javascript" src="js/create.js"></script>
 
-<div class="page-header">
-	<h1>{{ title }}</h1>
+<div class="row-fluid">
+	<div class="span6">
+		<div class="page-header">
+			<h1>{{ title }}</h1>
+		</div>
+
+		<p>
+			You are about to create sets in your Soundcloud account and will get <strong>{{ num_tracks.size }}</strong> tracks divided among <strong>{{ num_tracks.split }}</strong> sets!
+		</p>
+		<p>
+			Please enter a name for the set and press "Go".
+		</p>
+
+		<input type="text" id="set_name" value="My awesome set">
+		<input type="submit" value="Go">
+		<br/>
+		<img src="img/spinner.gif" id="spinner" style="display:none;"/>
+		<p id="response">
+
+		</p>
+
+	</div>
 </div>
-
-<p>
-	You are about to create sets in your Soundcloud account and will get <strong>{{ num_tracks.size }}</strong> tracks divided among <strong>{{ num_tracks.split }}</strong> sets!
-</p>
-<p>
-	Please enter a name for the set and press "Go".
-</p>
-
-<input type="text" id="set_name" value="My awesome set">
-<input type="submit" value="Go">
-
-<p id="response">
-</p>

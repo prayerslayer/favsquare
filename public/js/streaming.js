@@ -3,6 +3,7 @@ $( document ).ready( function() {
 	var Favsquare = (function() {
 
 		var host = "http://localhost:9393",
+			$spinner = $( "#playing-indicator" ),
 			resource = "tracks",
 			playlist = new Playlist(),
 			playlistView = new PlaylistView({
@@ -14,6 +15,12 @@ $( document ).ready( function() {
 		return {
 			//start everythings
 			init: function() {
+				$spinner.ajaxStart( function() {
+					$(this).attr( "src", "img/spinner.gif" );
+				});
+				$spinner.ajaxStop( function() {
+					$(this).attr( "src", "img/logo-small.png" );
+				});
 				playlist.fetch({
 					add: true,
 					success: function( ) {

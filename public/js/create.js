@@ -1,5 +1,6 @@
 $( document ).ready( function() {
 	$( "input[type=submit]" ).click( function() {
+		$( "#spinner" ).show(200);
 		$( this ).attr("disabled", "true");
 		$( "p#response" ).text( "Doin' work...");
 		var name = $( "input#set_name" ).attr( "value" );
@@ -11,6 +12,9 @@ $( document ).ready( function() {
 		})
 		.error( function() {
 			$( "p#response" ).text( "Oh no! Something went wrong...");
+		})
+		.complete( function() {
+			$( "#spinner" ).hide( 200 );
 		});
 	});
 });
