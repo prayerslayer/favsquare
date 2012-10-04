@@ -3,7 +3,6 @@ source :rubygems
 gem "mustache"
 gem "sinatra"
 gem "sinatra-session"
-gem "shotgun"
 
 gem "htmlentities"
 
@@ -11,5 +10,14 @@ gem "htmlentities"
 gem "soundcloud"
 
 # database
-gem "sqlite3"
 gem "sequel"
+
+group :development, :test do
+	gem "sqlite3-ruby", :require => "sqlite3" 
+	gem "shotgun"
+end
+
+group :producetion do
+	gem "pg"
+	gem "thin"
+end

@@ -30,13 +30,19 @@ class Favsquare < Sinatra::Base
 	# logger
 	$LOG = Logger.new(STDOUT)
 	
-	configure(:development) do
+	configure do
 		#soundcloud
 		set :sc_clientid, "fcdca5600531b2292ddc9bfe7008cac6"
 		set :sc_clientsecret, "bf31fae3e89dc0f2ecda2a82b30b5ad0"
 		set :sc_redirecturi, "http://localhost:9393/connect"
-		#sequel
+	end
+
+	configure(:development) do
 		set :database_url, "sqlite://favsquare.db"
+	end
+
+	configure(:production) do
+		set :database_url, "postgres://ittfincvfgtnzz:2gI-ZsFecFDGxox3oWNndlgtF5@ec2-54-243-190-93.compute-1.amazonaws.com:5432/d36h4ha2hdk3hf"
 	end
 	
 	#mustache
