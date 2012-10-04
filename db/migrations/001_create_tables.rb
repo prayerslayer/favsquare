@@ -13,7 +13,7 @@ Sequel.migration do
 		end
 
 		# table user_tracks
-		create_table(:tracks_users) do
+		create_table(:user_tracks) do
 			foreign_key(:track_id, :key => :sc_track_id)
 			foreign_key(:user_id, :key => :sc_user_id)
 			primary_key([:user_id, :track_id])

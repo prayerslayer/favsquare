@@ -1,4 +1,3 @@
-class User < Sequel::Model( Sequel.sqlite("favsquare.db")[ :users ] )
-	many_to_many :tracks
-
+class User < Sequel::Model
+	many_to_many :tracks, :join_table => :user_tracks
 end

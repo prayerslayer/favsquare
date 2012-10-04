@@ -18,11 +18,6 @@ class Favsquare < Sinatra::Base
 	register Mustache::Sinatra
 
 	require "./views/layout"
-	# models
-	Sequel::Model.plugin :force_encoding, 'UTF-8'
-	require "./db/models/user"
-	require "./db/models/track"
-	require "./db/models/user_track"
 
 	#session
 	set :session_fail, "/login"
@@ -38,12 +33,37 @@ class Favsquare < Sinatra::Base
 	end
 
 	configure(:development) do
-		set :database_url, "sqlite://favsquare.db"
+		set :database_host, "localhost"
+		set :database_user, "xnikp"
+		set :database_pwd, "xnikp"
+		set :database_port, "5432"
+		set :database_name, "favsquare"
+		set :database_url, "postgres://xnikp:xnikp@localhost:5432/favsquare"
 	end
 
 	configure(:production) do
+		set :database_host, "ec2-54-243-190-93.compute-1.amazonaws.com"
+		set :database_user, "ittfincvfgtnzz"
+		set :database_pwd, "2gI-ZsFecFDGxox3oWNndlgtF5"
+		set :database_port, "5432"
+		set :database_name, "d36h4ha2hdk3hf"
 		set :database_url, "postgres://ittfincvfgtnzz:2gI-ZsFecFDGxox3oWNndlgtF5@ec2-54-243-190-93.compute-1.amazonaws.com:5432/d36h4ha2hdk3hf"
 	end
+
+	# database
+
+	# models
+	Sequel::Model.db=Sequel.postgres(
+		:host => settings.database_host,
+		:user => settings.database_user,
+		:password => settings.database_pwd,
+		:database => settings.database_name,
+		:port => settings.database_port
+ 	) 
+	Sequel::Model.plugin :force_encoding, 'UTF-8'
+	require "./db/models/user"
+	require "./db/models/track"
+	require "./db/models/user_track"
 	
 	#mustache
 	set :public_folder, "./public"
