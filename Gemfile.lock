@@ -1,6 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    console (0.5)
     daemons (1.1.9)
     eventmachine (1.0.0)
     hashie (1.2.0)
@@ -46,6 +47,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  console
   htmlentities
   mustache
   pg
