@@ -68,10 +68,10 @@ TrackView = Backbone.View.extend( {
 					window.exampleStream = that.sound;
 				});
 		}
-		else
+		else {
 			that.sound.play();
-
-		//trigger/delegate event for playlist
+		}
+		$("#playing-indicator").animate({"top": $me.position().top-1.5*$me.height()+"px"}, 200);
 	},
 	pause: function() {
 		var that = this;

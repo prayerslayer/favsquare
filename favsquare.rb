@@ -25,7 +25,7 @@ class Favsquare < Sinatra::Base
 	require "./db/models/user_track"
 
 	#session
-	set :session_fail, "/"
+	set :session_fail, "/login"
 
 	# logger
 	$LOG = Logger.new(STDOUT)

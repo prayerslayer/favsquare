@@ -22,14 +22,10 @@ Run it!
 * TESTS
 * Functionality
 	* Von HTML5 Widgets auf eigene UI umsteigen
-		* Navbar: Anzeige aktueller Track, Controls ausblenden wenn nicht auf /playlist
-	* "Create playlist on SC" Feature
+		* spinner, wenn geladen wird
 	* Overview
 		* Eventuell Avatare der User verwenden?
 		* Mehr Informationen: Wieviele Favs und von wem
 	* Token erneuern, wenn Startseite angesurft wird, Auth-Errors erkennen
 	* User-defined update
 	* First-time load takes too long. Some sort of pipelining?
-* Improve UI
-	* Spinner
-	* Front page

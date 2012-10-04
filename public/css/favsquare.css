@@ -1,5 +1,13 @@
 body {
   font-family: "Source Sans Pro", "HelveticaNeue", sans-serif !important;
+  color: #000;
+  background-color: #fff;
+}
+a {
+  color: #312783;
+}
+a:visited {
+  color: #333;
 }
 p {
   font-size: 20px;
@@ -50,7 +58,7 @@ p + p {
   overflow: hidden;
 }
 .track .title:hover {
-  color: #ffa500;
+  color: #312783;
   cursor: pointer;
 }
 .track .waveform {
@@ -73,6 +81,12 @@ p + p {
   width: inherit;
   height: inherit;
   max-width: 100%;
+}
+#playing-indicator {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  left: -1.5em;
 }
 #playlist-controls {
   display: none;

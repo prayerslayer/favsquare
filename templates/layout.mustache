@@ -12,7 +12,7 @@
 		<script style="text/javascript" src="js/favsquare.js"></script>
 
 		<title>
-			Favsquare
+			Rain
 		</title>
 	</head>
 
@@ -21,14 +21,18 @@
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<a class="brand" href="/">FAVSQUARE</a>
-					<ul class="nav" id="playlist-controls">
+					<a class="brand" href="/">Rain</a>
+					<ul class="nav" id="playlist-controls" style="display:{{visibility}};">
 						<li><img class="prev-button" src="img/previous.png" /></li>
 						<li><img class="play-button" src="img/play.png" /></li>
 						<li><img class="next-button" src="img/next.png" /></li>
+						<li class="divider-vertical"></li>
 						<li> <a id="current-track"></a> </li>
 					</ul>
 					<ul class="nav pull-right">
+						<li><a href="{{login_url}}">{{login_message}}</a></li>
+					</ul>
+					<ul class="nav pull-right" style="display:{{visibility}};">
 						<li><a href="/playlist">{{playlist_message}}</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Gimmicks <b class="caret"></b></a>
@@ -37,9 +41,8 @@
 								<li><a href="/create">{{ create_message }}</a></li>
 							</ul>
 						</li>
-						
-						<li><a href="{{login_url}}">{{login_message}}</a></li>
 					</ul>
+					
 				</div>
 			</div>
 		</div>

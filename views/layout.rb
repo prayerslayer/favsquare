@@ -4,6 +4,14 @@ class Favsquare
 
 		class Layout < Mustache
 
+			def visibility
+				if @session[:user_name] != nil
+					"block"
+				else
+					"none"
+				end
+			end
+
 			def overview_message
 				if @session[:user_name] != nil
 					"Who to follow on SC"

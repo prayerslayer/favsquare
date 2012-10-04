@@ -6,11 +6,23 @@ font_size_med = 20px
 font_size_sml = 12px
 track_height = 100px
 line_height = 1.5em
-highlight_color = orange
+highlight_color = #312783
+delight_color = #333
+font_color = #000
+bg_color = #fff
+
 //General Styles
 
 body
 	font-family: font_family !important
+	color: font_color
+	background-color: bg_color
+
+a
+	color: highlight_color
+
+a:visited
+	color: delight_color
 
 p 
 	font-size: font_size_med
@@ -88,6 +100,12 @@ p + p
 	max-width: 100%
 
 //palylist
+
+#playing-indicator
+	width: 30px
+	height: 30px
+	position: relative
+	left: -(line_height)
 
 #playlist-controls
 	display: none

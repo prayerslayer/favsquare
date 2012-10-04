@@ -5,7 +5,7 @@ class Favsquare
 		class Index < Layout
 
 			def title
-				"Welcome to Favsquare"
+				"Welcome to Rain."
 			end
 
 			def slogan
