@@ -83,6 +83,7 @@ p + p {
   font-size: 24px;
   line-height: 1.5em;
   max-width: 80%;
+  overflow-y: hidden;
 }
 .track .title:hover {
   color: #312783;
