@@ -1,1 +1,1 @@
-web: bundle exec thin start -R config.ru -e production
+web: RAILS_ENV=production bundle exec thin start -R config.ru
