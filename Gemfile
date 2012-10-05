@@ -15,11 +15,10 @@ gem "soundcloud"
 gem "sequel"
 
 group :development, :test do
-	gem "sqlite3-ruby", :require => "sqlite3" 
 	gem "shotgun"
 end
 
-group :producetion do
+group :production do
 	gem "pg"
 	gem "thin"
 end
