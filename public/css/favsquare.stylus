@@ -98,7 +98,6 @@ p + p
 	font-size: font_size_big
 	line-height: 1.5em
 	max-width: 80%
-	overflow: hidden
 
 .track .title:hover
 	color: highlight_color
@@ -136,9 +135,6 @@ p + p
 
 #playlist-controls
 	display: none
-
-#playlist ol
-	list-style-position: inside
 
 #playlist li
 	font-size: font_size_big
