@@ -26,6 +26,7 @@ class Favsquare < Sinatra::Base
 		set :sc_clientid, "fcdca5600531b2292ddc9bfe7008cac6"
 		set :sc_clientsecret, "bf31fae3e89dc0f2ecda2a82b30b5ad0"
 		set :sc_redirecturi, "http://localhost:9393/connect"
+		set :sc_scope, "non-expiring"
 	end
 
 	configure(:development) do
@@ -84,7 +85,8 @@ class Favsquare < Sinatra::Base
 		client = Soundcloud.new( :client_id => settings.sc_clientid,
 								 :client_secret => settings.sc_clientsecret,
 								 :redirect_uri => settings.sc_redirecturi )
-		redirect client.authorize_url()
+		redirect client.authorize_url(
+			:scope => settings.sc_scope )
 	end
 
 	#logout
@@ -147,14 +149,16 @@ class Favsquare < Sinatra::Base
 
 		client = Soundcloud.new( :client_id => settings.sc_clientid,
 								 :client_secret => settings.sc_clientsecret,
-								 :redirect_uri => settings.sc_redirecturi )
+								 :redirect_uri => settings.sc_redirecturi,
+								 :scope => settings.sc_scope )
 
 		access_token = client.exchange_token( :code => code )
 
 		session_start!
-		session[ :token ] = access_token[ :access_token ]
-		session[ :user_name ] = SoundcloudHelper.fetch_own_name( session[ :token] )
-
+		puts access_token
+		@session[ :token ] = access_token[ :access_token ]
+		@session[ :user_name ] = SoundcloudHelper.fetch_own_name( session[ :token ] )
+		puts session
 		# hash user id because we don't need it in plaintext
 		sc_user_id = SoundcloudHelper.fetch_own_id( @session[ :token ] ).to_s
 		
