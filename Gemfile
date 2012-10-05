@@ -13,12 +13,12 @@ gem "soundcloud"
 
 # database
 gem "sequel"
+gem "pg"
 
 group :development, :test do
 	gem "shotgun"
 end
 
 group :production do
-	gem "pg"
 	gem "thin"
 end
