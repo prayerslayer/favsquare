@@ -13,6 +13,7 @@ TrackView = Backbone.View.extend( {
 
 	render: function() {
 		var track = this.model.toJSON();
+		track.title = track.title.substring( 0, 80 ); //cramp title length
 		var html = this.template( track );
 		$( this.el ).append( html );
 		return this;

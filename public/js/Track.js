@@ -7,11 +7,6 @@ Track = Backbone.Model.extend({
 	},
 
 	initialize: function() {
-		var that = this;
-
-		//output error
-		this.bind( "error", function( model, error ) {
-			console.log( "ERROR: " + error );
-		});
+		
 	}
 });
