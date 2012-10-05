@@ -7,7 +7,6 @@ gem "mustache"
 gem "sinatra"
 gem "sinatra-session"
 
-gem "htmlentities"
 
 # soundcloud stuff
 gem "soundcloud"

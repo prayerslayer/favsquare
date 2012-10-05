@@ -1,7 +1,7 @@
 require "digest/sha2"
 require "sequel"
 require "./soundcloudhelper"
-require "htmlentities"
+
 
 class FavsquareLogic
 
@@ -137,7 +137,7 @@ class FavsquareLogic
 		tracks = tracks.take( amount ).shuffle
 
 		$LOG.debug( tracks.collect{|t| t[:sc_track_id]}.to_s )
-		coder = HTMLEntities.new
+
 		# update times served variable
 		tracks.each do |track|
 			# times served ++

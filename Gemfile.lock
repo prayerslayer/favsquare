@@ -5,7 +5,6 @@ GEM
     daemons (1.1.9)
     eventmachine (1.0.0)
     hashie (1.2.0)
-    htmlentities (4.3.1)
     httmultiparty (0.3.8)
       httparty (>= 0.7.3)
       multipart-post
@@ -45,7 +44,6 @@ PLATFORMS
 
 DEPENDENCIES
   console
-  htmlentities
   mustache
   pg
   rake
