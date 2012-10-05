@@ -23,7 +23,7 @@ TrackView = Backbone.View.extend( {
 	},
 
 	seek: function( evt ) {
-		var x = evt.offsetX;
+		var x = evt.offsetX || ( evt.pageX - $( evt.target ).offset().left );
 		var total = $( evt.target ).width();
 		var rel_pos = x / total;
 		var abs_pos = Math.floor( this.model.get( "duration" ) * rel_pos );

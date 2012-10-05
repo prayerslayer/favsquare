@@ -155,10 +155,10 @@ class Favsquare < Sinatra::Base
 		access_token = client.exchange_token( :code => code )
 
 		session_start!
-		puts access_token
+		
 		@session[ :token ] = access_token[ :access_token ]
 		@session[ :user_name ] = SoundcloudHelper.fetch_own_name( session[ :token ] )
-		puts session
+		
 		# hash user id because we don't need it in plaintext
 		sc_user_id = SoundcloudHelper.fetch_own_id( @session[ :token ] ).to_s
 		
