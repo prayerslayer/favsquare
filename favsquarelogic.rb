@@ -2,9 +2,13 @@ require "digest/sha2"
 require "sequel"
 require "./soundcloudhelper"
 
+# class encapsulating what the application actually does
 
 class FavsquareLogic
 
+	# creates a user
+	# IN user id at soundcloud
+	# OUT local user id ( SHA-512 hash )
 	def self.create_user( sc_user_id )
 		raise ArgumentError, "User ID is nil!" if sc_user_id == nil
 
@@ -12,9 +16,11 @@ class FavsquareLogic
 		new_user = User.create( :sc_user_id => user_id )
 		new_user.save
 		return user_id
-
 	end
 
+	# soundcloud user id -> own user id
+	# IN user id at soundcloud
+	# OUT SHA-512( user id )
 	def self.get_id_for( sc_user_id )
 		raise ArgumentError, "User ID is nil!" if sc_user_id == nil
 
@@ -23,6 +29,8 @@ class FavsquareLogic
 		return user_id
 	end
 
+	# checks if user exists in local database
+	# OUT true, if user exists
 	def self.user_exists?( sc_user_id )
 		raise ArgumentError, "User ID is nil!" if sc_user_id == nil
 
@@ -32,6 +40,9 @@ class FavsquareLogic
 		return User.filter( :sc_user_id => sc_user_id ).first != nil
 	end
 
+	# updates the tracks of the user
+	# IN soundcloud auth token
+	# OUT nothing
 	def self.update_tracks( token )
 		raise ArgumentError, "Token is nil!" if token == nil
 
@@ -72,9 +83,11 @@ class FavsquareLogic
 				end
 			end
 		end
-
 	end
 
+	# sums the tracks for each artist in the playlist
+	# IN soundcloud auth token
+	# OUT array consisting of (artist, count) pairs
 	def self.get_missing_followings( token )
 		raise ArgumentError, "Token cannot be null." if token == nil
 
@@ -104,6 +117,7 @@ class FavsquareLogic
 		return json
 	end
 
+	# determines the size of the playlist as sets on soundcloud
 	def self.get_playlist_size( user_id )
 		raise ArgumentError, "User ID is nil!" if user_id == nil
 		size = User.filter( :sc_user_id => user_id ).first.tracks.count
@@ -111,6 +125,7 @@ class FavsquareLogic
 		return { :size => size, :split => split}
 	end
 
+	# creates the playlist as sets on soundcloud
 	def self.create_set( token, user_id, set_name )
 		raise ArgumentError, "Token cannot be null." if token == nil
 		raise ArgumentError, "User ID is nil!" if user_id == nil
@@ -120,7 +135,9 @@ class FavsquareLogic
 		return SoundcloudHelper.create_set( token, set_name, tracks )
 	end
 
-
+	# gets tracks of the playlist
+	# IN auth token, user id at soundcloud, amount of tracks
+	# OUT array with tracks
 	def self.get_tracks( token, sc_user_id, amount )
 		raise ArgumentError, "Token cannot be null." if token == nil
 		raise ArgumentError, "User ID is nil!" if sc_user_id == nil

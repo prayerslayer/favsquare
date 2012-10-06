@@ -2,7 +2,9 @@ require "soundcloud"
 
 class SoundcloudHelper
 
-	# fetch favs for given token
+	# fetch favs
+	# IN auth token
+	# OUT favorite tracks of followings
 	def self.fetch_favs( token )
 		raise ArgumentError, "Token cannot be null." if token == nil
 
@@ -24,6 +26,7 @@ class SoundcloudHelper
 		return favs
 	end
 
+	# creates a set with specified name and tracks on soundcloud
 	def self.create_set( token, name, tracks ) 
 		raise ArgumentError, "Token cannot be null." if token == nil
 		raise ArgumentError, "Name cannot be null." if name == nil
@@ -46,6 +49,9 @@ class SoundcloudHelper
 		return true
 	end
 
+	# get followings of user
+	# IN auth token
+	# OUT followings
 	def self.fetch_followings( token )
 		raise ArgumentError, "Token cannot be null." if token == nil
 
@@ -59,6 +65,9 @@ class SoundcloudHelper
 		return followings
 	end
 
+	# gets 1 track
+	# IN auth token, track id
+	# OUT full track or nil if not streamable
 	def self.fetch_track( token, track_id )
 		raise ArgumentError, "Token cannot be null." if token == nil
 		raise ArgumentError, "Track ID is null." if track_id == nil
@@ -82,6 +91,7 @@ class SoundcloudHelper
 		return me[:id]
 	end
 
+	# get own name
 	def self.fetch_own_name( token )
 		raise ArgumentError, "Token cannot be null." if token == nil
 
