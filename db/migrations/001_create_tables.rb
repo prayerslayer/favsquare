@@ -2,21 +2,21 @@ Sequel.migration do
 	change do
 		# create table users
 		create_table(:users) do
-			primary_key :user_id 				# own user id
-			String :sc_user_id, :null => false 	# because we want to store a hash of the user id
+			String :user_id, :null => false 	# because we want to store a hash of the user id
+			primary_key :user_id
 		end
 
 		# table tracks
 		create_table(:tracks) do
+			Integer :track_id, :null => false
 			primary_key :track_id
-			Integer :sc_track_id, :null => false
 		end
 
 		# table user_tracks
 		create_table(:user_tracks) do
-			foreign_key(:track_id, :key => :sc_track_id)
-			foreign_key(:user_id, :key => :sc_user_id)
-			primary_key([:user_id, :track_id])
+			foreign_key :track_id, :tracks, :null => false
+			foreign_key :user_id, :users, :null => false
+			primary_key( [ :user_id, :track_id ] )
 			Integer :times_served, :default => 0
 		end
 	end
