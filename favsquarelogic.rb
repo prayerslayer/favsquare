@@ -13,7 +13,7 @@ class FavsquareLogic
 		raise ArgumentError, "User ID is nil!" if sc_user_id == nil
 
 		user_id = self.get_id_for( sc_user_id )
-		new_user = User.create( :sc_user_id => user_id )
+		new_user = User.create( :user_id => user_id )
 		new_user.save
 		return user_id
 	end
@@ -35,9 +35,9 @@ class FavsquareLogic
 		raise ArgumentError, "User ID is nil!" if sc_user_id == nil
 
 		# hash user id
-		sc_user_id = self.get_id_for( sc_user_id )
+		user_id = self.get_id_for( sc_user_id )
 
-		return User.filter( :sc_user_id => sc_user_id ).first != nil
+		return User.filter( :user_id => user_id ).first != nil
 	end
 
 	# updates the tracks of the user
@@ -49,11 +49,11 @@ class FavsquareLogic
 		favs = SoundcloudHelper.fetch_favs( token )
 		user_id = self.get_id_for( SoundcloudHelper.fetch_own_id( token ) )
 		# get user
-		user = User.filter( :sc_user_id => user_id ).first
+		user = User.filter( :user_id => user_id ).first
 
 		# update tracks
 		sc_track_ids = favs.map( &:id ) 
-		track_ids = user.tracks.collect{ |t| t[ :sc_track_id] }
+		track_ids = user.tracks.collect{ |t| t[ :track_id] }
 
 		# remove duplicates in arrays
 		sc_track_ids = sc_track_ids.uniq
@@ -66,19 +66,19 @@ class FavsquareLogic
 		# add new
 		tracks_to_add.each do |track|
 			# check if track exists
-			if Track.filter( :sc_track_id => track ).empty?
-				new_track = Track.create( :sc_track_id => track )
+			if Track.filter( :track_id => track ).empty?
+				new_track = Track.create( :track_id => track )
 				new_track.add_user( user )
 				new_track.save
 			else
-				Track.filter( :sc_track_id => track ).first.add_user( user )
+				Track.filter( :track_id => track ).first.add_user( user )
 			end
 		end
 
 		# remove old
 		if !user.tracks.empty?
 			user.tracks.each do |track|
-				if tracks_to_remove.include?( track[ :sc_track_id ] )
+				if tracks_to_remove.include?( track[ :track_id ] )
 					user.remove_track( track )
 				end
 			end
@@ -120,7 +120,7 @@ class FavsquareLogic
 	# determines the size of the playlist as sets on soundcloud
 	def self.get_playlist_size( user_id )
 		raise ArgumentError, "User ID is nil!" if user_id == nil
-		size = User.filter( :sc_user_id => user_id ).first.tracks.count
+		size = User.filter( :user_id => user_id ).first.tracks.count
 		split = size/500 + ( size % 500 > 0 ? 1 : 0 )
 		return { :size => size, :split => split}
 	end
@@ -130,7 +130,7 @@ class FavsquareLogic
 		raise ArgumentError, "Token cannot be null." if token == nil
 		raise ArgumentError, "User ID is nil!" if user_id == nil
 		# collect tracks
-		tracks = User.filter( :sc_user_id => user_id ).first.tracks.collect {|track| { :id => track[:sc_track_id] } }
+		tracks = User.filter( :user_id => user_id ).first.tracks.collect {|track| { :id => track[:track_id] } }
 		# create set
 		return SoundcloudHelper.create_set( token, set_name, tracks )
 	end
@@ -145,7 +145,7 @@ class FavsquareLogic
 		raise ArgumentError, "Amount " + amount.to_s + "must be greater than zero." if amount <= 0
 
 		# get user
-		user = User.filter( :sc_user_id => sc_user_id ).first
+		user = User.filter( :user_id => sc_user_id ).first
 		raise ArgumentError, "User " + sc_user_id + " does not exist!" if user == nil
 
 		# sort tracks ascending 
@@ -153,7 +153,7 @@ class FavsquareLogic
 		# take the first amount much
 		tracks = tracks.take( amount ).shuffle
 
-		$LOG.debug( tracks.collect{|t| t[:sc_track_id]}.to_s )
+		$LOG.debug( tracks.collect{|t| t[:track_id]}.to_s )
 
 		# update times served variable
 		tracks.each do |track|
@@ -166,7 +166,7 @@ class FavsquareLogic
 		end
 		full_tracks = []
 		tracks.each do |track|
-			full_track = SoundcloudHelper.fetch_track( token, track[ :sc_track_id ] )
+			full_track = SoundcloudHelper.fetch_track( token, track[ :track_id ] )
 			if full_track != nil
 				full_tracks.push( full_track );
 			end
