@@ -7,7 +7,10 @@
 <script type="text/template" id="track_template">
 	<div id="track-<%= id %>" class="track">
 		<div class="title">
-			<span><%= user.username %> - <%= title %></span>
+			<%= user.username %> - <%= title %>
+		</div>
+		<div class="fav">
+			&lt;3 by <a href="<%= faved_by.permalink_url %>"><%= faved_by.username %></a>
 		</div>
 		<div class="waveform">
 			

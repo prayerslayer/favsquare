@@ -26,10 +26,11 @@ Run it!
 
 * TESTS
 * Functionality
+	* Frontpage
+		* BigVideoJS --> Regen?
+	* Diskussion Aufwand vs Latenzzeit bei mehr Daten speichern oder so lassen
 	* Overview
 		* Eventuell Avatare der User verwenden?
 		* Mehr Informationen: Wieviele Favs und von wem
-	* Bugs in Firefox!
-	* Token erneuern, wenn Startseite angesurft wird, Auth-Errors erkennen
 	* User-defined update
 	* First-time load takes too long. Some sort of pipelining?

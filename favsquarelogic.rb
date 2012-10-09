@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "digest/sha2"
 require "sequel"
 require "./soundcloudhelper"
@@ -12,9 +14,13 @@ class FavsquareLogic
 	def self.create_user( sc_user_id )
 		raise ArgumentError, "User ID is nil!" if sc_user_id == nil
 
+		User.unrestrict_primary_key
+
 		user_id = self.get_id_for( sc_user_id )
 		new_user = User.create( :user_id => user_id )
 		new_user.save
+
+		User.restrict_primary_key
 		return user_id
 	end
 
@@ -52,8 +58,8 @@ class FavsquareLogic
 		user = User.filter( :user_id => user_id ).first
 
 		# update tracks
-		sc_track_ids = favs.map( &:id ) 
-		track_ids = user.tracks.collect{ |t| t[ :track_id] }
+		sc_track_ids = favs.keys.clone
+		track_ids = user.tracks.collect { |t| t[ :track_id] }
 
 		# remove duplicates in arrays
 		sc_track_ids = sc_track_ids.uniq
@@ -64,17 +70,24 @@ class FavsquareLogic
 		tracks_to_remove = track_ids - sc_track_ids # array difference - these tracks will get deleted
 		
 		# add new
+		Track.unrestrict_primary_key
 		tracks_to_add.each do |track|
 			# check if track exists
 			if Track.filter( :track_id => track ).empty?
-				new_track = Track.create( :track_id => track )
+				new_track = Track.create( {
+					:track_id => track
+				} )
 				new_track.add_user( user )
 				new_track.save
+
+				pl_track = UserTrack.filter( :user_id => user_id, :track_id => track ).first
+				pl_track.faved_by = favs[ track ].faved_by
+				pl_track.save
 			else
 				Track.filter( :track_id => track ).first.add_user( user )
 			end
 		end
-
+		Track.restrict_primary_key
 		# remove old
 		if !user.tracks.empty?
 			user.tracks.each do |track|
@@ -158,7 +171,6 @@ class FavsquareLogic
 		# update times served variable
 		tracks.each do |track|
 			# times served ++
-			
 			usr_track = UserTrack.filter( :track_id => track.track_id, :user_id => user.user_id ).first
 			$LOG.debug( usr_track.times_served.to_s )
 			usr_track.times_served += 1
@@ -166,9 +178,17 @@ class FavsquareLogic
 		end
 		full_tracks = []
 		tracks.each do |track|
+			# get full track info
 			full_track = SoundcloudHelper.fetch_track( token, track[ :track_id ] )
+
+			# get fav-giver
+			favgiver = UserTrack.filter( :user_id => user.user_id, :track_id => track.track_id ).first.faved_by
+
+			# get full user info from fav-giver
+			faved_by = SoundcloudHelper.fetch_user_info( token, favgiver )
 			if full_track != nil
-				full_tracks.push( full_track );
+				full_track[ :faved_by ] = faved_by
+				full_tracks.push( full_track )
 			end
 		end
 		return full_tracks

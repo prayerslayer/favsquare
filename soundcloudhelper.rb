@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "soundcloud"
 
 class SoundcloudHelper
@@ -10,15 +12,16 @@ class SoundcloudHelper
 
 		client = Soundcloud.new( :access_token => token )
 
-		favs = []
+		favs = {}
 		# get other favs
 		followings = client.get( "/me/followings" )
 
 		followings.each do |following|
 			followfavs = client.get( "/users/" + following.id.to_s + "/favorites" )
 			followfavs.each do |fav|
-				if fav[ "streamable" ] == true && !favs.include?( fav )
-					favs << fav
+				if fav[ :streamable ] == true && !favs.include?( fav )
+					fav.faved_by = following.id
+					favs[ fav.id ] = fav
 				end
 			end
 		end
@@ -40,6 +43,7 @@ class SoundcloudHelper
 					:title => name + ( iterations == 1 ? "" : " "+iterations.to_s ),
 					:tracks => tracks.slice!( 0, 499 )
 				})
+				iterations += 1
 			end while tracks.size > 500
 		rescue Soundcloud::ResponseError => error
 			puts error.response
@@ -57,12 +61,31 @@ class SoundcloudHelper
 
 		client = Soundcloud.new( :access_token => token )
 		begin
-			followings = client.get("/me/followings").collect {|following| following[ :id ]}
+			followings = client.get( "/me/followings" ).collect { |following| following[ :id ] }
 		rescue Soundcloud::ResponseError => error
 			puts error.response
 			return nil
 		end
 		return followings
+	end
+
+	# get user info
+	# IN auth token, user id
+	# OUT full user
+	def self.fetch_user_info( token, user_id )
+		raise ArgumentError, "Token cannot be null." if token == nil
+		raise ArgumentError, "User ID cannot be null." if user_id == nil
+
+		client = Soundcloud.new( :access_token => token )
+
+		begin
+			user = client.get( "/users/"+user_id.to_s )
+		rescue Soundcloud::ResponseError => error
+			puts error
+			puts error.response
+			return nil
+		end
+		return user
 	end
 
 	# gets 1 track
