@@ -107,10 +107,9 @@ class FavsquareLogic
 		# get favs of followings
 		followings = SoundcloudHelper.fetch_followings( token )
 		favs = SoundcloudHelper.fetch_favs( token )
-		
 		# get artists of those favs
 		artists = []
-		favs.each do |fav|
+		favs.values.each do |fav|
 			artists << fav.user
 		end
 		
