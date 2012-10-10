@@ -47,14 +47,6 @@ p + p {
   margin-bottom: 100px;
   min-height: 100%;
 }
-.enumeration {
-  font-size: 3em;
-  position: relative;
-  left: -4.5em;
-  text-align: right;
-  width: 3em;
-  cursor: pointer;
-}
 #more {
   margin: 1.5em;
   border-top: 1px dashed #000;
@@ -73,66 +65,205 @@ p + p {
   top: -15px;
   text-align: center;
 }
-.track {
-  height: 100px;
-  margin-bottom: 100px;
+@media ( min-width: 1135px ) {
+  .track {
+    height: 100px;
+    padding-bottom: 100px;
+  }
+  .track .title {
+    overflow: hidden;
+    height: 33px;
+    font-family: "Source Sans Pro", "HelveticaNeue", sans-serif;
+    font-size: 24px;
+    line-height: 1.5em;
+  }
+  .track .fav {
+    font-size: 12px;
+  }
+  .track .title:hover {
+    color: #312783;
+    cursor: pointer;
+  }
+  .track .waveform {
+    position: relative;
+    height: 100px;
+    min-width: 15%;
+    margin-left: 100px;
+  }
+  .track .waveform canvas {
+    width: inherit;
+    height: inherit;
+  }
+  .track .avatar {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    top: -100px;
+  }
+  .track .avatar img {
+    width: inherit;
+    height: inherit;
+    max-width: 100%;
+  }
+  #playing-indicator {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    left: -1.5em;
+  }
+  #playlist-controls {
+    display: none;
+  }
+  #playlist li {
+    font-size: 24px;
+  }
+  #current-track {
+    font-size: 12px;
+    margin-left: 1.5em;
+  }
+  .play-button,
+  .prev-button,
+  .next-button {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    background-color: #312783;
+    border-radius: 100%;
+  }
 }
-.track .title {
-  height: 33px;
-  font-family: "Source Sans Pro", "HelveticaNeue", sans-serif;
-  font-size: 24px;
-  line-height: 1.5em;
-  max-width: 80%;
+@media ( min-width: 640px ) and ( max-width: 1136px ) {
+  .track {
+    height: 75px;
+    padding-bottom: 75px;
+  }
+  .track .title {
+    height: 24.75px;
+    font-family: "Source Sans Pro", "HelveticaNeue", sans-serif;
+    font-size: 18px;
+    line-height: 1.125em;
+    overflow: hidden;
+  }
+  .track .fav {
+    font-size: 12px;
+  }
+  .track .title:hover {
+    color: #312783;
+    cursor: pointer;
+  }
+  .track .waveform {
+    position: relative;
+    height: 75px;
+    min-width: 15%;
+    margin-left: 75px;
+  }
+  .track .waveform canvas {
+    width: inherit;
+    height: inherit;
+  }
+  .track .avatar {
+    position: relative;
+    width: 75px;
+    height: 75px;
+    top: -75px;
+  }
+  .track .avatar img {
+    width: inherit;
+    height: inherit;
+    max-width: 100%;
+  }
+  #playing-indicator {
+    width: 22.5px;
+    height: 22.5px;
+    position: relative;
+    left: -1.125em;
+  }
+  #playlist-controls {
+    display: none;
+  }
+  #playlist li {
+    font-size: 18px;
+  }
+  #current-track {
+    font-size: 12px;
+    margin-left: 1.125em;
+  }
+  .play-button,
+  .prev-button,
+  .next-button {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    background-color: #312783;
+    border-radius: 100%;
+  }
 }
-.track .title:hover {
-  color: #312783;
-  cursor: pointer;
-}
-.track .waveform {
-  position: relative;
-  height: 100px;
-  min-width: 15%;
-  margin-left: 100px;
-}
-.track .waveform canvas {
-  width: inherit;
-  height: inherit;
-}
-.track .avatar {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  top: -100px;
-}
-.track .avatar img {
-  width: inherit;
-  height: inherit;
-  max-width: 100%;
-}
-#playing-indicator {
-  width: 30px;
-  height: 30px;
-  position: relative;
-  left: -1.5em;
-}
-#playlist-controls {
-  display: none;
-}
-#playlist li {
-  font-size: 24px;
-}
-#current-track {
-  font-size: 12px;
-  margin-left: 1.5em;
-}
-.play-button,
-.prev-button,
-.next-button {
-  cursor: pointer;
-  width: 30px;
-  height: 30px;
-  margin: 5px;
-  background-color: #312783;
-  border-radius: 100%;
+@media ( max-width: 639px ) {
+  .track {
+    height: 50px;
+    padding-bottom: 50px;
+  }
+  .track .title {
+    height: 16.5px;
+    font-family: "Source Sans Pro", "HelveticaNeue", sans-serif;
+    font-size: 12px;
+    line-height: 0.75em;
+    overflow: hidden;
+  }
+  .track .fav {
+    font-size: 12px;
+  }
+  .track .title:hover {
+    color: #312783;
+    cursor: pointer;
+  }
+  .track .waveform {
+    position: relative;
+    height: 50px;
+    min-width: 15%;
+    margin-left: 50px;
+  }
+  .track .waveform canvas {
+    width: inherit;
+    height: inherit;
+  }
+  .track .avatar {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    top: -50px;
+  }
+  .track .avatar img {
+    width: inherit;
+    height: inherit;
+    max-width: 100%;
+  }
+  #playing-indicator {
+    width: 15px;
+    height: 15px;
+    position: relative;
+    left: -0.75em;
+  }
+  #playlist-controls {
+    display: none;
+  }
+  #playlist li {
+    font-size: 12px;
+  }
+  #current-track {
+    font-size: 12px;
+    margin-left: 0.75em;
+  }
+  .play-button,
+  .prev-button,
+  .next-button {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    background-color: #312783;
+    border-radius: 100%;
+  }
 }
 

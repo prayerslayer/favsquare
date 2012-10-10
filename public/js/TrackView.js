@@ -10,6 +10,7 @@ TrackView = Backbone.View.extend( {
 	sound: null,
 	template: _.template( $( "#track_template" ).html() ),
 	tagName: "li",
+	className: "track",
 
 	render: function() {
 		var track = this.model.toJSON();
@@ -32,10 +33,10 @@ TrackView = Backbone.View.extend( {
 	},
 
 	directPlay: function() {
-
 		var that = this;
 		that.parent.pauseCurrent();
 		that.parent.setPlayingTrack( this.model );	
+		that.parent.setPlayingIndicator();
 		that.play();
 	},
 
@@ -72,7 +73,6 @@ TrackView = Backbone.View.extend( {
 		else {
 			that.sound.play();
 		}
-		$("#playing-indicator").animate({"top": $me.position().top-1.5*$me.height()+"px"}, 200);
 	},
 	pause: function() {
 		var that = this;

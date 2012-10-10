@@ -34,6 +34,11 @@ PlaylistView = Backbone.View.extend({
 			this.playTrack();
 		}
 	},
+	setPlayingIndicator: function() {
+		var trackheight = $( ".track" ).first().outerHeight( false );
+		var newpos = ( this.currentTrack * trackheight ) + trackheight / 2;
+		$("#playing-indicator").animate({"top": newpos + "px"}, 200);
+	},
 	playTrack: function( ) {
 		var track = this.model.at( this.currentTrack );
 		if ( !track.get( "playing" ) ) {
@@ -49,6 +54,7 @@ PlaylistView = Backbone.View.extend({
 			$( ".play-button" ).attr( "src", "img/play.png" );
 		}
 
+		this.setPlayingIndicator();
 	},
 
 	setPlayingTrack: function( track ) {

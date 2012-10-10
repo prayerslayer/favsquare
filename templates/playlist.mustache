@@ -5,12 +5,12 @@
 <script type="text/javascript" src="js/Track.js"></script>
 
 <script type="text/template" id="track_template">
-	<div id="track-<%= id %>" class="track">
+	<div id="track-<%= id %>">
 		<div class="title">
 			<%= user.username %> - <%= title %>
 		</div>
 		<div class="fav">
-			&lt;3 by <a href="<%= faved_by.permalink_url %>"><%= faved_by.username %></a>
+			♥ <a href="<%= faved_by.permalink_url %>"><%= faved_by.username %></a>
 		</div>
 		<div class="waveform">
 			
