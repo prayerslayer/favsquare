@@ -1,4 +1,4 @@
-# encoding: utf-8
+# encoding: utf-8Ï
 
 require "rubygems"
 require "sinatra"
@@ -26,7 +26,6 @@ class Favsquare < Sinatra::Base
 		#soundcloud
 		set :sc_clientid, "fcdca5600531b2292ddc9bfe7008cac6"
 		set :sc_clientsecret, "bf31fae3e89dc0f2ecda2a82b30b5ad0"
-		set :sc_redirecturi, "http://localhost:9393/connect"
 		set :sc_scope, "non-expiring"
 	end
 
@@ -36,6 +35,7 @@ class Favsquare < Sinatra::Base
 		set :database_pwd, "xnikp"
 		set :database_port, "5432"
 		set :database_name, "favsquare"
+		set :sc_redirecturi, "http://localhost:9393/connect"
 		set :database_url, "postgres://xnikp:xnikp@localhost:5432/favsquare"
 	end
 
@@ -45,6 +45,7 @@ class Favsquare < Sinatra::Base
 		set :database_pwd, "2gI-ZsFecFDGxox3oWNndlgtF5"
 		set :database_port, "5432"
 		set :database_name, "d36h4ha2hdk3hf"
+		set :sc_redirecturi, "http://obscure-basin-1623.herokuapp.com/connect"
 		set :database_url, "postgres://ittfincvfgtnzz:2gI-ZsFecFDGxox3oWNndlgtF5@ec2-54-243-190-93.compute-1.amazonaws.com:5432/d36h4ha2hdk3hf"
 	end
 

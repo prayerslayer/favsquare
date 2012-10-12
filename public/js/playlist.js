@@ -1,6 +1,7 @@
 var Favsquare = ( function() {
 	var	amount = 10,
-		server_url = "http://localhost:9393",
+		//server_url = "http://localhost:9393",
+		server_url = "http://obscure-basin-1623.herokuapp.com",
 		server_res = "/tracks",
 		that = null, //not yet known
 		css_class = "track",

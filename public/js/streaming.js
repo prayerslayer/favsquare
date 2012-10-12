@@ -2,7 +2,8 @@ $( document ).ready( function() {
 
 	var Favsquare = (function() {
 
-		var host = "http://localhost:9393",
+		var //host = "http://localhost:9393",
+			host = "http://obscure-basin-1623.herokuapp.com",
 			$spinner = $( "#playing-indicator" ),
 			resource = "tracks",
 			playlist = new Playlist(),
