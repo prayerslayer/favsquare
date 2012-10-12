@@ -5,8 +5,11 @@ $( document ).ready( function() {
 		var //host = "http://localhost:9393",
 			host = "http://obscure-basin-1623.herokuapp.com",
 			$spinner = $( "#playing-indicator" ),
-			resource = "tracks",
-			playlist = new Playlist(),
+			resource = "tracks/10",
+			playlist = new Playlist({
+				"host": host,
+				"resource": resource
+			}),
 			playlistView = new PlaylistView({
 				model: playlist,
 				el: "#playlist"

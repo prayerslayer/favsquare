@@ -166,6 +166,8 @@ class Favsquare < Sinatra::Base
 		
 		# check if user exists
 		new_user = !FavsquareLogic.user_exists?( sc_user_id )
+
+		puts "user " + sc_user_id + " is " + ( new_user ? "new" : "old" )
 		# add if necessary
 		if new_user
 			session[ :user_id ] = FavsquareLogic.create_user( sc_user_id )
