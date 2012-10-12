@@ -80,216 +80,70 @@ p + p
 	height: button_size
 	top: -0.5*button_size
 	text-align: center	
-
-@media ( min-width: 1135px )
-	factor = 1
 	
-	//Track Styles
-	.track
-		height: factor*track_height
-		padding-bottom: factor*track_height
+//Track Styles
+.track
+	height: track_height
+	padding-bottom: track_height
 
-	.track .title
-		overflow: hidden
-		height: factor*0.33*track_height
-		font-family: font_family
-		font-size: factor*font_size_big
-		line-height: factor*line_height
+.track .title
+	overflow: hidden
+	height: 0.33*track_height
+	font-family: font_family
+	font-size: font_size_big
+	line-height: line_height
 
-	.track .fav
-		font-size: font_size_sml
+.track .fav
+	font-size: font_size_sml
 
-	.track .title:hover
-		color: highlight_color
-		cursor: pointer
+.track .title:hover
+	color: highlight_color
+	cursor: pointer
 
-	.track .waveform
-		position: relative
-		height: factor*track_height
-		min-width: 15%
-		margin-left: factor*track_height
-
-
-	.track .waveform canvas
-		width: inherit
-		height: inherit
-
-	.track .avatar
-		position: relative
-		width: factor*track_height
-		height: factor*track_height
-		top: -(factor*track_height)
-
-	.track .avatar img
-		width: inherit
-		height: inherit
-		max-width: 100%
-
-	//palylist
-
-	#playing-indicator
-		width: factor*button_size
-		height: factor*button_size
-		position: relative
-		left: -(factor*line_height)
-
-	#playlist-controls
-		display: none
-
-	#playlist li
-		font-size: factor*font_size_big
-
-	#current-track
-		font-size: font_size_sml
-		margin-left: factor*line_height
-
-	.play-button, .prev-button, .next-button
-		cursor: pointer
-		width: button_size
-		height: button_size
-		margin: 5px
-		background-color: highlight_color
-		border-radius: 100%
-
-// phones and small desktops
-@media ( min-width: 640px ) and ( max-width: 1136px )
-	factor = 0.75
-
-	//Track Styles
-	.track
-		height: factor*track_height
-		padding-bottom: factor*track_height
-
-	.track .title
-		height: factor*0.33*track_height
-		font-family: font_family
-		font-size: factor*font_size_big
-		line-height: factor*line_height
-		overflow: hidden
-
-	.track .fav
-		font-size: font_size_sml
-
-	.track .title:hover
-		color: highlight_color
-		cursor: pointer
-
-	.track .waveform
-		position: relative
-		height: factor*track_height
-		min-width: 15%
-		margin-left: factor*track_height
+.track .waveform
+	position: relative
+	height: track_height
+	min-width: 15%
+	margin-left: track_height
 
 
-	.track .waveform canvas
-		width: inherit
-		height: inherit
+.track .waveform canvas
+	width: inherit
+	height: inherit
 
-	.track .avatar
-		position: relative
-		width: factor*track_height
-		height: factor*track_height
-		top: -(factor*track_height)
+.track .avatar
+	position: relative
+	width: track_height
+	height: track_height
+	top: -(track_height)
 
-	.track .avatar img
-		width: inherit
-		height: inherit
-		max-width: 100%
+.track .avatar img
+	width: inherit
+	height: inherit
+	max-width: 100%
 
-	//palylist
+//palylist
 
-	#playing-indicator
-		width: factor*button_size
-		height: factor*button_size
-		position: relative
-		left: -(factor*line_height)
+#playing-indicator
+	width: button_size
+	height: button_size
+	position: relative
+	left: -(line_height)
 
-	#playlist-controls
-		display: none
+#playlist-controls
+	display: none
 
-	#playlist li
-		font-size: factor*font_size_big
+#playlist li
+	font-size: font_size_big
 
-	#current-track
-		font-size: font_size_sml
-		margin-left: factor*line_height
+#current-track
+	font-size: font_size_sml
+	margin-left: line_height
 
-	.play-button, .prev-button, .next-button
-		cursor: pointer
-		width: button_size
-		height: button_size
-		margin: 5px
-		background-color: highlight_color
-		border-radius: 100%
-
-
-// even smaller stuff
-@media ( max-width: 639px ) 
-	factor = 0.5
-
-	//Track Styles
-	.track
-		height: factor*track_height
-		padding-bottom: factor*track_height
-
-	.track .title
-		height: factor*0.33*track_height
-		font-family: font_family
-		font-size: factor*font_size_big
-		line-height: factor*line_height
-		overflow: hidden
-
-	.track .fav
-		font-size: font_size_sml
-
-	.track .title:hover
-		color: highlight_color
-		cursor: pointer
-
-	.track .waveform
-		position: relative
-		height: factor*track_height
-		min-width: 15%
-		margin-left: factor*track_height
-
-
-	.track .waveform canvas
-		width: inherit
-		height: inherit
-
-	.track .avatar
-		position: relative
-		width: factor*track_height
-		height: factor*track_height
-		top: -(factor*track_height)
-
-	.track .avatar img
-		width: inherit
-		height: inherit
-		max-width: 100%
-
-	//palylist
-
-	#playing-indicator
-		width: factor*button_size
-		height: factor*button_size
-		position: relative
-		left: -(factor*line_height)
-
-	#playlist-controls
-		display: none
-
-	#playlist li
-		font-size: factor*font_size_big
-
-	#current-track
-		font-size: font_size_sml
-		margin-left: factor*line_height
-
-	.play-button, .prev-button, .next-button
-		cursor: pointer
-		width: button_size
-		height: button_size
-		margin: 5px
-		background-color: highlight_color
-		border-radius: 100%
+.play-button, .prev-button, .next-button
+	cursor: pointer
+	width: button_size
+	height: button_size
+	margin: 5px
+	background-color: highlight_color
+	border-radius: 100%
