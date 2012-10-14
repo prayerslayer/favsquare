@@ -23,6 +23,7 @@ html
 body
 	font-family: font_family !important
 	color: font_color
+	font-size: font_size_med
 	background-color: bg_color
 	height: 100%
 
@@ -40,6 +41,9 @@ p
 
 p + p
 	margin-top: line_height
+
+#graph
+	font-size: font_size_sml
 
 .footer
 	height: track_height
