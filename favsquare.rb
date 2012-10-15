@@ -16,6 +16,8 @@ class Favsquare < Sinatra::Base
 
 	require "./views/layout"
 
+	attr_accessor :user
+
 	#session
 	set :session_fail, "/login"
 	set :session_secret, "meine sessions sind 3mal so sicher wie deine"
@@ -103,7 +105,8 @@ class Favsquare < Sinatra::Base
 	# fetches tracks for playlist
 	get "/tracks/:amount" do
 		session!
-		tracks = FavsquareLogic.get_tracks( session[ :token ], session[ :user_id ], Integer( params[ :amount ] ) )
+		user = User.filter( :user_id => session[:user_id] ).first
+		tracks = user.get_playlist_tracks( Integer( params[ :amount ] ) )
 		
 		content_type 'application/json', :charset => 'utf-8'
 		return tracks.to_json
@@ -112,13 +115,15 @@ class Favsquare < Sinatra::Base
 	# displays create site
 	get "/create" do
 		session!
+		user = User.filter( :user_id => session[:user_id] ).first
 		content_type "text/html", :charset => "utf-8"
-		mustache :create
+		mustache :create, :locals => { :num_tracks => user.playlist_size }
 	end
 
 	post "/create" do
 		session!
-		okay = FavsquareLogic.create_set( session[ :token ], session[:user_id], params[ :set_name ])
+		user = User.filter( :user_id => session[:user_id] ).first
+		okay = user.create_set( params[ :set_name ])
 		content_type "text/html", :charset => "utf-8"
 		return okay ? 200 : 400
 	end
@@ -126,7 +131,8 @@ class Favsquare < Sinatra::Base
 	# get missing artists
 	get "/missing" do
 		session!
-		artists = FavsquareLogic.get_missing_followings( session[ :token ] )
+		user = User.filter( :user_id => session[:user_id] ).first
+		artists = user.get_missing_followings
 		content_type 'application/json', :charset => 'utf-8'
 		return artists.to_json
 	end
@@ -140,9 +146,10 @@ class Favsquare < Sinatra::Base
 
 	# update saved tracks
 	get "/update" do
-		# how to inform the client that everything is ready?
 		session!
-		FavsquareLogic.update_tracks( session[ :token ] )
+
+		user = User.filter( :user_id => session[:user_id] ).first
+		user.update_tracks
 
 		# redirect to playlist
 		redirect to( "/playlist" )
@@ -161,23 +168,29 @@ class Favsquare < Sinatra::Base
 
 		session_start!
 		
-		session[ :token ] = access_token[ :access_token ]
-		session[ :user_name ] = SoundcloudHelper.fetch_own_name( session[ :token ] )
-		
-		# hash user id because we don't need it in plaintext
-		sc_user_id = SoundcloudHelper.fetch_own_id( session[ :token ] ).to_s
+		sc_user_id = client.get("/me")[:id].to_s
 		
 		# check if user exists
-		new_user = !FavsquareLogic.user_exists?( sc_user_id )
+		new_user = !User.exists?( sc_user_id )
 
 		puts "user " + sc_user_id + " is " + ( new_user ? "new" : "old" )
+		
 		# add if necessary
 		if new_user
-			session[ :user_id ] = FavsquareLogic.create_user( sc_user_id )
-			$LOG.debug( "redirect to update" )
+			user = User.create_user( sc_user_id )
+		else
+			user = User.filter( :user_id => User.id_for( sc_user_id ) ).first
+		end
+
+		user[:token] = access_token[:access_token]
+		user.save
+
+		session[:user_name] = user.username
+		session[:user_id] = user.user_id
+
+		if new_user
 			redirect to( "/update" )
 		else
-			session[ :user_id ] = FavsquareLogic.get_id_for( sc_user_id )
 			redirect to( "/playlist" )
 		end
 	end

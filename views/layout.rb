@@ -5,7 +5,7 @@ class Favsquare
 		class Layout < Mustache
 
 			def visibility
-				if @session[:user_name] != nil
+				if @session[:user_id] != nil
 					"block"
 				else
 					"none"
@@ -13,7 +13,7 @@ class Favsquare
 			end
 
 			def overview_message
-				if @session[:user_name] != nil
+				if @session[:user_id] != nil
 					"Who to follow on SC"
 				else
 					nil
@@ -21,7 +21,7 @@ class Favsquare
 			end
 
 			def playlist_message
-				if @session[:user_name] != nil
+				if @session[:user_id] != nil
 					"Playlist"
 				else
 					nil
@@ -29,7 +29,7 @@ class Favsquare
 			end
 
 			def create_message
-				if @session[:user_name] != nil
+				if @session[:user_id] != nil
 					"Create set on SC"
 				else
 					nil
@@ -37,7 +37,7 @@ class Favsquare
 			end
 
 			def login_message
-				if @session[:user_name] == nil
+				if @session[:user_id] == nil
 					"Login"
 				else
 					"Logout"
@@ -45,7 +45,7 @@ class Favsquare
 			end
 
 			def login_url
-				if @session[:user_name] == nil
+				if @session[:user_id] == nil
 					"/login"
 				else
 					"/logout"
