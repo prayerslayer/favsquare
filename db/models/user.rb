@@ -102,12 +102,14 @@ class User < Sequel::Model
 		return true
 	end
 
-	def update_tracks
-		favs = SoundcloudHelper.fetch_favs( self.token )
+	def self.update_tracks( user_id )
+
+		user = filter( :user_id => user_id ).first
+		favs = SoundcloudHelper.fetch_favs( user.token )
 
 		# update tracks
 		sc_track_ids = favs.keys.clone
-		track_ids = self.tracks.collect { |t| t[ :track_id] }
+		track_ids = user.tracks.collect { |t| t[ :track_id] }
 
 		# remove duplicates in arrays
 		sc_track_ids = sc_track_ids.uniq
@@ -124,7 +126,7 @@ class User < Sequel::Model
 			if Track.filter( :track_id => track ).empty?
 				# if not, add track
 				fav = favs[track]
-				$LOG.debug( "updating track " + track.to_s )
+				puts "updating track " + track.to_s
 				new_track = Track.create( {
 					:track_id => fav.id,
 					:title => fav.title,
@@ -135,34 +137,33 @@ class User < Sequel::Model
 					:creator_profile => fav.user.permalink_url,
 					:creator_avatar => fav.user.avatar_url
 				} )
-				new_track.add_user( self )
+				new_track.add_user( user )
 				new_track.save
 
 				# add additional information
-				pl_track = UserTrack.filter( :user_id => self.user_id, :track_id => track ).first
+				pl_track = UserTrack.filter( :user_id => user.user_id, :track_id => track ).first
 				pl_track.faved_by_id = fav.faved_by
 
-				favgiver = SoundcloudHelper.fetch_user_info( self.token, fav.faved_by )
+				favgiver = SoundcloudHelper.fetch_user_info( user.token, fav.faved_by )
 				pl_track.faved_by = favgiver.username
 				pl_track.faved_by_profile = favgiver.permalink_url
 
 				pl_track.save
 			else
 				# track exists, add it to user
-				Track.filter( :track_id => track ).first.add_user( self )
+				Track.filter( :track_id => track ).first.add_user( user )
 			end
 		end
 		Track.restrict_primary_key
 		# remove old
-		if !self.tracks.empty?
-			self.tracks.each do |track|
+		if !user.tracks.empty?
+			user.tracks.each do |track|
 				if tracks_to_remove.include?( track[ :track_id ] )
-					self.remove_track( track )
+					user.remove_track( track )
 				end
 			end
 		end
 	end
-
 
 
 	def get_playlist_tracks( amount )

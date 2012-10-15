@@ -6,8 +6,8 @@ require "sinatra/session"
 require "mustache/sinatra"
 require "logger"
 require "json"
-require "./soundcloudhelper"
-require "./favsquarelogic"
+require "sequel"
+
 
 class Favsquare < Sinatra::Base
 
@@ -68,6 +68,8 @@ class Favsquare < Sinatra::Base
 	require "./db/models/user"
 	require "./db/models/track"
 	require "./db/models/user_track"
+	require "navvy"
+	require "navvy/job/sequel"
 	
 	#mustache
 	set :public_folder, "./public"
@@ -147,12 +149,11 @@ class Favsquare < Sinatra::Base
 	# update saved tracks
 	get "/update" do
 		session!
+		user_id = session[:user_id]
+		
+		job = Navvy::Job.enqueue( User, :update_tracks, user_id )
 
-		user = User.filter( :user_id => session[:user_id] ).first
-		user.update_tracks
-
-		# redirect to playlist
-		redirect to( "/playlist" )
+		mustache :update, :locals => { :job => job }
 	end
 
 	# executes the soundcloud connection

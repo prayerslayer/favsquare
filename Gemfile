@@ -14,6 +14,7 @@ gem "soundcloud"
 # database
 gem "sequel"
 gem "pg"
+gem "navvy"
 
 group :development, :test do
 	gem "shotgun"

@@ -26,11 +26,15 @@ Run it!
 
 * TESTS
 * Functionality
+	* TODO
+		* Checken, wann update job zu Ende ist
+		* Email senden, wenn Job zu Ende ist (optional, weils halt echt Minuten dauert)
+		* Icons statt Text bei Phones
+		* Waveforms werden manchmal nicht angezeigt, aber nachdem Devtools aufgerufen wurden?
 	* TESTS
 	* Was ist mit leeren playlists? --> Display something
 	* Frontpage
 		* BigVideoJS --> Regen?
-	* Diskussion Aufwand vs Latenzzeit bei mehr Daten speichern oder so lassen
 	* Overview
 		* Eventuell Avatare der User verwenden?
 		* Mehr Informationen: Wieviele Favs und von wem

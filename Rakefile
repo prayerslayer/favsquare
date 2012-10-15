@@ -35,3 +35,11 @@ namespace :db do
     end
   end
 end
+
+require "./soundcloudhelper"
+require "./db/models/track"
+require "./db/models/user_track"
+require "./db/models/user"
+require "navvy"
+require "navvy/job/sequel"
+require "navvy/tasks"
