@@ -5,6 +5,7 @@ require "sinatra"
 require "sinatra/session"
 require "mustache/sinatra"
 require "logger"
+require "json"
 require "./soundcloudhelper"
 require "./favsquarelogic"
 

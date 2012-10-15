@@ -5,19 +5,19 @@
 <script type="text/javascript" src="js/Track.js"></script>
 
 <script type="text/template" id="track_template">
-	<div id="track-<%= id %>">
+	<div id="track-<%= track_id %>">
 		<div class="title">
-			<%= user.username %> - <%= title %>
+			<%= creator %> - <%= title %>
 		</div>
 		<div class="fav">
-			♥ <a href="<%= faved_by.permalink_url %>" target="_blank"><%= faved_by.username %></a>
+			♥ <a href="<%= faved_by_profile %>" target="_blank"><%= faved_by %></a>
 		</div>
 		<div class="waveform">
 			
 		</div>
 		<div class="avatar">
-			<a href="<%= user.permalink_url%>" target="_blank">
-				<img src="<%= user.avatar_url %>" alt="Avatar">
+			<a href="<%= creator_profile %>" target="_blank">
+				<img src="<%= creator_avatar %>" alt="Avatar">
 			</a>
 		</div>
 	</div>

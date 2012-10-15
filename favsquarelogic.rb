@@ -74,16 +74,33 @@ class FavsquareLogic
 		tracks_to_add.each do |track|
 			# check if track exists
 			if Track.filter( :track_id => track ).empty?
+				# if not, add track
+				fav = favs[track]
+				$LOG.debug( "updating track " + track.to_s )
 				new_track = Track.create( {
-					:track_id => track
+					:track_id => fav.id,
+					:title => fav.title,
+					:waveform_url => fav.waveform_url,
+					:duration => fav.duration,
+					:creator_id => fav.user.id,
+					:creator => fav.user.username,
+					:creator_profile => fav.user.permalink_url,
+					:creator_avatar => fav.user.avatar_url
 				} )
 				new_track.add_user( user )
 				new_track.save
 
+				# add additional information
 				pl_track = UserTrack.filter( :user_id => user_id, :track_id => track ).first
-				pl_track.faved_by = favs[ track ].faved_by
+				pl_track.faved_by_id = fav.faved_by
+
+				favgiver = SoundcloudHelper.fetch_user_info( token, fav.faved_by )
+				pl_track.faved_by = favgiver.username
+				pl_track.faved_by_profile = favgiver.permalink_url
+
 				pl_track.save
 			else
+				# track exists, add it to user
 				Track.filter( :track_id => track ).first.add_user( user )
 			end
 		end
@@ -168,28 +185,18 @@ class FavsquareLogic
 		$LOG.debug( tracks.collect{|t| t[:track_id]}.to_s )
 
 		# update times served variable
+		full_tracks = []
 		tracks.each do |track|
 			# times served ++
 			usr_track = UserTrack.filter( :track_id => track.track_id, :user_id => user.user_id ).first
 			$LOG.debug( usr_track.times_served.to_s )
 			usr_track.times_served += 1
 			usr_track.save
-		end
-		full_tracks = []
-		tracks.each do |track|
-			# get full track info
-			full_track = SoundcloudHelper.fetch_track( token, track[ :track_id ] )
 
-			# get fav-giver
-			favgiver = UserTrack.filter( :user_id => user.user_id, :track_id => track.track_id ).first.faved_by
-
-			# get full user info from fav-giver
-			faved_by = SoundcloudHelper.fetch_user_info( token, favgiver )
-			if full_track != nil
-				full_track[ :faved_by ] = faved_by
-				full_tracks.push( full_track )
-			end
+			# "join"
+			full_tracks << track.values.merge( usr_track.values )
 		end
+		$LOG.debug( full_tracks )
 		return full_tracks
 	end
 end

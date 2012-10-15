@@ -26,6 +26,8 @@ Run it!
 
 * TESTS
 * Functionality
+	* TESTS
+	* Was ist mit leeren playlists? --> Display something
 	* Frontpage
 		* BigVideoJS --> Regen?
 	* Diskussion Aufwand vs Latenzzeit bei mehr Daten speichern oder so lassen

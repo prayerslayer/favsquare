@@ -46,7 +46,7 @@ PlaylistView = Backbone.View.extend({
 			track.trigger( "play" );
 			$( ".play-button" ).attr( "src", "img/pause.png" );
 			$( "#current-track" ).attr( "href", "#track-"+track.id );
-			$( "#current-track" ).text( (this.currentTrack+1) + ". "+ track.get( "user" ).username + " - " + track.get( "title" ) );	
+			$( "#current-track" ).text( (this.currentTrack+1) + ". "+ track.get( "creator" ) + " - " + track.get( "title" ) );	
 		}
 		else {
 			track.set( "playing", false );
@@ -61,7 +61,7 @@ PlaylistView = Backbone.View.extend({
 		var index = _.indexOf( this.model.pluck( "id" ), track.id );
 		this.currentTrack = index;
 		$( "#current-track" ).attr( "href", "#track-"+track.id );
-		$( "#current-track" ).text( (this.currentTrack+1) + ". "+ track.get( "user" ).username + " - " + track.get( "title" ) );	
+		$( "#current-track" ).text( (this.currentTrack+1) + ". "+ track.get( "creator" ) + " - " + track.get( "title" ) );	
 	},
 
 	fetchThenPlay: function( ) {
