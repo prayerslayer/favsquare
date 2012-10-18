@@ -25,7 +25,15 @@ TrackView = Backbone.View.extend( {
 	},
 
 	seek: function( evt ) {
-		var x = ( evt.pageX - $( evt.target ).offset().left ) || evt.offsetX;
+		var x = 0;
+		if ( evt.pageX ) {
+			// defined in chrome
+			x = ( evt.pageX - $( evt.target ).offset().left );
+		}
+		else {
+			// undefined in firefox
+			x = evt.offsetX;
+		}
 		var total = $( evt.target ).width();
 		var rel_pos = x / total;
 		var abs_pos = Math.floor( this.model.get( "duration" ) * rel_pos );
@@ -58,7 +66,7 @@ TrackView = Backbone.View.extend( {
 		if ( !that.sound )
 		{
 			var streamOptions = that.waveform.optionsForSyncedStream();
-				SC.stream( "/tracks/" + this.model.id, streamOptions, function( sound ){
+				SC.stream( "/tracks/" + this.model.get("track_id"), streamOptions, function( sound ){
 					if ( that.sound == null ) {
 					  	that.sound = sound;
 					}
