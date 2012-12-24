@@ -18,25 +18,25 @@ Enter your preferred development database credentials in favsquare.rb. Then do
 	cd favsquare # if you're not already there
 	sequel -m db/migrations <your-database-url> # set up tables
 
-Run it!
+Run it! Start the web server
 
     bundle exec shotgun -O config.ru -E development
 
+and the worker
+
+    rake navvy:work DATABASE_URL=<your-database-url>
+
 # TODO
 
-* TESTS
+* Navbar: Smartphone icons, Tablets+Desktop dazu Text
+* TESTS anstatt Boilerplate COntract Checks
+* schlüssel über config file setzen, welches nicht git kontrolliert wird
 * Functionality
 	* TODO
 		* Checken, wann update job zu Ende ist
-		* Email senden, wenn Job zu Ende ist (optional, weils halt echt Minuten dauert)
-		* Icons statt Text bei Phones
 		* Waveforms werden manchmal nicht angezeigt, aber nachdem Devtools aufgerufen wurden?
-	* TESTS
 	* Was ist mit leeren playlists? --> Display something
 	* Frontpage
+		* http://www.codinghorror.com/blog/2012/10/judging-websites.html
 		* BigVideoJS --> Regen?
-	* Overview
-		* Eventuell Avatare der User verwenden?
-		* Mehr Informationen: Wieviele Favs und von wem
 	* User-defined update
-	* First-time load takes too long. Some sort of pipelining?

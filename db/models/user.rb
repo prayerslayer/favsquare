@@ -1,6 +1,8 @@
 require "digest/sha2"
 require "sequel"
+require "pony"
 require "soundcloud"
+require "date"
 
 class User < Sequel::Model
 	many_to_many :tracks, :join_table => :user_tracks
@@ -10,7 +12,9 @@ class User < Sequel::Model
 	def playlist_size
 		size = self.tracks.count
 		split = size/500 + ( size % 500 > 0 ? 1 : 0 )
-		return { :size => size, :split => split }
+		textsplit = split == 1 ? "set" : "sets"
+		textsize = size == 1 ? "track" : "tracks"
+		return { :size => size.to_s + " " + textsize, :split => split.to_s + " " + textsplit }
 	end
 
 	def username
@@ -55,46 +59,19 @@ class User < Sequel::Model
 		return User.filter( :user_id => user_id ).first != nil
 	end
 
-	def get_missing_followings
-
-		# TODO umschreiben ohne netzwerkzugriffe
-
-		followings = SoundcloudHelper.fetch_followings( self.token )
-		favs = SoundcloudHelper.fetch_favs( self.token )
-		# get artists of those favs
-		artists = []
-		favs.values.each do |fav|
-			artists << fav.user
-		end
-		
-		# count each artist
-		artist_count = {}
-		artists.each do |artist|
-			if !followings.include?( artist.id )
-				artist_count[ artist.permalink ] = artist_count[ artist.permalink ] == nil ? 1 : artist_count[ artist.permalink ] + 1
-			end
-		end
-
-		# transform in regular json object
-		json = []
-		artist_count.each do |artist, count|
-			json << { :artist => artist, :count => count }
-		end
-		return json
-	end
-
-	def create_set( set_name )
+	def create_set()
+		set_name = "Rain on " + DateTime.now.strftime( "%m/%d/%Y" )
 		tracks = self.tracks.collect {|track| { :id => track[:track_id] } }
 		client = Soundcloud.new( :access_token => self.token )
 		iterations = 1
 		begin
 			begin
 				client.post( "/playlists", :playlist => {
-					:title => set_name + ( iterations == 1 ? "" : " "+iterations.to_s ),
-					:tracks => tracks.slice!( 0, 499 )
+					:title => set_name + ( iterations == 1 && tracks.size < 500 ? "" : " #"+iterations.to_s ),
+					:tracks => tracks.slice!( 0, 500 )
 				})
 				iterations += 1
-			end while tracks.size > 500
+			end while tracks.size > 0
 		rescue Soundcloud::ResponseError => error
 			puts error.response
 			return false
@@ -126,7 +103,7 @@ class User < Sequel::Model
 			if Track.filter( :track_id => track ).empty?
 				# if not, add track
 				fav = favs[track]
-				puts "updating track " + track.to_s
+				puts "adding track " + track.to_s
 				new_track = Track.create( {
 					:track_id => fav.id,
 					:title => fav.title,
@@ -155,6 +132,9 @@ class User < Sequel::Model
 			end
 		end
 		Track.restrict_primary_key
+
+		# TODO update existing (re-fetch)
+
 		# remove old
 		if !user.tracks.empty?
 			user.tracks.each do |track|
@@ -163,8 +143,34 @@ class User < Sequel::Model
 				end
 			end
 		end
+
+		# finished! send email.
+		# re-fetch since it may be added after start of function
+		user = filter( :user_id => user_id ).first
+		user.send_mail( "Rain: Listen now", "Yeah" )
 	end
 
+	def send_mail( subject, body )
+		if self.email != nil
+			Pony.mail :to => self.email,
+					:from => "rainapp.hello@gmail.com",
+		            :subject => subject,
+		            :html_body => body,
+		            :via => :smtp,
+					:via_options => {
+						:address              => 'smtp.gmail.com',
+						:port                 => '587',
+						:enable_starttls_auto => true,
+						:user_name            => 'rainapp.hello',
+						:password             => 'scotchtravis',
+						:authentication       => :plain, # :plain, :login, :cram_md5, no auth by default
+						:domain               => "obscure-basin-1623.herokuapp.com" # the HELO domain provided by the client to the server
+					}
+			self.update( :email => nil )
+		else
+			$LOG.debug( "Unable to send - Email is nil" )
+		end
+	end
 
 	def get_playlist_tracks( amount )
 		# sort tracks ascending 

@@ -35,7 +35,7 @@ $( document ).ready( function() {
 				playlist.fetch({
 					add: true,
 					success: function( ) {
-						playlistView.playTrack();
+						playlistView.togglePlay();
 					}
 				});
 			},

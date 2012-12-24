@@ -1,13 +1,14 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="en">
 	<head>
 		<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,700' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="css/bootstrap.min.css"/>
 		<link rel="stylesheet" href="css/bootstrap-responsive.min.css"/>
+		<link rel="stylesheet" href="css/font-awesome.css"/>
 		<link rel="stylesheet" href="css/favsquare.css" />
 		<link rel="icon" href="img/favicon.png" type="image/x-icon"/>
 
-		<script style="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
+		<script style="text/javascript" src="js/jquery-1.8.2.min.js"></script>
 		<script style="text/javascript" src="js/bootstrap.min.js"></script>
 		<script style="text/javascript" src="js/favsquare.js"></script>
 
@@ -24,36 +25,46 @@
 					<a class="brand hidden-phone" href="/">Rain</a>
 					<ul class="nav" id="playlist-controls" style="display:{{visibility}};">
 						<li class="divider-vertical"></li>
-						<li><img class="prev-button" src="img/previous.png" /></li>
-						<li><img class="play-button" src="img/play.png" /></li>
-						<li><img class="next-button" src="img/next.png" /></li>
+						<li>
+							<a class="button prev-button">
+								<i class="icon-step-backward icon-large"></i>
+							</a>
+						</li>
+						<li>
+							<a class="button play-button">
+								<i class="icon-play icon-large"></i>
+							</a>
+						</li>
+						<li>
+							<a class="button next-button">
+								<i class="icon-step-forward icon-large"></i>
+							</a>
+						</li>
 						<li class="divider-vertical"></li>
-						<li> <a id="current-track"></a> </li>
+						<li><small class="hidden-phone"> <a id="current-track"></a> </small></li>
 					</ul>
 					<ul class="nav pull-right">
-						<li><a href="{{login_url}}">{{login_message}}</a></li>
+						<li><a href="{{login_url}}" title="{{login_message}}"><i class="icon-{{login_icon}} icon-large"></i></a></li>
 					</ul>
-					<ul class="nav pull-right hidden-phone" style="display:{{visibility}};">
-						<li><a href="/playlist">{{playlist_message}}</a></li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Gimmicks <b class="caret"></b></a>
-							<ul class="dropdown-menu">
-								<li><a href="/overview">{{ overview_message }}</a></li>
-								<li><a href="/create">{{ create_message }}</a></li>
-							</ul>
-						</li>
+					<ul class="nav pull-right" style="display:{{visibility}};">
+						<li><a class="hidden-phone" href="/playlist" title="Listen"><i class="icon-music icon-large"></i></a></li>
+						<li><a class="hidden-phone" href="/create" title="Create set"><i class="icon-upload-alt icon-large"></i></a></li>
 					</ul>
 					
 				</div>
 			</div>
 		</div>
 		<div class="container wrapper clear-top">
-			{{{ yield }}}
+			<div class="row">
+				<div class="span8 offset2">
+					{{{ yield }}}
+				</div>
+			</div>
 		</div>
 		<div class="footer">
 			<div class="container">
-				<p>
-					Designed and implemented by <a href="http://nikolaus-piccolotto.info">Nikolaus Piccolotto</a>. My Twitter username is <a href="https://twitter.com/prayerslayer">@prayerslayer</a>.
+				<p class="pull-right">
+					<small class="muted"><a href="http://npiccolotto.com">Nikolaus Piccolotto</a> / <a href="https://twitter.com/prayerslayer">@prayerslayer</a></small>
 				</p>
 			</div>
 		</div>

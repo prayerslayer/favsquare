@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Favsquare
 
 	module Views
@@ -8,9 +10,10 @@ class Favsquare
 				"Updating information"
 			end
 
-			def finished
-				false
+			def show_email
+				@session[:user_email] == nil
 			end
+
 		end
 	end
 

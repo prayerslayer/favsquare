@@ -22,7 +22,7 @@ class Favsquare
 
 			def playlist_message
 				if @session[:user_id] != nil
-					"Playlist"
+					"Listen now"
 				else
 					nil
 				end
@@ -30,7 +30,7 @@ class Favsquare
 
 			def create_message
 				if @session[:user_id] != nil
-					"Create set on SC"
+					"Create set"
 				else
 					nil
 				end
@@ -49,6 +49,14 @@ class Favsquare
 					"/login"
 				else
 					"/logout"
+				end
+			end
+
+			def login_icon
+				if @session[:user_id] == nil
+					"signin"
+				else
+					"signout"
 				end
 			end
 		end

@@ -5,12 +5,12 @@
 <script type="text/javascript" src="js/Track.js"></script>
 
 <script type="text/template" id="track_template">
-	<div id="track-<%= track_id %>">
+	<div id="track-<%= track_id %>" class="track">
 		<div class="title">
 			<%= creator %> - <%= title %>
 		</div>
 		<div class="fav">
-			♥ <a href="<%= faved_by_profile %>" target="_blank"><%= faved_by %></a>
+			<small class="muted"><a href="<%= faved_by_profile %>" target="_blank"><i class="icon-heart"></i> <%= faved_by %></a></small>
 		</div>
 		<div class="waveform">
 			
@@ -28,24 +28,18 @@
 <script type="text/javascript" src="js/PlaylistView.js"></script>
 <script type="text/javascript" src="js/streaming.js"></script>
 
-<div class="row-fluid">
-	<div class="span12">
-		<div class="page-header">
-			<h1>Your playlist</h1>
-		</div>
-		<img id="playing-indicator" src="img/logo-small.png" />
-		<div id="playlist">
-			<!-- invisible control buttons -->
-			<div>
-				<div data-role="prev"></div>
-				<div data-role="play"></div>
-				<div data-role="next"></div>
-			</div>
-		</div>
-		<div id="more">
-			<div id="arrow">
-				↓
-			</div>
-		</div>
+<div class="page-header">
+	<h1>Your playlist</h1>
+</div>
+<img id="playing-indicator" src="img/logo-small.png" class="hidden-phone"/>
+<div id="playlist">
+	<!-- invisible control buttons -->
+	<div>
+		<div data-role="prev"></div>
+		<div data-role="play"></div>
+		<div data-role="next"></div>
 	</div>
+</div>
+<div id="more">
+	<i id="arrow" class="icon-plus-sign"></i>
 </div>

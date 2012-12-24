@@ -6,7 +6,7 @@ gem "console"
 gem "mustache"
 gem "sinatra"
 gem "sinatra-session"
-
+gem "pony"
 
 # soundcloud stuff
 gem "soundcloud"

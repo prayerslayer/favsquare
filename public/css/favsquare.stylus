@@ -1,11 +1,11 @@
 //Vars
 font_family = "Source Sans Pro", "HelveticaNeue", sans-serif
-mono_family = "Source Code Pro", monospace
+mono_family = "Source Code Pro", "Consolas", "Menlo", monospace
 font_size_big = 24px
 font_size_med = 20px
 font_size_sml = 12px
 track_height = 100px
-line_height = 1.5em
+line_height = 30px
 highlight_color = #312783
 delight_color = #333
 font_color = #000
@@ -13,25 +13,10 @@ bg_color = #fff
 button_size = 30px
 footer_link = #aaa
 
-// BASE CSS (desktop)
-
 //General Styles
 
-html
+body,html
 	height: 100%
-
-body
-	font-family: font_family !important
-	color: font_color
-	font-size: font_size_med
-	background-color: bg_color
-	height: 100%
-
-a, a:hover
-	color: highlight_color
-
-a:visited
-	color: delight_color
 
 p 
 	font-size: font_size_med
@@ -42,66 +27,39 @@ p
 p + p
 	margin-top: line_height
 
-#graph
-	font-size: font_size_sml
-
-.footer
-	height: track_height
-	color: bg_color
-	background-color: delight_color
-	font-size: font_size_sml
-	position: relative
-	margin-top: -(track_height)
-	clear: both
-	p
-		margin-top: 1.5em
-		font-size: font_size_sml
-	a
-		color: footer_link
-	a:visited
-		color: footer_link
-
 .wrapper
-	margin-top: track_height
-	padding-bottom: track_height
-	margin-bottom: track_height
+	margin-top: 70px
 	min-height: 100%
-
-#more
-	margin: line_height
-	border-top: 1px dashed black
 
 #arrow
 	position: relative
 	left: 50%
 	font-size: 2*font_size_big
-	border: 1px solid white
-	border-radius: 100%
-	background-color: gray
-	color: white
+	color: delight_color
 	cursor: pointer	
-	width: button_size
-	height: button_size
-	top: -0.5*button_size
-	text-align: center	
+	top: -0.5*font_size_big
+	width: 2*font_size_big
+	height: 2*font_size_big
+
+#arrow:hover
+	color: highlight_color
 	
 //Track Styles
 .track
 	height: track_height
-	padding-bottom: track_height
+	padding-bottom: track_height*1.3
+
+.track .fav:hover
+	color: red
 
 .track .title
 	overflow: hidden
 	height: 0.33*track_height
-	font-family: font_family
+	font-weight: 300
 	font-size: font_size_big
-	line-height: line_height
-
-.track .fav
-	font-size: font_size_sml
 
 .track .title:hover
-	color: highlight_color
+	text-transform: underline
 	cursor: pointer
 
 .track .waveform
@@ -109,7 +67,6 @@ p + p
 	height: track_height
 	min-width: 15%
 	margin-left: track_height
-
 
 .track .waveform canvas
 	width: inherit
@@ -126,6 +83,8 @@ p + p
 	height: inherit
 	max-width: 100%
 
+
+
 //palylist
 
 #playing-indicator
@@ -137,17 +96,8 @@ p + p
 #playlist-controls
 	display: none
 
-#playlist li
-	font-size: font_size_big
-
 #current-track
-	font-size: font_size_sml
-	margin-left: line_height
+	overflow: hidden
 
-.play-button, .prev-button, .next-button
+.button
 	cursor: pointer
-	width: button_size
-	height: button_size
-	margin: 5px
-	background-color: highlight_color
-	border-radius: 100%

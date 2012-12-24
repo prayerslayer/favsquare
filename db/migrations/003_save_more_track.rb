@@ -1,9 +1,11 @@
 Sequel.migration do
 	change do
 		alter_table( :users ) do
+			add_index :user_id
 			add_column :token, String, :default => ""
 		end
 		alter_table( :tracks ) do
+			add_index :track_id
 			# creator information
 			add_column :creator, String, :default => "Unknown"
 			add_column :creator_id, Integer, :default => 0

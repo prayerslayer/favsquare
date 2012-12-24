@@ -12,7 +12,7 @@ PlaylistView = Backbone.View.extend({
 
 	events: {
 		"click [data-role = prev]": "previousTrack",
-		"click [data-role = play]": "playTrack",
+		"click [data-role = play]": "togglePlay",
 		"click [data-role = next]": "nextTrack"
 	},
 
@@ -28,10 +28,10 @@ PlaylistView = Backbone.View.extend({
 
 	previousTrack: function(  ) {
 		if ( this.currentTrack - 1 >= 0 ) {
-			this.pauseCurrent();
+			this.togglePlay();
 			this.currentTrack = this.currentTrack - 1;
 
-			this.playTrack();
+			this.togglePlay();
 		}
 	},
 	setPlayingIndicator: function() {
@@ -39,29 +39,44 @@ PlaylistView = Backbone.View.extend({
 		var newpos = ( this.currentTrack * trackheight ) + trackheight / 2;
 		$("#playing-indicator").animate({"top": newpos + "px"}, 200);
 	},
-	playTrack: function( ) {
+	play: function( track ) {
+		track.set( "playing", true );
+		track.trigger( "play" );
+		$( ".play-button i").removeClass( "icon-play" );
+		$( ".play-button i").addClass( "icon-pause" );
+		this.setPlayingTrack( track );
+		this.setPlayingIndicator();	
+	},
+	pause: function( track ) {
+		if ( track == null ) {
+			//use current track
+			track = this.model.at( this.currentTrack );
+		}
+		track.set( "playing", false );
+		track.trigger( "pause" );
+		$( ".play-button i").addClass( "icon-play" );
+		$( ".play-button i").removeClass( "icon-pause" );
+		this.setPlayingTrack( track );
+		this.setPlayingIndicator();
+	},
+	togglePlay: function( ) {
 		var track = this.model.at( this.currentTrack );
 		if ( !track.get( "playing" ) ) {
-			track.set( "playing", true );
-			track.trigger( "play" );
-			$( ".play-button" ).attr( "src", "img/pause.png" );
-			$( "#current-track" ).attr( "href", "#track-"+track.id );
-			$( "#current-track" ).text( (this.currentTrack+1) + ". "+ track.get( "creator" ) + " - " + track.get( "title" ) );	
+			this.play( track );
 		}
 		else {
-			track.set( "playing", false );
-			track.trigger( "pause" );
-			$( ".play-button" ).attr( "src", "img/play.png" );
+			this.pause( track );
 		}
-
-		this.setPlayingIndicator();
 	},
 
 	setPlayingTrack: function( track ) {
-		var index = _.indexOf( this.model.pluck( "id" ), track.id );
+		var trackid = track.get( "track_id" );
+		var index = _.indexOf( this.model.pluck( "track_id" ), trackid );
+		console.log( index, trackid );
 		this.currentTrack = index;
-		$( "#current-track" ).attr( "href", "#track-"+track.id );
-		$( "#current-track" ).text( (this.currentTrack+1) + ". "+ track.get( "creator" ) + " - " + track.get( "title" ) );	
+		$( "#current-track" ).attr( "href", "#track-" + trackid );
+		var text = track.get( "creator" ) + " - " + track.get( "title" );
+		$( "#current-track" ).text( text );	
 	},
 
 	fetchThenPlay: function( ) {
@@ -81,23 +96,18 @@ PlaylistView = Backbone.View.extend({
 	playNext: function( ) {
 		this.currentTrack = this.currentTrack + 1;
 
-		this.playTrack();
-	},
-
-	pauseCurrent: function( ) {
-		var track = this.model.at( this.currentTrack );
-		track.trigger( "pause" );
-		track.set( "playing", false);
+		this.togglePlay();
 	},
 	
 	nextTrack: function(  ) {
 		var track = this.model.at( this.currentTrack );
+
 		if ( track == null ) {
 			this.fetchThenPlay();
 			return;
 		}
 
-		this.pauseCurrent();
+		this.pause();
 
 		if ( this.currentTrack + 1 >= this.model.length ) {
 			this.fetchThenPlay();

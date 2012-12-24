@@ -4,16 +4,16 @@ var Timer = (function() {
 		running: false,
 		total_timeout: 30,
 
-		start: function( ) {
+		start: function( selector ) {
 			var that = this;
 			that.running = true;
 			that.id = setInterval( function() {
 				that.total_timeout -= 1;
 				if ( that.total_timeout === 0 ) {
-					window.location.reload( false );
+					window.location.reload();
 				}
 				else {
-					$( "#countdown" ).text( that.total_timeout > 1 ? that.total_timeout + " seconds" : "1 second" );
+					$( selector ).text( that.total_timeout > 1 ? that.total_timeout + " seconds" : "1 second" );
 				}
 			}, 1000 );
 		},
@@ -31,5 +31,14 @@ var Timer = (function() {
 })();
 
 $( document ).ready( function() {
-	Timer.start();
+	$( "button[data-role=submit-email]" ).click( function( ) {
+
+		//TODO email address verification
+
+		$( "#spinner" ).show( 200 );
+		$.post( "add_email", { "email": $("input#email").attr("value") }, function( data ) {
+			$( "#add-email" ).hide( 200 );
+			$( "#response ").show( 200 );
+		});
+	});
 });

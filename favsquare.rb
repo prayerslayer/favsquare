@@ -1,4 +1,4 @@
-# encoding: utf-8Ï
+# encoding: utf-8
 
 require "rubygems"
 require "sinatra"
@@ -20,7 +20,6 @@ class Favsquare < Sinatra::Base
 
 	#session
 	set :session_fail, "/login"
-	set :session_secret, "meine sessions sind 3mal so sicher wie deine"
 
 	# logger
 	$LOG = Logger.new(STDOUT)
@@ -31,6 +30,7 @@ class Favsquare < Sinatra::Base
 	end
 
 	configure(:development) do
+		set :session_secret, "meine sessions sind 3mal so sicher wie deine"
 		set :database_host, "localhost"
 		set :database_user, "xnikp"
 		set :database_pwd, "xnikp"
@@ -43,6 +43,7 @@ class Favsquare < Sinatra::Base
 	end
 
 	configure(:production) do
+		set :session_secret, "meine sessions sind 3mal so sicher wie deine"
 		set :database_host, "ec2-54-243-190-93.compute-1.amazonaws.com"
 		set :database_user, "ittfincvfgtnzz"
 		set :database_pwd, "2gI-ZsFecFDGxox3oWNndlgtF5"
@@ -68,6 +69,7 @@ class Favsquare < Sinatra::Base
 	require "./db/models/user"
 	require "./db/models/track"
 	require "./db/models/user_track"
+	require "./db/models/job"
 	require "navvy"
 	require "navvy/job/sequel"
 	
@@ -78,9 +80,12 @@ class Favsquare < Sinatra::Base
 		:templates =>	"./templates/"
 	}
 
-	# nötig damit session in view verfügbar ist
 	before "/*" do
 		@session = session
+		@user = nil
+		if session[ :user_id ] != nil
+			@user = User.filter( :user_id => session[:user_id] ).first
+		end
 	end
 
 	#startseite
@@ -90,7 +95,7 @@ class Favsquare < Sinatra::Base
 	end
 
 	#redirected zu soundcloud connect
-	get "/login" do
+	get "/login/?" do
 		client = Soundcloud.new( :client_id => settings.sc_clientid,
 								 :client_secret => settings.sc_clientsecret,
 								 :redirect_uri => settings.sc_redirecturi )
@@ -99,65 +104,86 @@ class Favsquare < Sinatra::Base
 	end
 
 	#logout
-	get "/logout" do
+	get "/logout/?" do
 		session_end!
 		redirect to( "/" )
 	end
 
 	# fetches tracks for playlist
-	get "/tracks/:amount" do
+	get "/tracks/:amount/?" do
 		session!
-		user = User.filter( :user_id => session[:user_id] ).first
-		tracks = user.get_playlist_tracks( Integer( params[ :amount ] ) )
+		tracks = @user.get_playlist_tracks( Integer( params[ :amount ] ) )
 		
 		content_type 'application/json', :charset => 'utf-8'
 		return tracks.to_json
 	end
 
 	# displays create site
-	get "/create" do
+	get "/create/?" do
 		session!
-		user = User.filter( :user_id => session[:user_id] ).first
+		
 		content_type "text/html", :charset => "utf-8"
-		mustache :create, :locals => { :num_tracks => user.playlist_size }
+		mustache :create, :locals => { :num_tracks => @user.playlist_size }
 	end
 
-	post "/create" do
+	post "/create/?" do
 		session!
-		user = User.filter( :user_id => session[:user_id] ).first
-		okay = user.create_set( params[ :set_name ])
+		
+		okay = @user.create_set()
 		content_type "text/html", :charset => "utf-8"
 		return okay ? 200 : 400
 	end
 
-	# get missing artists
-	get "/missing" do
+	post "/add_email/?" do
 		session!
-		user = User.filter( :user_id => session[:user_id] ).first
-		artists = user.get_missing_followings
-		content_type 'application/json', :charset => 'utf-8'
-		return artists.to_json
-	end
 
-	# displays missing artists
-	get "/overview" do
-		session!
-		content_type "text/html", :charset => "utf-8"
-		mustache :overview
+		email = params[:email]
+		puts email
+		session[:user_email] = email
+		@user.email = email
+		puts @user.save_changes
+		if session[:update_job_completed]
+			@user.send_mail( "Rain: Listen now", "Start <a href='http://localhost:9393/playlist'>listening</a>!" )
+		end
+
+		return 200
 	end
 
 	# update saved tracks
-	get "/update" do
+	get "/update/?" do
 		session!
 		user_id = session[:user_id]
 		
-		job = Navvy::Job.enqueue( User, :update_tracks, user_id )
+		job_id = session[ :update_job_id ]
 
-		mustache :update, :locals => { :job => job }
+		if job_id == nil
+			# user never ran a job
+			job = Navvy::Job.enqueue( User, :update_tracks, user_id )
+			puts job.id
+			puts job.completed?
+			session[ :update_job_id ] = job.id
+			session[ :update_job_completed ] = job.completed?
+
+		else
+			# user ran a job before
+			job = Job.filter( :id => job_id ).first
+			# job finished when it's not in table anymore
+			completed = job == nil
+			# did it complete?
+			if completed
+				# start new
+				job = Navvy::Job.enqueue( User, :update_tracks, user_id )
+				session[ :update_job_id ] = job.id
+			end
+			# set the completed status
+			session[ :update_job_completed ] = completed
+		end
+	
+		mustache :update
 	end
 
 	# executes the soundcloud connection
-	get "/connect" do
+	get "/connect/?" do
 		code = params[ :code ]
 
 		client = Soundcloud.new( :client_id => settings.sc_clientid,
@@ -197,7 +223,7 @@ class Favsquare < Sinatra::Base
 	end
 
 	# playlist
-	get "/playlist" do
+	get "/playlist/?" do
 		session!
 		content_type "text/html", :charset => "utf-8"
 		mustache :playlist

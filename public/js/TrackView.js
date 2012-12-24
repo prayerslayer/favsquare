@@ -42,12 +42,12 @@ TrackView = Backbone.View.extend( {
 
 	directPlay: function() {
 		var that = this;
-		that.parent.pauseCurrent();
-		that.parent.setPlayingTrack( this.model );	
-		that.parent.setPlayingIndicator();
-		that.play();
+		if ( !this.model.get( "playing" ) ) {
+			that.parent.pause();
+			that.parent.setPlayingTrack( this.model );	
+			that.parent.play( this.model );
+		}
 	},
-
 	play: function( ) {
 		var that = this,
 			$me = $( this.el );
