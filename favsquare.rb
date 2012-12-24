@@ -145,7 +145,7 @@ class Favsquare < Sinatra::Base
 		@user.email = email
 		puts @user.save_changes
 		if session[:update_job_completed]
-			@user.send_mail( "Rain: Listen now", "Start <a href='" + settings.base_url "/playlist'>listening</a>!" )
+			@user.send_mail( "Rain: Listen now", "Start <a href='" + settings.base_url + "/playlist'>listening</a>!" )
 		end
 
 		return 200
