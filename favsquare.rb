@@ -30,6 +30,7 @@ class Favsquare < Sinatra::Base
 	end
 
 	configure(:development) do
+		set :base_url, "http://localhost:9393"
 		set :session_secret, "meine sessions sind 3mal so sicher wie deine"
 		set :database_host, "localhost"
 		set :database_user, "xnikp"
@@ -43,6 +44,7 @@ class Favsquare < Sinatra::Base
 	end
 
 	configure(:production) do
+		set :base_url, "http://obscure-basin-1623.herokuapp.com"
 		set :session_secret, "meine sessions sind 3mal so sicher wie deine"
 		set :database_host, "ec2-54-243-190-93.compute-1.amazonaws.com"
 		set :database_user, "ittfincvfgtnzz"
@@ -143,7 +145,7 @@ class Favsquare < Sinatra::Base
 		@user.email = email
 		puts @user.save_changes
 		if session[:update_job_completed]
-			@user.send_mail( "Rain: Listen now", "Start <a href='http://localhost:9393/playlist'>listening</a>!" )
+			@user.send_mail( "Rain: Listen now", "Start <a href='" + settings.base_url "/playlist'>listening</a>!" )
 		end
 
 		return 200

@@ -17,14 +17,6 @@ class User < Sequel::Model
 		return { :size => size.to_s + " " + textsize, :split => split.to_s + " " + textsplit }
 	end
 
-	def username
-		if @username == nil
-			client = Soundcloud.new( :access_token => self.token )
-			@username = client.get( "/me" )[:username].to_s
-		end
-		return @username
-	end
-
 	def self.id_for( sc_id )
 		raise ArgumentError, "User ID is nil!" if sc_id == nil
 		id = Digest::SHA512.new << sc_id.to_s
@@ -147,7 +139,7 @@ class User < Sequel::Model
 		# finished! send email.
 		# re-fetch since it may be added after start of function
 		user = filter( :user_id => user_id ).first
-		user.send_mail( "Rain: Listen now", "Yeah" )
+		user.send_mail( "Rain: Listen now", "<a href='obscure-basin-1623.herokuapp.com'>Listen.</a>" )
 	end
 
 	def send_mail( subject, body )

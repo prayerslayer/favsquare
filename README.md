@@ -28,7 +28,6 @@ and the worker
 
 # TODO
 
-* Navbar: Smartphone icons, Tablets+Desktop dazu Text
 * TESTS anstatt Boilerplate COntract Checks
 * schlüssel über config file setzen, welches nicht git kontrolliert wird
 * Functionality
