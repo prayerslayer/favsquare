@@ -1,7 +1,6 @@
 $( document ).ready( function() {
 	var $response = $( "div#response" );
 	$( "button[data-role=submit]" ).click( function() {
-		$( "#spinner" ).fadeIn(200);
 		$( this ).attr("disabled", "true");
 		$response.fadeIn( 200 );
 		$response.addClass( "alert-info" );
