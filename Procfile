@@ -1,2 +1,2 @@
-web: RAILS_ENV=production bundle exec thin start -R config.ru -p $PORT
-worker: rake navvy:work DATABASE_URL=postgres://ittfincvfgtnzz:2gI-ZsFecFDGxox3oWNndlgtF5@ec2-54-243-190-93.compute-1.amazonaws.com:5432/d36h4ha2hdk3hf
+web: bundle exec thin start -R config.ru -p $PORT
+worker: rake navvy:work
