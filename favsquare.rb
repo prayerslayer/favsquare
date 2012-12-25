@@ -19,51 +19,16 @@ class Favsquare < Sinatra::Base
 
 	#session
 	set :session_fail, "/login"
-	
-	configure do
-		#soundcloud
-		set :sc_scope, "non-expiring"
-		set :testuser_id, "2c82b3db619ea8dbf305b10f263bea85747b055558964c205c014976250d9d5d73258c08c4cb5644985bfb9e7edc3601c1423b4aed106120a5edf262ac7234b4"
-		set :testuser_token, "1-25581-31206514-4dd99af223b6fae"
-	end
-
-	configure(:development) do
-		set :base_url, "http://localhost:9393"
-		set :session_secret, "meine sessions sind 3mal so sicher wie deine"
-		set :database_host, "localhost"
-		set :database_user, "xnikp"
-		set :database_pwd, "xnikp"
-		set :database_port, "5432"
-		set :database_name, "favsquare"
-		set :sc_clientid, "f928c3bc1abd9ffc4c6455d13ababa9d"
-		set :sc_clientsecret, "153e2f56c17457b52e9330f9b9c58aac"
-		set :sc_redirecturi, "http://localhost:9393/connect"
-		set :database_url, "postgres://xnikp:xnikp@localhost:5432/favsquare"
-	end
-
-	configure(:production) do
-		set :base_url, "http://obscure-basin-1623.herokuapp.com"
-		set :session_secret, "meine sessions sind 3mal so sicher wie deine"
-		set :database_host, "ec2-54-243-190-93.compute-1.amazonaws.com"
-		set :database_user, "ittfincvfgtnzz"
-		set :database_pwd, "2gI-ZsFecFDGxox3oWNndlgtF5"
-		set :database_port, "5432"
-		set :database_name, "d36h4ha2hdk3hf"
-		set :sc_clientid, "fcdca5600531b2292ddc9bfe7008cac6"
-		set :sc_clientsecret, "bf31fae3e89dc0f2ecda2a82b30b5ad0"
-		set :sc_redirecturi, "http://obscure-basin-1623.herokuapp.com/connect"
-		set :database_url, "postgres://ittfincvfgtnzz:2gI-ZsFecFDGxox3oWNndlgtF5@ec2-54-243-190-93.compute-1.amazonaws.com:5432/d36h4ha2hdk3hf"
-	end
 
 	# database
 
 	# models
 	Sequel::Model.db=Sequel.postgres(
-		:host => settings.database_host,
-		:user => settings.database_user,
-		:password => settings.database_pwd,
-		:database => settings.database_name,
-		:port => settings.database_port
+		:host => ENV['DATABASE_HOST'],
+		:user => ENV['DATABASE_USER'],
+		:password => ENV['DATABASE_PWD'],
+		:database => ENV['DATABASE_NAME'],
+		:port => ENV['DATABASE_PORT']
  	) 
 	Sequel::Model.plugin :force_encoding, 'UTF-8'
 	require "./db/models/user"
@@ -98,11 +63,11 @@ class Favsquare < Sinatra::Base
 
 	#redirected zu soundcloud connect
 	get "/login/?" do
-		client = Soundcloud.new( :client_id => settings.sc_clientid,
-								 :client_secret => settings.sc_clientsecret,
-								 :redirect_uri => settings.sc_redirecturi )
+		client = Soundcloud.new( :client_id => ENV['SC_CLIENTID'],
+								 :client_secret => ENV['SC_CLIENTSECRET'],
+								 :redirect_uri => ENV['SC_REDIRECTURI'] )
 		redirect client.authorize_url(
-			:scope => settings.sc_scope )
+			:scope => ENV['SC_SCOPE'] )
 	end
 
 	#logout
@@ -151,7 +116,7 @@ class Favsquare < Sinatra::Base
 		@user.email = email
 		puts @user.save_changes
 		if session[:update_job_completed]
-			@user.send_mail( "Rain: Listen now", "Start <a href='" + settings.base_url + "/playlist'>listening</a>!" )
+			@user.send_mail( "Rain: Listen now", "Start <a href='" + ENV['BASE_URL'] + "/playlist'>listening</a>!" )
 		end
 
 		return 200
@@ -194,10 +159,10 @@ class Favsquare < Sinatra::Base
 	get "/connect/?" do
 		code = params[ :code ]
 
-		client = Soundcloud.new( :client_id => settings.sc_clientid,
-								 :client_secret => settings.sc_clientsecret,
-								 :redirect_uri => settings.sc_redirecturi,
-								 :scope => settings.sc_scope )
+		client = Soundcloud.new( :client_id => ENV['SC_CLIENTID'],
+								 :client_secret => ENV['SC_CLIENTSECRET'],
+								 :redirect_uri => ENV['SC_REDIRECTURI'],
+								 :scope => ENV['SC_SCOPE'] )
 
 		access_token = client.exchange_token( :code => code )
 

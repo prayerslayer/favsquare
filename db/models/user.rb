@@ -139,24 +139,24 @@ class User < Sequel::Model
 		# finished! send email.
 		# re-fetch since it may be added after start of function
 		user = filter( :user_id => user_id ).first
-		user.send_mail( "Rain: Listen now", "<a href='obscure-basin-1623.herokuapp.com'>Listen.</a>" )
+		user.send_mail( "Rain: Listen now", "<a href='" + ENV['BASE_URL'] + "/playlist'>Listen.</a>" )
 	end
 
 	def send_mail( subject, body )
 		if self.email != nil
 			Pony.mail :to => self.email,
-					:from => "rainapp.hello@gmail.com",
+					:from => ENV['EMAIL_FROM'],
 		            :subject => subject,
 		            :html_body => body,
 		            :via => :smtp,
 					:via_options => {
-						:address              => 'smtp.gmail.com',
-						:port                 => '587',
+						:address              => ENV['EMAIL_SERVER'],
+						:port                 => ENV['EMAIL_PORT'],
 						:enable_starttls_auto => true,
-						:user_name            => 'rainapp.hello',
-						:password             => 'scotchtravis',
+						:user_name            => ENV['EMAIL_USER'],
+						:password             => ENV['EMAIL_PWD'],
 						:authentication       => :plain, # :plain, :login, :cram_md5, no auth by default
-						:domain               => "obscure-basin-1623.herokuapp.com" # the HELO domain provided by the client to the server
+						:domain               => ENV['EMAIL_DOMAIN'] # the HELO domain provided by the client to the server
 					}
 			self.update( :email => nil )
 		else
