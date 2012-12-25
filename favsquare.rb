@@ -49,9 +49,7 @@ class Favsquare < Sinatra::Base
 		@session = session
 		@user = nil
 		if session[ :user_id ] != nil
-			puts session[:user_id]
 			@user = User.filter( :user_id => session[:user_id] ).first
-			puts @user.to_s
 		end
 	end
 
@@ -79,7 +77,7 @@ class Favsquare < Sinatra::Base
 	#try
 	get "/try/?" do
 		session_start!
-		session[ :user_id ] = User.first[:user_id]
+		session[ :user_id ] = User.first[:user_id] # first user in db is testuser
 		redirect to( "/playlist" )
 	end
 
@@ -115,8 +113,18 @@ class Favsquare < Sinatra::Base
 		puts email
 		@user.email = email
 		puts @user.save_changes
-		if session[:update_job_completed]
-			@user.send_mail( "Rain: Listen now", "Start <a href='" + ENV['BASE_URL'] + "/playlist'>listening</a>!" )
+		
+		# re-check if job is completed
+		job_id = session[ :update_job_id ]
+		if job_id == nil
+			puts "job id is somehow nil"
+		else
+			job = Job.filter( :id => job_id ).first
+			# job finished when it's not in table anymore
+			completed = job == nil
+			if completed
+				@user.send_mail( "Rain: Listen now", "Start <a href='" + ENV['BASE_URL'] + "/playlist'>listening</a>!" )
+			end
 		end
 
 		return 200
@@ -151,7 +159,6 @@ class Favsquare < Sinatra::Base
 			# set the completed status
 			session[ :update_job_completed ] = completed
 		end
-		puts session[:update_job_completed]
 		mustache :update
 	end
 

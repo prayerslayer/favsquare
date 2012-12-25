@@ -72,7 +72,6 @@ class User < Sequel::Model
 	end
 
 	def self.update_tracks( user_id )
-
 		user = filter( :user_id => user_id ).first
 		favs = SoundcloudHelper.fetch_favs( user.token )
 
@@ -158,7 +157,9 @@ class User < Sequel::Model
 						:authentication       => :plain, # :plain, :login, :cram_md5, no auth by default
 						:domain               => ENV['EMAIL_DOMAIN'] # the HELO domain provided by the client to the server
 					}
+			puts "Send mail"
 			self.update( :email => nil )
+			puts "Deleted address"
 		else
 			puts "Unable to send - Email is nil" 
 		end
