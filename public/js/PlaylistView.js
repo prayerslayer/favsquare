@@ -70,11 +70,11 @@ PlaylistView = Backbone.View.extend({
 	},
 
 	setPlayingTrack: function( track ) {
-		var trackid = track.get( "track_id" );
-		var index = _.indexOf( this.model.pluck( "track_id" ), trackid );
-		console.log( index, trackid );
+		var id = track.get( "id" );
+		var index = _.indexOf( this.model.pluck( "id" ), id );
+		console.log( index, id );
 		this.currentTrack = index;
-		$( "#current-track" ).attr( "href", "#track-" + trackid );
+		$( "#current-track" ).attr( "href", "#track-" + id );
 		var text = track.get( "creator" ) + " - " + track.get( "title" );
 		$( "#current-track" ).text( text );	
 	},

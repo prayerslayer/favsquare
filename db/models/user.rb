@@ -178,12 +178,13 @@ class User < Sequel::Model
 		tracks.each do |track|
 			# times served ++
 			usr_track = UserTrack.filter( :track_id => track.track_id, :user_id => self.user_id ).first
-			puts usr_track.times_served.to_s
 			usr_track.times_served += 1
 			usr_track.save
 
 			# "join"
-			full_tracks << track.values.merge( usr_track.values )
+			full_track = track.values.merge( usr_track.values )
+			full_track[:id] = full_track[:track_id].to_s + full_track[:times_served].to_s
+			full_tracks << full_track
 		end
 		puts full_tracks.to_s
 		return full_tracks

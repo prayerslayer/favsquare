@@ -10,7 +10,6 @@ TrackView = Backbone.View.extend( {
 	sound: null,
 	template: _.template( $( "#track_template" ).html() ),
 	tagName: "li",
-	className: "track",
 
 	render: function() {
 		var track = this.model.toJSON();
@@ -66,17 +65,17 @@ TrackView = Backbone.View.extend( {
 		if ( !that.sound )
 		{
 			var streamOptions = that.waveform.optionsForSyncedStream();
-				SC.stream( "/tracks/" + this.model.get("track_id"), streamOptions, function( sound ){
-					if ( that.sound == null ) {
-					  	that.sound = sound;
+			SC.stream( "/tracks/" + this.model.get("track_id"), streamOptions, function( sound ){
+				if ( that.sound == null ) {
+				  	that.sound = sound;
+				}
+				that.sound.play({
+					onfinish: function() {
+						that.parent.nextTrack();
 					}
-					that.sound.play({
-						onfinish: function() {
-							that.parent.nextTrack();
-						}
-					});	
-					window.exampleStream = that.sound;
-				});
+				});	
+				window.exampleStream = that.sound;
+			});
 		}
 		else {
 			that.sound.play();
