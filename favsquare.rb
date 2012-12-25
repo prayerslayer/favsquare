@@ -4,7 +4,6 @@ require "rubygems"
 require "sinatra"
 require "sinatra/session"
 require "mustache/sinatra"
-require "logger"
 require "json"
 require "sequel"
 
@@ -20,13 +19,12 @@ class Favsquare < Sinatra::Base
 
 	#session
 	set :session_fail, "/login"
-
-	# logger
-	$LOG = Logger.new(STDOUT)
 	
 	configure do
 		#soundcloud
 		set :sc_scope, "non-expiring"
+		set :testuser_id, "2c82b3db619ea8dbf305b10f263bea85747b055558964c205c014976250d9d5d73258c08c4cb5644985bfb9e7edc3601c1423b4aed106120a5edf262ac7234b4"
+		set :testuser_token, "1-25581-31206514-4dd99af223b6fae"
 	end
 
 	configure(:development) do
@@ -86,7 +84,9 @@ class Favsquare < Sinatra::Base
 		@session = session
 		@user = nil
 		if session[ :user_id ] != nil
+			puts session[:user_id]
 			@user = User.filter( :user_id => session[:user_id] ).first
+			puts @user.to_s
 		end
 	end
 
@@ -109,6 +109,13 @@ class Favsquare < Sinatra::Base
 	get "/logout/?" do
 		session_end!
 		redirect to( "/" )
+	end
+
+	#try
+	get "/try/?" do
+		session_start!
+		session[ :user_id ] = User.first[:user_id]
+		redirect to( "/playlist" )
 	end
 
 	# fetches tracks for playlist
@@ -141,7 +148,6 @@ class Favsquare < Sinatra::Base
 
 		email = params[:email]
 		puts email
-		session[:user_email] = email
 		@user.email = email
 		puts @user.save_changes
 		if session[:update_job_completed]
@@ -180,7 +186,7 @@ class Favsquare < Sinatra::Base
 			# set the completed status
 			session[ :update_job_completed ] = completed
 		end
-	
+		puts session[:update_job_completed]
 		mustache :update
 	end
 
@@ -214,7 +220,6 @@ class Favsquare < Sinatra::Base
 		user[:token] = access_token[:access_token]
 		user.save
 
-		session[:user_name] = user.username
 		session[:user_id] = user.user_id
 
 		if new_user

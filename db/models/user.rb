@@ -160,7 +160,7 @@ class User < Sequel::Model
 					}
 			self.update( :email => nil )
 		else
-			$LOG.debug( "Unable to send - Email is nil" )
+			puts "Unable to send - Email is nil" 
 		end
 	end
 
@@ -170,21 +170,21 @@ class User < Sequel::Model
 		# take the first amount much
 		tracks = tracks.take( amount ).shuffle
 
-		$LOG.debug( tracks.collect{|t| t[:track_id]}.to_s )
+		puts tracks.collect{|t| t[:track_id]}.to_s
 
 		# update times served variable
 		full_tracks = []
 		tracks.each do |track|
 			# times served ++
 			usr_track = UserTrack.filter( :track_id => track.track_id, :user_id => self.user_id ).first
-			$LOG.debug( usr_track.times_served.to_s )
+			puts usr_track.times_served.to_s
 			usr_track.times_served += 1
 			usr_track.save
 
 			# "join"
 			full_tracks << track.values.merge( usr_track.values )
 		end
-		$LOG.debug( full_tracks )
+		puts full_tracks.to_s
 		return full_tracks
 	end
 end
