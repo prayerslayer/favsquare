@@ -96,7 +96,10 @@ p + p
 #playlist-controls
 	display: none
 
-#current-track
+#current-container
+	height: 30px
+	width: auto
+	max-width: 400px
 	overflow: hidden
 
 .button
