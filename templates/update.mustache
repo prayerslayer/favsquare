@@ -6,17 +6,16 @@
 <p>
 	Please wait while Rain fetches users you're following and their favorites from <a href="https://soundcloud.com" target="_blank">Soundcloud</a>. This may take a while.
 </p>
-{{#show_email}}
-	<div id="add-email">
-	 	<legend>Email notification</legend>
-	 	<p>
-	 		Shall Rain send you an email when the process finished? Rain doesn't store your email address.
-	 	</p>
-	 	<label>Your email</label>
-		<input type="text" id="email" placeholder="girl@awesome.com">
-		<button data-role="submit-email" type="submit" class="btn">Submit</button>
-		
-		<img src="img/spinner.gif" id="spinner" style="display:none;"/>
+<div style="display:none;" id="response" class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>Thanks!</div>
+<div id="add-email">
+ 	<legend>Email notification</legend>
+ 	<p>
+ 		Shall Rain send you an email when the process finished? Rain doesn't store your email address.
+ 	</p>
+ 	<div class="input-append">
+		<label>Your email</label>
+		<input type="text" id="email" placeholder="girl@awesome.com" class="input-large">
+		<button data-role="submit-email" type="button" class="btn btn-primary" disabled="disabled">Submit</button>
 	</div>
-	<span style="display:none;" id="response">Thanks!</span>
-{{/show_email}}
+	<img src="img/spinner.gif" id="spinner" style="display:none;"/>
+</div>

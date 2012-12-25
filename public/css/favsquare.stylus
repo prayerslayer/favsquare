@@ -83,7 +83,12 @@ p + p
 	height: inherit
 	max-width: 100%
 
+//forms
 
+.wrong
+	background-color: red
+.right
+	background-color: green
 
 //palylist
 

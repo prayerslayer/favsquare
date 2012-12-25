@@ -10,10 +10,6 @@ class Favsquare
 				"Updating information"
 			end
 
-			def show_email
-				@session[:user_email] == nil
-			end
-
 		end
 	end
 

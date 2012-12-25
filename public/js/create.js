@@ -1,6 +1,6 @@
 $( document ).ready( function() {
 	$( "button[data-role=submit]" ).click( function() {
-		$( "#spinner" ).show(200);
+		$( "#spinner" ).fadeIn(200);
 		$( this ).attr("disabled", "true");
 		$( "p#response" ).addClass( "text-info" ).text( "Doin' work...");
 		$.post( "create", {}, function( response, bla, blub ) {
@@ -18,7 +18,7 @@ $( document ).ready( function() {
 		})
 		.complete( function() {
 			$( "p#response").removeClass( "text-info" );
-			$( "#spinner" ).hide( 200 );
+			$( "#spinner" ).fadeOut( 200 );
 		});
 	});
 });

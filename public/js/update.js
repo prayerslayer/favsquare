@@ -1,44 +1,33 @@
-var Timer = (function() {
-	return {
-		id: 0,
-		running: false,
-		total_timeout: 30,
-
-		start: function( selector ) {
-			var that = this;
-			that.running = true;
-			that.id = setInterval( function() {
-				that.total_timeout -= 1;
-				if ( that.total_timeout === 0 ) {
-					window.location.reload();
-				}
-				else {
-					$( selector ).text( that.total_timeout > 1 ? that.total_timeout + " seconds" : "1 second" );
-				}
-			}, 1000 );
-		},
-		stop: function( ) {
-			var that = this;
-			if ( that.running ) {
-				that.running = false;
-				clearInterval( that.id );
-			}
-		},
-		isRunning: function( ) {
-			return this.running;
-		}
+function setOkay( ok ) {
+	if ( ok ) {
+		$( "button[data-role=submit-email]" ).attr( "disabled", null );
 	}
-})();
+	else {
+		$( "button[data-role=submit-email]" ).attr( "disabled", "disabled" );
+	}
+}
 
 $( document ).ready( function() {
+
+	$( "input#email" ).keyup( function ( evt ) {
+		var text = $( this ).attr( "value" );
+		var okay = text.match( /\S+@\S+/ ) != null && text.length > 0;
+		setOkay( okay );
+		if ( evt.which === 13 && okay ) {
+			//enter
+			$( "button[data-role=submit-email]" ).click();
+			evt.preventDefault();
+			return;
+		}
+		
+	});
+
 	$( "button[data-role=submit-email]" ).click( function( ) {
 
-		//TODO email address verification
-
-		$( "#spinner" ).show( 200 );
+		$( "#spinner" ).fadeIn( 200 );
 		$.post( "add_email", { "email": $("input#email").attr("value") }, function( data ) {
-			$( "#add-email" ).hide( 200 );
-			$( "#response ").show( 200 );
+			$( "#add-email" ).fadeOut( 200 );
+			$( "#response ").fadeIn( 200 );
 		});
 	});
 });

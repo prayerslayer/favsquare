@@ -65,6 +65,12 @@ p + p {
   height: inherit;
   max-width: 100%;
 }
+.wrong {
+  background-color: #f00;
+}
+.right {
+  background-color: #008000;
+}
 #playing-indicator {
   width: 30px;
   height: 30px;
