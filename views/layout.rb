@@ -38,9 +38,9 @@ class Favsquare
 
 			def login_message
 				if @session[:user_id] == nil
-					"Login"
+					"Connect"
 				else
-					"Logout"
+					"Sign out"
 				end
 			end
 
