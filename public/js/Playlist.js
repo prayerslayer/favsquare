@@ -6,6 +6,5 @@ Playlist = Backbone.Collection.extend({
 		}		
 	},
 	events: {
-		
 	}
 });

@@ -2,6 +2,7 @@ PlaylistView = Backbone.View.extend({
 
 	initialize: function() {
 		this.model.bind( "add", this.addTrack, this );
+		//this.model.bind( "reset", this.reset, this );
 		this.render();
 	},
 
@@ -30,7 +31,6 @@ PlaylistView = Backbone.View.extend({
 		if ( this.currentTrack - 1 >= 0 ) {
 			this.togglePlay();
 			this.currentTrack = this.currentTrack - 1;
-
 			this.togglePlay();
 		}
 	},

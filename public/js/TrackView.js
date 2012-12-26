@@ -19,24 +19,25 @@ TrackView = Backbone.View.extend( {
 		return this;
 	},
 	events: {
-		"click canvas": "seek",
 		"click .title": "directPlay"
 	},
 
 	seek: function( evt ) {
-		var x = 0;
-		if ( evt.pageX ) {
-			// defined in chrome
-			x = ( evt.pageX - $( evt.target ).offset().left );
+		if ( this.sound) {
+			var x = 0;
+			if ( evt.pageX ) {
+				// defined in chrome
+				x = ( evt.pageX - $( evt.target ).offset().left );
+			}
+			else {
+				// undefined in firefox
+				x = evt.offsetX;
+			}
+			var total = $( evt.target ).width();
+			var rel_pos = x / total;
+			var abs_pos = Math.floor( this.model.get( "duration" ) * rel_pos );
+			this.sound.setPosition( abs_pos );
 		}
-		else {
-			// undefined in firefox
-			x = evt.offsetX;
-		}
-		var total = $( evt.target ).width();
-		var rel_pos = x / total;
-		var abs_pos = Math.floor( this.model.get( "duration" ) * rel_pos );
-		this.sound.setPosition( abs_pos );
 	},
 
 	directPlay: function() {
@@ -66,15 +67,28 @@ TrackView = Backbone.View.extend( {
 		{
 			var streamOptions = that.waveform.optionsForSyncedStream();
 			SC.stream( "/tracks/" + this.model.get("track_id"), streamOptions, function( sound ){
+				var seekhandler = jQuery.proxy( that.seek, that );
 				if ( that.sound == null ) {
 				  	that.sound = sound;
 				}
 				that.sound.play({
 					onfinish: function() {
+						//free some stuff
+						delete that.sound;
+						delete that.waveform;
+						$me.find( "canvas" ).off( "click", seekhandler );
+						$me.find( ".waveform" ).children().fadeOut( 200, function() {
+							$(this).remove();
+						});
+						//play next
 						that.parent.nextTrack();
+					},
+					onplay: function() {
+						$me.find( "canvas" ).off( "click", seekhandler ).on( "click", seekhandler );		
 					}
-				});	
-				window.exampleStream = that.sound;
+				});
+
+				//TODO hier sowas wie spinner	
 			});
 		}
 		else {
