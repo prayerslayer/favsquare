@@ -79,9 +79,8 @@ p + p
 	top: -(track_height)
 
 .track .avatar img
-	width: inherit
-	height: inherit
-	max-width: 100%
+	width: 100%
+	height: 100%
 
 //forms
 
