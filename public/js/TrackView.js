@@ -50,10 +50,11 @@ TrackView = Backbone.View.extend( {
 	},
 	play: function( ) {
 		var that = this,
-			$me = $( this.el );
+			$me = $( this.el ),
+			$ava = $( this.el ).find( ".avatar img" );
 
 		console.log( "play at ", that);
-
+		
 		//start playing and stuff
 		if ( !that.waveform ) {
 			var waveform = new Waveform({
@@ -68,11 +69,20 @@ TrackView = Backbone.View.extend( {
 			var streamOptions = that.waveform.optionsForSyncedStream();
 			SC.stream( "/tracks/" + this.model.get("track_id"), streamOptions, function( sound ){
 				var seekhandler = jQuery.proxy( that.seek, that );
+				var firstload = false;
+
 				if ( that.sound == null ) {
 				  	that.sound = sound;
 				}
+				if ( that.sound.readyState === 0 ) {
+					//uninitialized
+					firstload = true;
+					$ava.attr("src", "img/spinner.gif");
+				}
+
 				that.sound.play({
 					onfinish: function() {
+						$ava.attr("src", "img/spinner.gif");
 						//free some stuff
 						delete that.sound;
 						delete that.waveform;
@@ -82,9 +92,16 @@ TrackView = Backbone.View.extend( {
 						});
 						//play next
 						that.parent.nextTrack();
+						$ava.attr("src", that.model.get("creator_avatar") );
 					},
 					onplay: function() {
 						$me.find( "canvas" ).off( "click", seekhandler ).on( "click", seekhandler );		
+					},
+					onbufferchange: function() {
+						if ( firstload && this.bytesLoaded > 0 ) {
+							$ava.attr( "src", that.model.get( "creator_avatar" ) );
+							firstload = false;
+						}
 					}
 				});
 
