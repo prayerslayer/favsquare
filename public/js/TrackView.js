@@ -82,17 +82,20 @@ TrackView = Backbone.View.extend( {
 
 				that.sound.play({
 					onfinish: function() {
-						$ava.attr("src", "img/spinner.gif");
-						//free some stuff
-						delete that.sound;
-						delete that.waveform;
-						$me.find( "canvas" ).off( "click", seekhandler );
-						$me.find( ".waveform" ).children().fadeOut( 200, function() {
-							$(this).remove();
+						$.when(function() {
+							$ava.attr("src", "img/spinner.gif");
+						}).then( function() {
+							//free some stuff
+							delete that.sound;
+							delete that.waveform;
+							$me.find( "canvas" ).off( "click", seekhandler );
+							$me.find( ".waveform" ).children().fadeOut( 200, function() {
+								$(this).remove();
+							});
+							//play next
+							that.parent.nextTrack();
+							$ava.attr("src", that.model.get("creator_avatar") );
 						});
-						//play next
-						that.parent.nextTrack();
-						$ava.attr("src", that.model.get("creator_avatar") );
 					},
 					onplay: function() {
 						$me.find( "canvas" ).off( "click", seekhandler ).on( "click", seekhandler );		
