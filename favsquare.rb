@@ -118,6 +118,7 @@ class Favsquare < Sinatra::Base
 		job_id = session[ :update_job_id ]
 		if job_id == nil
 			puts "job id is somehow nil"
+			return 501
 		else
 			job = Job.filter( :id => job_id ).first
 			# job finished when it's not in table anymore

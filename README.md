@@ -16,7 +16,7 @@ Bundle the gems.
 Create a file local.env with your environment configuration.
 
 Create the database
-    rake db:migrate:up DATABASE_URL=<your database url>
+    rake db:migrate:up DATABASE_URL=< your database url >
 
 Start web and worker process
 
@@ -28,11 +28,7 @@ Rain is released under [CC0](http://creativecommons.org/publicdomain/zero/1.0/).
 
 # TODO
 
-* Doppelte Tracks in Playlist zerhauen Playing Indicator
+* Eigenes Navbar Template für Playliste
+* onsuspend() event für Sounds, wenn Gerät in Standby geht
 * TESTS anstatt Boilerplate COntract Checks
-* Performance
 * Was ist mit leeren playlists? --> Display something
-* Frontpage
-	* http://www.codinghorror.com/blog/2012/10/judging-websites.html
-	* BigVideoJS --> Regen?
-* User-defined update
