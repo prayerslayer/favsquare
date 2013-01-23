@@ -7,8 +7,6 @@ require "date"
 class User < Sequel::Model
 	many_to_many :tracks, :join_table => :user_tracks
 
-	attr_accessor :username
-
 	def playlist_size
 		size = self.tracks.count
 		split = size/500 + ( size % 500 > 0 ? 1 : 0 )
@@ -124,7 +122,22 @@ class User < Sequel::Model
 		end
 		Track.restrict_primary_key
 
-		# TODO update existing (re-fetch)
+		# update existing tracks
+		same_tracks.each do |track|
+			fav = favs[track]
+			db_track = Track.filter( :track_id => track )
+			changed = false
+			fav.keys.each do |key|
+				if db_track[key] != fav[key]
+					db_track[key] = fav[key]
+					changed = true
+				end
+			end
+			if changed
+				db_track.save
+				puts "udpated track " + track.to_s
+			end
+		end
 
 		# remove old
 		if !user.tracks.empty?
