@@ -42,7 +42,6 @@ module FavsquareHelper
 			rescue Net::HTTPGatewayTimeout => tout
 				puts tout.response
 				return nil
-			end
 			rescue Soundcloud::ResponseError => error
 				puts error.response
 				return nil
@@ -64,7 +63,6 @@ module FavsquareHelper
 			rescue Net::HTTPGatewayTimeout => tout
 				puts tout.response
 				return nil
-			end
 			rescue Soundcloud::ResponseError => error
 				puts error
 				puts error.response
