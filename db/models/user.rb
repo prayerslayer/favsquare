@@ -137,7 +137,7 @@ class User < Sequel::Model
 		same_tracks.each do |track|
 			fav = favs[track]
 			db_track = Track.filter( :track_id => track )
-			db_track.keys.each do |key|
+			db_track.to_hash.keys.each do |key|
 				# != nil to prevent sequel from trying to save other attributes
 				if db_track[key] != fav[key] then
 					db_track[key] = fav[key]
@@ -163,6 +163,7 @@ class User < Sequel::Model
 			user.send_mail( "Rain: Listen now", "<a href='" + ENV['BASE_URL'] + "/playlist'>Listen.</a>" )
 		rescue StandardError => e
 			puts "Something went wrong while sending email."
+			puts e.to_s
 		end
 		# now check if we need to fire heroku worker
 		if ENV['RACK_ENV'] == "production" then
