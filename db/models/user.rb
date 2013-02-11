@@ -139,19 +139,20 @@ class User < Sequel::Model
 			db_track = Track.filter( :track_id => track )
 			changed = false
 			fav.keys.each do |key|
-				if db_track[key] != fav[key]
+				# != nil to prevent sequel from trying to save other attributes
+				if db_track[key] != fav[key] && db_track[key] != nil then
 					db_track[key] = fav[key]
 					changed = true
 				end
 			end
-			if changed
+			if changed then
 				db_track.save
 				puts "udpated track " + track.to_s
 			end
 		end
 		puts "Remove old tracks"
 		# remove old
-		if !user.tracks.empty?
+		if !user.tracks.empty? then
 			user.tracks.each do |track|
 				if tracks_to_remove.include?( track[ :track_id ] )
 					user.remove_track( track )
@@ -161,9 +162,12 @@ class User < Sequel::Model
 		puts "Send email"
 		# finished! send email.
 		# re-fetch since it may be added after start of function
-		user = filter( :user_id => user_id ).first
-		user.send_mail( "Rain: Listen now", "<a href='" + ENV['BASE_URL'] + "/playlist'>Listen.</a>" )
-
+		begin 
+			user = filter( :user_id => user_id ).first
+			user.send_mail( "Rain: Listen now", "<a href='" + ENV['BASE_URL'] + "/playlist'>Listen.</a>" )
+		rescue StandardError => e
+			puts "Something went wrong while sending email."
+		end
 		# now check if we need to fire heroku worker
 		if ENV['RACK_ENV'] == "production" then
 			# <= 1 because we are still running this job
@@ -177,7 +181,7 @@ class User < Sequel::Model
 	end
 
 	def send_mail( subject, body )
-		if self.email != nil
+		if self.email != nil then
 			Pony.mail :to => self.email,
 					:from => ENV['EMAIL_FROM'],
 		            :subject => subject,
