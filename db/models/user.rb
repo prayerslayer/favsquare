@@ -78,6 +78,8 @@ class User < Sequel::Model
 	end
 
 	def self.update_tracks( user_id )
+		puts "Wait for heroku worker"
+		sleep 10
 		puts "Get user"
 		user = filter( :user_id => user_id ).first
 		favs = FavsquareHelper::SoundcloudHelper.fetch_favs( user.token )

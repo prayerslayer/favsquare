@@ -40,14 +40,12 @@ module FavsquareHelper
 		def self.hire_worker
 			@@worker = 1
 			@@api.post_ps_scale( ENV['HEROKU_APP'], "worker",  @@worker.to_s )
-			sleep 5
 			puts "Hired a worker."
 		end
 
 		def self.fire_worker
 			@@worker = 0
 			@@api.post_ps_scale( ENV['HEROKU_APP'], "worker", @@worker.to_s )
-			sleep 5
 			puts "Fired the worker."
 		end
 
