@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require "net/http"
 require "soundcloud"
 
 module FavsquareHelper

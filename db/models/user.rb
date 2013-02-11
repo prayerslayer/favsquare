@@ -1,3 +1,4 @@
+require "net/http"
 require "digest/sha2"
 require "sequel"
 require "pony"
@@ -77,9 +78,10 @@ class User < Sequel::Model
 	end
 
 	def self.update_tracks( user_id )
+		puts "Get user"
 		user = filter( :user_id => user_id ).first
 		favs = FavsquareHelper::SoundcloudHelper.fetch_favs( user.token )
-
+		puts "Fetch tracks"
 		# update tracks
 		sc_track_ids = favs.keys.clone
 		track_ids = user.tracks.collect { |t| t[ :track_id] }
@@ -91,7 +93,7 @@ class User < Sequel::Model
 		same_tracks = sc_track_ids & track_ids 	# array intersection - these tracks will be kept
 		tracks_to_add = sc_track_ids - same_tracks # array difference - these tracks need to be added
 		tracks_to_remove = track_ids - sc_track_ids # array difference - these tracks will get deleted
-		
+		puts "Add tracks"
 		# add new
 		Track.unrestrict_primary_key
 		tracks_to_add.each do |track|
@@ -128,7 +130,7 @@ class User < Sequel::Model
 			end
 		end
 		Track.restrict_primary_key
-
+		puts "update existing tracks"
 		# update existing tracks
 		same_tracks.each do |track|
 			fav = favs[track]
@@ -145,7 +147,7 @@ class User < Sequel::Model
 				puts "udpated track " + track.to_s
 			end
 		end
-
+		puts "Remove old tracks"
 		# remove old
 		if !user.tracks.empty?
 			user.tracks.each do |track|
@@ -154,7 +156,7 @@ class User < Sequel::Model
 				end
 			end
 		end
-
+		puts "Send email"
 		# finished! send email.
 		# re-fetch since it may be added after start of function
 		user = filter( :user_id => user_id ).first
