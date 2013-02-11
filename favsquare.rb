@@ -7,6 +7,7 @@ require "mustache/sinatra"
 require "json"
 require "sequel"
 
+$stdout.sync = true
 
 class Favsquare < Sinatra::Base
 
@@ -19,8 +20,6 @@ class Favsquare < Sinatra::Base
 
 	#session
 	set :session_fail, "/login"
-
-	# database
 
 	# models
 	Sequel::Model.db=Sequel.postgres(
@@ -37,13 +36,20 @@ class Favsquare < Sinatra::Base
 	require "./db/models/job"
 	require "navvy"
 	require "navvy/job/sequel"
-	
+
 	#mustache
 	set :public_folder, "./public"
 	set :mustache, {
 		:views	=>		"./views/",
 		:templates =>	"./templates/"
 	}
+
+	# heroku
+	set :production, ENV[ 'RACK_ENV' ] == "production"
+	if ( :production ) then
+		require "./herokuconnection.rb"
+		puts "In Production mode!"
+	end
 
 	before "/*" do
 		@session = session
@@ -140,6 +146,12 @@ class Favsquare < Sinatra::Base
 
 		if job_id == nil
 			# user never ran a job
+			if :production then
+				FavsquareHelper::HerokuConnection.init()
+				if FavsquareHelper::HerokuConnection.worker_count <= 0 then
+					FavsquareHelper::HerokuConnection.hire_worker
+				end
+			end
 			job = Navvy::Job.enqueue( User, :update_tracks, user_id )
 			puts job.id
 			puts job.completed?
@@ -154,6 +166,12 @@ class Favsquare < Sinatra::Base
 			# did it complete?
 			if completed
 				# start new
+				if :production then
+					FavsquareHelper::HerokuConnection.init()
+					if FavsquareHelper::HerokuConnection.worker_count <= 0 then
+						FavsquareHelper::HerokuConnection.hire_worker
+					end
+				end
 				job = Navvy::Job.enqueue( User, :update_tracks, user_id )
 				session[ :update_job_id ] = job.id
 			end

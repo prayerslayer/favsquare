@@ -23,3 +23,7 @@
 # Ignore DS_STORE
 /.DS_Store
 /*/.DS_Store
+
+# Ignore Environment configuration files
+/*.env
+*.env

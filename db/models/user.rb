@@ -4,6 +4,12 @@ require "pony"
 require "soundcloud"
 require "date"
 
+production = ENV['RACK_ENV'] == "production"
+
+if production then
+	require "./herokuconnection.rb"
+end
+
 class User < Sequel::Model
 	many_to_many :tracks, :join_table => :user_tracks
 
@@ -71,7 +77,7 @@ class User < Sequel::Model
 
 	def self.update_tracks( user_id )
 		user = filter( :user_id => user_id ).first
-		favs = SoundcloudHelper.fetch_favs( user.token )
+		favs = FavsquareHelper::SoundcloudHelper.fetch_favs( user.token )
 
 		# update tracks
 		sc_track_ids = favs.keys.clone
@@ -110,7 +116,7 @@ class User < Sequel::Model
 				pl_track = UserTrack.filter( :user_id => user.user_id, :track_id => track ).first
 				pl_track.faved_by_id = fav.faved_by
 
-				favgiver = SoundcloudHelper.fetch_user_info( user.token, fav.faved_by )
+				favgiver = FavsquareHelper::SoundcloudHelper.fetch_user_info( user.token, fav.faved_by )
 				pl_track.faved_by = favgiver.username
 				pl_track.faved_by_profile = favgiver.permalink_url
 
@@ -152,6 +158,17 @@ class User < Sequel::Model
 		# re-fetch since it may be added after start of function
 		user = filter( :user_id => user_id ).first
 		user.send_mail( "Rain: Listen now", "<a href='" + ENV['BASE_URL'] + "/playlist'>Listen.</a>" )
+
+		# now check if we need to fire heroku worker
+		if ENV['RACK_ENV'] == "production" then
+			# <= 1 because we are still running this job
+			if Navvy::Job.filter( :completed_at => nil, :failed_at => nil ).count <= 1 then
+				# fire worker
+				puts "No more jobs!"
+				FavsquareHelper::HerokuConnection.init()
+				FavsquareHelper::HerokuConnection.fire_worker()
+			end
+		end
 	end
 
 	def send_mail( subject, body )

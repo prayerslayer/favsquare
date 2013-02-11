@@ -1,5 +1,7 @@
 # Rakefile
 
+$stdout.sync = true
+
 namespace :db do
 
   require "sequel"

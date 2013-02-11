@@ -28,6 +28,8 @@ Rain is released under [CC0](http://creativecommons.org/publicdomain/zero/1.0/).
 
 # TODO
 
+* Update und worker funktioniert lokal, aber remote nicht. Sklaventreiber startet keinen Worker und loggt auch nicht.
+	 -- > sklaventreiber wieder loggen lassen, dann sagt er wahrscheinlich, ob er sich in Navvy::Job einhooken kann oder nicht
 * Eigenes Navbar Template für Playliste
 * onsuspend() event für Sounds, wenn Gerät in Standby geht
 * TESTS anstatt Boilerplate COntract Checks

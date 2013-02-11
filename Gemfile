@@ -14,7 +14,7 @@ gem "soundcloud"
 # database
 gem "sequel"
 gem "pg"
-gem "navvy-sequelhooks"
+gem "navvy"
 
 group :development, :test do
 	gem "shotgun"
@@ -22,5 +22,5 @@ end
 
 group :production do
 	gem "thin"
-	gem "sklaventreiber"
+	gem "heroku-api"
 end
