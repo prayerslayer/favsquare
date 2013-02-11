@@ -140,7 +140,7 @@ class User < Sequel::Model
 			changed = false
 			fav.keys.each do |key|
 				# != nil to prevent sequel from trying to save other attributes
-				if db_track[key] != fav[key] && db_track[key] != nil then
+				if db_track[key] != nil && db_track[key] != fav[key] then
 					db_track[key] = fav[key]
 					changed = true
 				end
