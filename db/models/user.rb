@@ -137,18 +137,14 @@ class User < Sequel::Model
 		same_tracks.each do |track|
 			fav = favs[track]
 			db_track = Track.filter( :track_id => track )
-			changed = false
-			fav.keys.each do |key|
+			db_track.keys.each do |key|
 				# != nil to prevent sequel from trying to save other attributes
-				if db_track[key] != nil && db_track[key] != fav[key] then
+				if db_track[key] != fav[key] then
 					db_track[key] = fav[key]
-					changed = true
 				end
 			end
-			if changed then
-				db_track.save
-				puts "udpated track " + track.to_s
-			end
+			db_track.save_changes
+			puts "udpated track " + track.to_s
 		end
 		puts "Remove old tracks"
 		# remove old
