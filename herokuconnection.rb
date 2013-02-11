@@ -17,7 +17,7 @@ module FavsquareHelper
 					puts "Connect to Heroku using username/pwd"
 					@@api = Heroku::API.new( :username => ENV['HEROKU_USERNAME'], :password => ENV['HEROKU_PASSWORD'] )
 				end
-				puts ENV[ 'HEROKU_APP' ]
+				puts ENV['HEROKU_APP']
 				# then init worker count
 				@@worker = 0
 				response = @@api.get_ps( ENV['HEROKU_APP'].to_s )
