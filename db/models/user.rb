@@ -152,6 +152,7 @@ class User < Sequel::Model
 			user.tracks.each do |track|
 				if tracks_to_remove.include?( track[ :track_id ] )
 					user.remove_track( track )
+					puts "removed track " + track.track_id.to_s
 				end
 			end
 		end
