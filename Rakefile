@@ -1,6 +1,6 @@
 # Rakefile
 
-$stdout.sync = true
+# $stdout.sync = true
 
 namespace :db do
 
