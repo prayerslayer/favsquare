@@ -40,11 +40,11 @@ module FavsquareHelper
 			client = Soundcloud.new( :access_token => token )
 			begin
 				followings = client.get( "/me/followings" ).collect { |following| following[ :id ] }
-			rescue Net::HTTPGatewayTimeout => tout
-				puts tout.response
-				return nil
 			rescue Soundcloud::ResponseError => error
 				puts error.response
+				return nil
+			rescue Net::HTTPServerError => tout
+				puts tout.response
 				return nil
 			end
 			return followings
@@ -61,13 +61,13 @@ module FavsquareHelper
 
 			begin
 				user = client.get( "/users/"+user_id.to_s )
-			rescue Net::HTTPGatewayTimeout => tout
-				puts tout.response
-				return nil
 			rescue Soundcloud::ResponseError => error
 				puts error
 				puts error.response
 				return {:username => "Unkown", :permalink_url => ""}
+			rescue Net::HTTPServerError => tout
+				puts tout.response
+				return nil
 			end
 			return user
 		end

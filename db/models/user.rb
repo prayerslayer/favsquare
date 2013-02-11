@@ -69,10 +69,10 @@ class User < Sequel::Model
 				})
 				iterations += 1
 			end while tracks.size > 0
-		rescue Net::HTTPGatewayTimeout => timeout
-			puts timeout.response
 		rescue Soundcloud::ResponseError => error
 			puts error.response
+		rescue Net::HTTPServerError => timeout
+			puts timeout.response
 		end
 		return true
 	end
