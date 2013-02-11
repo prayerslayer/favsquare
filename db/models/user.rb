@@ -206,7 +206,7 @@ class User < Sequel::Model
 		# take the first amount much
 		tracks = tracks.take( amount ).shuffle
 
-		puts tracks.collect{|t| t[:track_id]}.to_s
+		# puts tracks.collect{|t| t[:track_id]}.to_s
 
 		# update times served variable
 		full_tracks = []
@@ -221,7 +221,6 @@ class User < Sequel::Model
 			full_track[:id] = full_track[:track_id].to_s + full_track[:times_served].to_s
 			full_tracks << full_track
 		end
-		puts full_tracks.to_s
 		return full_tracks
 	end
 end

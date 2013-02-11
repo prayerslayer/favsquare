@@ -7,7 +7,7 @@ require "mustache/sinatra"
 require "json"
 require "sequel"
 
-# $stdout.sync = true
+$stdout.sync = true
 
 class Favsquare < Sinatra::Base
 
