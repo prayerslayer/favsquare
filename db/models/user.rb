@@ -73,7 +73,6 @@ class User < Sequel::Model
 			puts error.response
 		rescue Net::HTTPGatewayTimeout => timeout
 			puts timeout.response
-		end
 		rescue Net::HTTPServerError => error
 			puts error.response
 		end
